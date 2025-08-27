@@ -20,7 +20,7 @@ import AdminLoginModal from './components/AdminLoginModal';
 import AdminHomePage from './components/AdminHomePage';
 import WelcomePage from './components/WelcomePage';
 
-const PDF_PATH = "./home.pdf";
+const PDF_PATH = "/home.pdf";
 
 // --- Animation Helper ---
 export const applyClickAnimation = (e: React.MouseEvent<HTMLElement>) => {
@@ -517,7 +517,7 @@ const App: React.FC = () => {
               <PdfViewerScreen
                 key={`booker-pdf-${uploadCount}`}
                 pageKey="booker"
-                fallbackPath="./abracadabra.pdf"
+                fallbackPath="/abracadabra.pdf"
                 noPadding={true}
               />
               <div className="w-full flex justify-center my-8 px-4">

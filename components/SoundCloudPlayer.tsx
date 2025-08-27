@@ -53,7 +53,7 @@ const SoundCloudPlayer: React.FC<SoundCloudPlayerProps> = ({ onTalkAboutMusic, o
       <div className="my-6">
         <PdfViewerScreen
           pageKey="home2-pdf"
-          fallbackPath="./home2.pdf"
+          fallbackPath="/home2.pdf"
           noPadding={true}
         />
       </div>
