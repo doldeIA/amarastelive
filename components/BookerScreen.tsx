@@ -14,7 +14,7 @@ const BookerScreen: React.FC = () => {
       try {
         const timerPromise = new Promise(resolve => setTimeout(resolve, 3000));
         
-        const pdfPromise = fetch('/booker-page.pdf')
+        const pdfPromise = fetch('./booker-page.pdf')
           .then(res => {
             if (!res.ok) {
               throw new Error('Não foi possível encontrar o arquivo PDF do booker.');

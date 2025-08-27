@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PdfViewerScreen from './PdfViewerScreen';
 import { applyClickAnimation } from '../App';
 
@@ -8,11 +8,32 @@ interface SoundCloudPlayerProps {
 }
 
 const SoundCloudPlayer: React.FC<SoundCloudPlayerProps> = ({ onTalkAboutMusic, onOpenSignUpModal }) => {
+  const [containerWidth, setContainerWidth] = useState(0);
+
+  useEffect(() => {
+    const handleResize = () => {
+      const screenWidth = window.innerWidth;
+      // Replicates the responsive logic from PdfViewerScreen
+      const totalMargin = Math.max(screenWidth * 0.1, 24);
+      const calculatedWidth = Math.min(screenWidth - totalMargin, 1024);
+      setContainerWidth(calculatedWidth);
+    };
+
+    handleResize(); // Initial calculation
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   const soundCloudEmbedUrl = "https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/amarastelive/explicar-a-garrafa&visual=true";
   const youtubeEmbedUrl = "https://www.youtube.com/embed/6A6JHhknJts";
 
+  if (containerWidth === 0) {
+    // Avoid rendering with 0 width, which could cause a flash of unstyled content
+    return null;
+  }
+
   return (
-    <div className="w-full max-w-[1000px] mx-auto mb-8 px-2">
+    <div style={{ width: `${containerWidth}px` }} className="mx-auto mb-8">
 
       <div className="relative p-1 rounded-lg bg-black neon-border">
         <div className="relative w-full rounded-lg overflow-hidden" style={{ paddingTop: '56.25%' }}>
@@ -31,7 +52,7 @@ const SoundCloudPlayer: React.FC<SoundCloudPlayerProps> = ({ onTalkAboutMusic, o
       
       <PdfViewerScreen 
         pageKey="home2" 
-        fallbackPath="/home2.pdf" 
+        fallbackPath="./home2.pdf" 
         noPadding 
       />
       

@@ -8,8 +8,7 @@ interface LandingScreenProps {
 const LandingScreen: React.FC<LandingScreenProps> = ({ onAccess }) => {
   return (
     <>
-      {/* This div receives the background image from the CSS in index.html */}
-      <div className="landing-background" aria-hidden="true"></div>
+      {/* The background is now set globally via the App component based on the active screen */}
       
       <div className="h-full w-full flex flex-col items-center justify-center p-4 bg-transparent transition-opacity duration-500 overflow-hidden relative landing-content">
         {/* The logo is part of the mov.png background image */}

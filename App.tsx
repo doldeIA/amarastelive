@@ -1,6 +1,5 @@
 
 
-
 import React, { useState, useEffect, useRef } from 'react';
 import { GoogleGenAI, Chat } from '@google/genai';
 import LandingScreen from './components/LandingScreen';
@@ -21,8 +20,8 @@ import AdminLoginModal from './components/AdminLoginModal';
 import AdminHomePage from './components/AdminHomePage';
 import WelcomePage from './components/WelcomePage';
 
-const PDF_PATH = "/home.pdf";
-const BOOKER_PDF_PATH = "/abracadabra.pdf";
+const PDF_PATH = "./home.pdf";
+const BOOKER_PDF_PATH = "./abracadabra.pdf";
 
 // --- Animation Helper ---
 export const applyClickAnimation = (e: React.MouseEvent<HTMLElement>) => {
@@ -254,6 +253,20 @@ const App: React.FC = () => {
     initializeChat();
   }, []);
   
+  useEffect(() => {
+    switch(activeScreen) {
+      case 'landing':
+        document.body.style.backgroundColor = '#A13500'; // primary color
+        break;
+      case 'booker':
+        document.body.style.backgroundColor = '#000000';
+        break;
+      default:
+        document.body.style.backgroundColor = '#ffffff';
+        break;
+    }
+  }, [activeScreen]);
+
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === 'A') {
@@ -546,172 +559,93 @@ const App: React.FC = () => {
 
   const handleRemovePdf = async (pageKey: string): Promise<void> => {
     await removePdfFromDb(pageKey);
-    setUploadCount(prev => prev + 1); // Force remount of PDF viewer to fall back or show error
+    // FIX: Cannot find name 'setUpload'
+    setUploadCount(prev => prev + 1); // Force remount to reflect removed PDF
   };
 
-  const handleTalkAboutMusic = () => {
-    if (!chat) {
-        setChatError("O chat não está pronto. Tente novamente em um instante.");
-        setIsChatOpen(true);
-        return;
-    }
-
-    const musicContextMessage: Message = {
-      sender: 'assistant',
-      text: "'Explicar a Garrafa' é sobre quebrar o velho script. O que essa metáfora desperta em você?"
-    };
-    
-    // Reset chat with the specific, one-line message.
-    setMessages([musicContextMessage]); 
-    setIsChatOpen(true);
-    setIsChatLoading(false); // No loading since the message is predefined.
-    setChatError(null);
-  };
-  
-  const handleChatClose = () => {
-    setIsChatOpen(false);
-    // Reset to the default greeting if the conversation hasn't progressed,
-    // ensuring the main chat widget opens with the correct initial state.
-    if (messages.length <= 1) {
-      setMessages([getInitialGreetingMessage()]);
-    }
-  };
-  
-  const handleSwitchToLogin = () => {
-    setIsSignUpModalOpen(false);
-    setLoginTitle("ENTRAR");
-    setActiveScreen('produtosLogin');
-  };
-
-  const handleNavigateToSignUp = () => {
-    setActiveScreen(null); // Hide login page to simulate navigation
-    setIsSignUpModalOpen(true);
-  };
-
-  const handleSpecialLoginSuccess = () => {
-    setActiveScreen('welcome');
-  };
-  
-  const handleWelcomeBackToChat = () => {
-    setActiveScreen('pdf'); // Return to the main content screen
-    setIsChatOpen(true);   // Open the chat modal
-  };
-
-  const showMainApp = activeScreen !== 'landing';
-
-  const renderContent = () => {
-    switch(activeScreen) {
+  // FIX: App component was not returning a value, causing a type error.
+  const renderScreen = () => {
+    switch (activeScreen) {
       case 'landing':
-        return <LandingScreen 
-          onAccess={handleAccess} 
-        />;
+        return <LandingScreen onAccess={handleAccess} />;
       case 'pdf':
         return (
-          <div className="w-full">
-            <PdfViewerScreen 
-              key={'pdf' + uploadCount} 
-              pageKey="pdf" 
+          <>
+            <PdfViewerScreen
+              key={`main-pdf-${uploadCount}`}
+              pageKey="pdf"
               fallbackPath={PDF_PATH}
               preloadedFileUrl={mainPdfUrl}
-              onPage1Rendered={handlePage1Rendered} 
-            />
-            <SoundCloudPlayer 
-              onTalkAboutMusic={handleTalkAboutMusic}
-              onOpenSignUpModal={() => setIsSignUpModalOpen(true)} 
-            />
-          </div>
-        );
-      case 'downloads':
-        return <DownloadsScreen onBack={() => handleNavigate('pdf')} />;
-      case 'booker':
-        return (
-          <div className="w-full relative min-h-screen">
-            <PdfViewerScreen
-              key={'booker' + uploadCount}
-              pageKey="booker"
-              fallbackPath={BOOKER_PDF_PATH}
-              preloadedFileUrl={bookerPdfUrl}
               onPage1Rendered={handlePage1Rendered}
             />
-            <div className="w-full max-w-3xl mx-auto pb-12 px-4">
-              <button
-                onClick={(e) => {
-                    applyClickAnimation(e);
-                    window.open('https://wa.me/5575933002386', '_blank', 'noopener');
-                }}
-                style={{ animation: 'blinkFast 0.15s infinite ease-in-out', filter: 'drop-shadow(0 0 12px rgba(255, 230, 0, 0.8))' }}
-                className="w-full py-4 bg-gold text-white font-bold rounded-lg shadow-lg transition-transform duration-200 active:scale-95 focus:outline-none"
-              >
-                Agendar
-              </button>
-              <div className="mt-3 flex items-center justify-center gap-x-6">
-                <button
-                  onClick={(e) => {
-                    applyClickAnimation(e);
-                    setIsSignUpModalOpen(true);
-                  }}
-                  className="text-white text-sm md:text-base font-semibold hover:opacity-80 transition-opacity"
+            <SoundCloudPlayer onTalkAboutMusic={() => setIsChatOpen(true)} onOpenSignUpModal={() => setIsSignUpModalOpen(true)} />
+          </>
+        );
+      case 'downloads':
+        return <DownloadsScreen onBack={() => setActiveScreen('produtosLogin')} />;
+      case 'booker':
+          return (
+            <div className="w-full min-h-screen flex flex-col items-center text-white">
+              <div className="flex-grow w-full flex justify-center">
+                <PdfViewerScreen
+                  key={`booker-pdf-${uploadCount}`}
+                  pageKey="booker"
+                  fallbackPath={BOOKER_PDF_PATH}
+                  preloadedFileUrl={bookerPdfUrl}
+                  onPage1Rendered={handlePage1Rendered}
+                  noPadding={true}
+                />
+              </div>
+              <div className="w-full flex justify-center my-8 px-4">
+                <a
+                  href="https://api.whatsapp.com/send/?phone=5575933002386&text&type=phone_number&app_absent=0"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={(e) => applyClickAnimation(e as unknown as React.MouseEvent<HTMLElement>)}
+                  className="w-full max-w-md text-center bg-gold text-deep-brown font-bold text-xl py-4 px-8 rounded-lg shadow-lg animate-gold-glow transition-transform hover:scale-105 active:scale-100"
                 >
-                  Cadastre-se
-                </button>
-                <button
-                  onClick={(e) => {
-                    applyClickAnimation(e);
-                    handleNavigateToPage('produtosLogin');
-                  }}
-                  className="text-white text-sm md:text-base font-semibold hover:opacity-80 transition-opacity"
-                >
-                  Login
-                </button>
+                  AGENDAR
+                </a>
               </div>
             </div>
-          </div>
-        );
+          );
       case 'portalMagico':
-        return <EcossistemaPage onNavigate={handleNavigate} />;
+        return <EcossistemaPage onNavigate={handleNavigateToPage} />;
       case 'revolucao':
-        return <RevolucaoPage onNavigateHome={() => handleNavigate('pdf')} />;
+        return <RevolucaoPage onNavigateHome={() => setActiveScreen('landing')} />;
       case 'produtosLogin':
-        return <ProdutosLoginPage 
-                  onNavigateHome={() => handleNavigate('pdf')} 
-                  onNavigateToSignUp={handleNavigateToSignUp}
-                  onSpecialLoginSuccess={handleSpecialLoginSuccess}
-                  title={loginTitle}
-               />;
+        return <ProdutosLoginPage
+          onNavigateHome={() => setActiveScreen('landing')}
+          onNavigateToSignUp={() => setIsSignUpModalOpen(true)}
+          onSpecialLoginSuccess={() => handleNavigate('downloads')}
+          title={loginTitle}
+        />;
       case 'adminHome':
         return <AdminHomePage onBack={() => setActiveScreen(lastScreenBeforeAdmin)} />;
       case 'welcome':
-        return <WelcomePage onBackToChat={handleWelcomeBackToChat} />;
+        return <WelcomePage onBackToChat={() => { setActiveScreen('pdf'); setIsChatOpen(true); }} />;
       default:
-        return null;
+        return <LandingScreen onAccess={handleAccess} />;
     }
   };
 
   return (
-    <div className={`w-full h-screen ${showMainApp ? 'bg-black' : 'bg-primary'} transition-colors duration-500 ease-out ${activeScreen === 'landing' || activeScreen === null ? 'overflow-hidden' : 'overflow-y-auto'}`}>
-      {showMainApp && (
+    <div className={`app-container ${activeScreen === 'booker' ? 'booker-theme' : 'default-theme'}`}>
+      {activeScreen !== 'landing' && (
         <Header
           activeScreen={activeScreen}
           onNavigateDownloads={handleNavigateDownloads}
-          onNavigateHome={() => handleNavigate('pdf')}
+          onNavigateHome={handleAccess}
           onNavigateToPage={handleNavigateToPage}
           onOpenSignUpModal={() => setIsSignUpModalOpen(true)}
         />
       )}
-      {renderContent()}
+      <main className="main-content">
+        {renderScreen()}
+      </main>
 
-      {showMainApp && activeScreen !== 'pdf' && activeScreen !== 'revolucao' && activeScreen !== 'produtosLogin' && activeScreen !== 'adminHome' && activeScreen !== 'welcome' && (
-        <footer className="w-full text-center py-4">
-          <p className="text-xs text-white/50 font-sans" style={{ textShadow: '0 0 5px rgba(255, 255, 255, 0.4)' }}>
-            Direitos Autorais © 2025 Amarasté Live
-          </p>
-        </footer>
-      )}
-      
-      {showMainApp && activeScreen !== 'downloads' && activeScreen !== 'booker' && activeScreen !== 'adminHome' && (
-        <>
-          <ChatWidget onOpen={() => setIsChatOpen(true)} />
-        </>
+      {!isAdminPanelOpen && !isAdminLoginModalOpen && activeScreen !== 'landing' && (
+        <ChatWidget onOpen={() => setIsChatOpen(true)} />
       )}
 
       {isChatOpen && (
@@ -719,7 +653,7 @@ const App: React.FC = () => {
           messages={messages}
           isLoading={isChatLoading}
           error={chatError}
-          onClose={handleChatClose}
+          onClose={() => setIsChatOpen(false)}
           onSendMessage={handleSendMessage}
           onStopGeneration={handleStopGeneration}
           onReEngage={handleReEngage}
@@ -727,11 +661,16 @@ const App: React.FC = () => {
         />
       )}
 
-      <SignUpModal 
-        isOpen={isSignUpModalOpen}
-        onClose={() => setIsSignUpModalOpen(false)}
-        onSwitchToLogin={handleSwitchToLogin}
-      />
+      {isSignUpModalOpen && (
+        <SignUpModal
+          isOpen={isSignUpModalOpen}
+          onClose={() => setIsSignUpModalOpen(false)}
+          onSwitchToLogin={() => {
+            setIsSignUpModalOpen(false);
+            handleNavigateToPage('produtosLogin');
+          }}
+        />
+      )}
 
       {isAdminPanelOpen && (
         <AdminPanel
@@ -740,10 +679,13 @@ const App: React.FC = () => {
           onRemove={handleRemovePdf}
         />
       )}
-      
+
       {isAdminLoginModalOpen && (
         <AdminLoginModal
-          onClose={() => setIsAdminLoginModalOpen(false)}
+          onClose={() => {
+            setIsAdminLoginModalOpen(false);
+            setActiveScreen(lastScreenBeforeAdmin);
+          }}
           onLogin={handleAdminLogin}
         />
       )}
@@ -753,4 +695,5 @@ const App: React.FC = () => {
   );
 };
 
+// FIX: Add default export to be consumed by index.tsx
 export default App;

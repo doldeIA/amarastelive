@@ -13,7 +13,7 @@ const EcossistemaPage: React.FC<EcossistemaPageProps> = ({ onNavigate }) => {
       <SparkleOverlay />
       <PdfViewerScreen 
         pageKey="portalMagico"
-        fallbackPath="/ecossistema.pdf" 
+        fallbackPath="./ecossistema.pdf" 
       />
       <div className="w-full flex justify-center mt-2.5 mb-12 px-4">
         <button

@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Document, Page, pdfjs } from 'react-pdf';
 import { loadPdfFromDb, savePdfToDb } from '../App';
 
-pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
+pdfjs.GlobalWorkerOptions.workerSrc = `https://cdn.jsdelivr.net/npm/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.js`;
 
 interface PdfViewerScreenProps {
   pageKey: string;
@@ -31,6 +31,7 @@ const PdfViewerScreen: React.FC<PdfViewerScreenProps> = ({ pageKey, fallbackPath
   }, []);
 
   useEffect(() => {
+    let isMounted = true;
     let objectUrl: string | null = null;
     
     if (preloadedFileUrl) {
@@ -40,8 +41,10 @@ const PdfViewerScreen: React.FC<PdfViewerScreenProps> = ({ pageKey, fallbackPath
     }
 
     const loadPdf = async () => {
-      setIsLoading(true);
-      setError(null);
+      if (isMounted) {
+        setIsLoading(true);
+        setError(null);
+      }
       try {
         let pdfBlob = await loadPdfFromDb(pageKey);
 
@@ -55,21 +58,30 @@ const PdfViewerScreen: React.FC<PdfViewerScreenProps> = ({ pageKey, fallbackPath
 
         if (pdfBlob) {
           objectUrl = URL.createObjectURL(pdfBlob);
-          setFileUrl(objectUrl);
+          if (isMounted) {
+            setFileUrl(objectUrl);
+          }
         } else {
-           setError(`Nenhum conteúdo foi configurado para esta página. Faça o upload de um PDF no Painel Admin.`);
+           if (isMounted) {
+             setError(`Nenhum conteúdo foi configurado para esta página. Faça o upload de um PDF no Painel Admin.`);
+           }
         }
       } catch (e: any) {
         console.error(`Error loading PDF for pageKey "${pageKey}":`, e);
-        setError(e.message || 'Não foi possível carregar o conteúdo.');
+        if (isMounted) {
+          setError(e.message || 'Não foi possível carregar o conteúdo.');
+        }
       } finally {
-        setIsLoading(false);
+        if (isMounted) {
+          setIsLoading(false);
+        }
       }
     };
 
     loadPdf();
 
     return () => {
+      isMounted = false;
       if (objectUrl) {
         URL.revokeObjectURL(objectUrl);
       }

@@ -11,7 +11,7 @@ const AdminHomePage: React.FC<AdminHomePageProps> = ({ onBack }) => {
     <div className="fixed inset-0 bg-black z-40 flex flex-col items-center justify-center p-4 animate-swoop-in">
       <div className="max-w-xl w-full mb-8">
         <img
-          src="/amarastelive.jpg"
+          src="amarastelive.jpg"
           alt="Amarasté Live Admin"
           className="w-full h-auto object-contain rounded-lg shadow-2xl shadow-accent/20"
         />
