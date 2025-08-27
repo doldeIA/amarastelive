@@ -1,7 +1,3 @@
-
-
-
-
 import React, { useState, useEffect, useRef } from 'react';
 import { Document, Page, pdfjs } from 'react-pdf';
 import { loadPdfFromDb, savePdfToDb } from '../App';
@@ -149,7 +145,13 @@ const PdfViewerScreen: React.FC<PdfViewerScreenProps> = ({ pageKey, fallbackPath
     );
   }
 
-  const calculatedPageWidth = pageWidth;
+  // Apply responsive side margins to the PDF viewer
+  // For smaller screens (<768px), use a 24px total margin (12px each side).
+  // For larger screens, use a 64px total margin (32px each side) with a max width of 1024px.
+  const calculatedPageWidth = pageWidth > 768 
+    ? Math.min(pageWidth - 64, 1024) 
+    : pageWidth - 24;
+    
   // Using a standard A4 aspect ratio for placeholder height
   const placeholderHeight = calculatedPageWidth * 1.414;
 
