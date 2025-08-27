@@ -35,7 +35,7 @@ export const applyClickAnimation = (e: React.MouseEvent<HTMLElement>) => {
 
 // --- IndexedDB Helper Functions ---
 const DB_NAME = 'AmarasteAppDB';
-const DB_VERSION = 1;
+const DB_VERSION = 2;
 const STORE_NAME = 'assetStore';
 
 const openDb = (): Promise<IDBDatabase> => {
