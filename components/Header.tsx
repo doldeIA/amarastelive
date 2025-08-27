@@ -141,10 +141,10 @@ const Header: React.FC<HeaderProps> = ({ activeScreen, onNavigateDownloads, onNa
                             )}
                         </div>
 
-                        {/* Center (Default Theme) */}
+                        {/* Center (Default Theme) - On mobile (<md), these icons are hidden and moved to the dropdown menu */}
                         <div className="absolute left-1/2 -translate-x-1/2">
                             {!isBookerTheme && (
-                              <div className="flex items-center gap-10">
+                              <div className="hidden md:flex items-center gap-10">
                                   {socialLinks.map((item) => (
                                       <a
                                           key={item.name}
@@ -224,6 +224,24 @@ const Header: React.FC<HeaderProps> = ({ activeScreen, onNavigateDownloads, onNa
                                     {item.name}
                                 </a>
                             ))}
+                            {/* Social Links for Mobile View */}
+                            <div className="md:hidden border-t border-white/20 mt-2 pt-2">
+                                <div className="flex items-center justify-center gap-6 py-2">
+                                    {socialLinks.map((item) => (
+                                        <a
+                                            key={item.name}
+                                            href={item.href}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            onClick={(e) => applyClickAnimation(e)}
+                                            className={`social-link social-link-${item.className}`}
+                                            aria-label={item.name}
+                                        >
+                                            <item.icon className="h-8 w-8" />
+                                        </a>
+                                    ))}
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
