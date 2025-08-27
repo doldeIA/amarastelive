@@ -1,6 +1,5 @@
 
 
-
 import React, { useState, useEffect, useRef } from 'react';
 import { GoogleGenAI, Chat } from '@google/genai';
 import LandingScreen from './components/LandingScreen';
@@ -501,6 +500,12 @@ const App: React.FC = () => {
       case 'pdf':
         return (
           <>
+            <PdfViewerScreen
+              key={`home-pdf-${uploadCount}`}
+              pageKey="pdf"
+              fallbackPath={PDF_PATH}
+              onPage1Rendered={handlePage1Rendered}
+            />
             <SoundCloudPlayer onTalkAboutMusic={() => setIsChatOpen(true)} onOpenSignUpModal={() => setIsSignUpModalOpen(true)} />
           </>
         );
@@ -508,7 +513,13 @@ const App: React.FC = () => {
         return <DownloadsScreen onBack={() => setActiveScreen('produtosLogin')} />;
       case 'booker':
           return (
-            <div className="w-full min-h-screen flex flex-col items-center justify-center text-white pt-24">
+            <div className="w-full min-h-screen flex flex-col items-center justify-start text-white pt-24">
+              <PdfViewerScreen
+                key={`booker-pdf-${uploadCount}`}
+                pageKey="booker"
+                fallbackPath="./abracadabra.pdf"
+                noPadding={true}
+              />
               <div className="w-full flex justify-center my-8 px-4">
                 <a
                   href="https://api.whatsapp.com/send/?phone=5575933002386&text&type=phone_number&app_absent=0"
