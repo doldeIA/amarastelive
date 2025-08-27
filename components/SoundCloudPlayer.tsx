@@ -70,13 +70,13 @@ const SoundCloudPlayer: React.FC<SoundCloudPlayerProps> = ({ onTalkAboutMusic, o
         </div>
       </div>
       
-      <div className="w-full flex justify-center mt-6">
+      <div className="w-full flex flex-col items-center mt-8 px-4">
         <button
           onClick={(e) => {
             applyClickAnimation(e);
             onOpenSignUpModal();
           }}
-          className="cadastre-btn"
+          className="cadastre-btn w-full max-w-lg text-xl py-4"
           aria-label="Cadastre-se"
         >
           Cadastre-se
