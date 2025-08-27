@@ -15,7 +15,7 @@ interface PdfViewerScreenProps {
 const PdfViewerScreen: React.FC<PdfViewerScreenProps> = ({ pageKey, fallbackPath, preloadedFileUrl, onPage1Rendered, noPadding = false }) => {
   const [numPages, setNumPages] = useState(0);
   const [pageWidth, setPageWidth] = useState(window.innerWidth);
-  const [fileUrl, setFileUrl] = useState<string | null>(null);
+  const [pdfData, setPdfData] = useState<Uint8Array | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -32,14 +32,7 @@ const PdfViewerScreen: React.FC<PdfViewerScreenProps> = ({ pageKey, fallbackPath
 
   useEffect(() => {
     let isMounted = true;
-    let objectUrl: string | null = null;
     
-    if (preloadedFileUrl) {
-      setFileUrl(preloadedFileUrl);
-      setIsLoading(false);
-      return;
-    }
-
     const loadPdf = async () => {
       if (isMounted) {
         setIsLoading(true);
@@ -57,9 +50,9 @@ const PdfViewerScreen: React.FC<PdfViewerScreenProps> = ({ pageKey, fallbackPath
         }
 
         if (pdfBlob) {
-          objectUrl = URL.createObjectURL(pdfBlob);
+          const buffer = await pdfBlob.arrayBuffer();
           if (isMounted) {
-            setFileUrl(objectUrl);
+            setPdfData(new Uint8Array(buffer));
           }
         } else {
            if (isMounted) {
@@ -78,13 +71,31 @@ const PdfViewerScreen: React.FC<PdfViewerScreenProps> = ({ pageKey, fallbackPath
       }
     };
 
+    if (preloadedFileUrl) {
+      setIsLoading(true);
+      fetch(preloadedFileUrl)
+        .then(res => res.blob())
+        .then(blob => blob.arrayBuffer())
+        .then(buffer => {
+          if (isMounted) {
+            setPdfData(new Uint8Array(buffer));
+          }
+        })
+        .catch(e => {
+          console.error('Failed to fetch preloaded PDF:', e);
+          if (isMounted) setError('Falha ao carregar PDF pré-carregado.');
+        })
+        .finally(() => {
+          if (isMounted) setIsLoading(false);
+        });
+      return;
+    }
+
+
     loadPdf();
 
     return () => {
       isMounted = false;
-      if (objectUrl) {
-        URL.revokeObjectURL(objectUrl);
-      }
     };
   }, [pageKey, fallbackPath, preloadedFileUrl]);
 
@@ -148,7 +159,7 @@ const PdfViewerScreen: React.FC<PdfViewerScreenProps> = ({ pageKey, fallbackPath
     );
   }
   
-  if (!fileUrl) {
+  if (!pdfData) {
     // This case should ideally be covered by the error state, but it's a good fallback.
     return (
        <div className="flex min-h-screen items-center justify-center p-4 pt-24 text-center">
@@ -169,8 +180,12 @@ const PdfViewerScreen: React.FC<PdfViewerScreenProps> = ({ pageKey, fallbackPath
   return (
     <div className={`w-full min-h-full ${noPadding ? '' : 'pt-24 pb-0'} flex flex-col items-center`}>
       <Document
-        file={fileUrl}
+        file={{ data: pdfData }}
         onLoadSuccess={onDocumentLoadSuccess}
+        onLoadError={(err) => {
+          console.error('Failed to load PDF document:', err);
+          setError('Erro ao carregar o documento PDF. O arquivo pode estar corrompido.');
+        }}
         className="flex flex-col items-center"
         loading={null} // We handle loading state above
         error={null} // We handle error state above
