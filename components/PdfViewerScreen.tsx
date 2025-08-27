@@ -145,12 +145,11 @@ const PdfViewerScreen: React.FC<PdfViewerScreenProps> = ({ pageKey, fallbackPath
     );
   }
 
-  // Apply responsive side margins to the PDF viewer
-  // For smaller screens (<768px), use a 24px total margin (12px each side).
-  // For larger screens, use a 64px total margin (32px each side) with a max width of 1024px.
-  const calculatedPageWidth = pageWidth > 768 
-    ? Math.min(pageWidth - 64, 1024) 
-    : pageWidth - 24;
+  // A responsive width calculation that provides fluid margins and a max-width for readability.
+  // It ensures a total horizontal margin of at least 24px, or 10% of the viewport width, whichever is larger.
+  // The content width is capped at 1024px on very wide screens.
+  const totalMargin = Math.max(pageWidth * 0.1, 24);
+  const calculatedPageWidth = Math.min(pageWidth - totalMargin, 1024);
     
   // Using a standard A4 aspect ratio for placeholder height
   const placeholderHeight = calculatedPageWidth * 1.414;
