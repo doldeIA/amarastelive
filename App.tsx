@@ -20,7 +20,7 @@ import AdminLoginModal from './components/AdminLoginModal';
 import AdminHomePage from './components/AdminHomePage';
 import WelcomePage from './components/WelcomePage';
 
-const PDF_PATH = "/home.pdf";
+const HOME_IMAGE_PATH = "/home.webp";
 
 // --- Animation Helper ---
 export const applyClickAnimation = (e: React.MouseEvent<HTMLElement>) => {
@@ -36,7 +36,7 @@ export const applyClickAnimation = (e: React.MouseEvent<HTMLElement>) => {
 // --- IndexedDB Helper Functions ---
 const DB_NAME = 'AmarasteAppDB';
 const DB_VERSION = 1;
-const STORE_NAME = 'pdfStore';
+const STORE_NAME = 'assetStore';
 
 const openDb = (): Promise<IDBDatabase> => {
   return new Promise((resolve, reject) => {
@@ -54,10 +54,9 @@ const openDb = (): Promise<IDBDatabase> => {
   });
 };
 
-export const savePdfToDb = async (file: File, pageKey: string): Promise<void> => {
+export const saveAssetToDb = async (file: File, pageKey: string): Promise<void> => {
   const db = await openDb();
-  // Simulate the pdf_assets table structure
-  const pdfAsset = {
+  const asset = {
     id: pageKey,
     filename: file.name,
     page_key: pageKey,
@@ -68,7 +67,7 @@ export const savePdfToDb = async (file: File, pageKey: string): Promise<void> =>
   return new Promise((resolve, reject) => {
     const transaction = db.transaction(STORE_NAME, 'readwrite');
     const store = transaction.objectStore(STORE_NAME);
-    const request = store.put(pdfAsset, pageKey); // Use pageKey as the key
+    const request = store.put(asset, pageKey); // Use pageKey as the key
 
     transaction.oncomplete = () => {
       db.close();
@@ -81,7 +80,7 @@ export const savePdfToDb = async (file: File, pageKey: string): Promise<void> =>
   });
 };
 
-export const loadPdfFromDb = async (pageKey: string): Promise<Blob | null> => {
+export const loadAssetFromDb = async (pageKey: string): Promise<Blob | null> => {
   const db = await openDb();
   return new Promise((resolve, reject) => {
     const transaction = db.transaction(STORE_NAME, 'readonly');
@@ -91,7 +90,6 @@ export const loadPdfFromDb = async (pageKey: string): Promise<Blob | null> => {
     transaction.oncomplete = () => {
       db.close();
       const result = request.result;
-      // The result is the full pdfAsset object, we return the blob part
       if (result && result.data instanceof Blob) {
           resolve(result.data);
       } else {
@@ -105,7 +103,7 @@ export const loadPdfFromDb = async (pageKey: string): Promise<Blob | null> => {
   });
 };
 
-export const removePdfFromDb = async (pageKey: string): Promise<void> => {
+export const removeAssetFromDb = async (pageKey: string): Promise<void> => {
   const db = await openDb();
   return new Promise((resolve, reject) => {
     const transaction = db.transaction(STORE_NAME, 'readwrite');
@@ -207,7 +205,7 @@ const App: React.FC = () => {
   const [isIntegrating, setIsIntegrating] = useState(false);
   const [loginTitle, setLoginTitle] = useState('ENTRAR');
   
-  // A counter to force-remount PDF viewers when a file is changed
+  // A counter to force-remount viewers when a file is changed
   const [uploadCount, setUploadCount] = useState(0);
 
   // State for persistent chat
@@ -295,7 +293,7 @@ const App: React.FC = () => {
     setActiveScreen('pdf');
   };
 
-  const handlePage1Rendered = () => {
+  const handlePageRendered = () => {
     setIsIntegrating(false);
   };
   
@@ -481,18 +479,16 @@ const App: React.FC = () => {
     }
   };
 
-  const handleUploadPdf = async (file: File, pageKey: string): Promise<void> => {
-    await savePdfToDb(file, pageKey);
-    setUploadCount(prev => prev + 1); // Force remount of PDF viewer to load the new file
+  const handleUploadAsset = async (file: File, pageKey: string): Promise<void> => {
+    await saveAssetToDb(file, pageKey);
+    setUploadCount(prev => prev + 1); // Force remount of viewer to load the new file
   };
 
-  const handleRemovePdf = async (pageKey: string): Promise<void> => {
-    await removePdfFromDb(pageKey);
-    // FIX: Cannot find name 'setUpload'
-    setUploadCount(prev => prev + 1); // Force remount to reflect removed PDF
+  const handleRemoveAsset = async (pageKey: string): Promise<void> => {
+    await removeAssetFromDb(pageKey);
+    setUploadCount(prev => prev + 1); // Force remount to reflect removed asset
   };
 
-  // FIX: App component was not returning a value, causing a type error.
   const renderScreen = () => {
     switch (activeScreen) {
       case 'landing':
@@ -501,10 +497,10 @@ const App: React.FC = () => {
         return (
           <>
             <PdfViewerScreen
-              key={`home-pdf-${uploadCount}`}
+              key={`home-asset-${uploadCount}`}
               pageKey="pdf"
-              fallbackPath={PDF_PATH}
-              onPage1Rendered={handlePage1Rendered}
+              fallbackPath={HOME_IMAGE_PATH}
+              onPage1Rendered={handlePageRendered}
             />
             <SoundCloudPlayer onTalkAboutMusic={() => setIsChatOpen(true)} onOpenSignUpModal={() => setIsSignUpModalOpen(true)} />
           </>
@@ -515,9 +511,9 @@ const App: React.FC = () => {
           return (
             <div className="w-full min-h-screen flex flex-col items-center justify-start text-white pt-24">
               <PdfViewerScreen
-                key={`booker-pdf-${uploadCount}`}
+                key={`booker-asset-${uploadCount}`}
                 pageKey="booker"
-                fallbackPath="/abracadabra.pdf"
+                fallbackPath="/abracadabra.webp"
                 noPadding={true}
               />
               <div className="w-full flex justify-center my-8 px-4">
@@ -599,8 +595,8 @@ const App: React.FC = () => {
       {isAdminPanelOpen && (
         <AdminPanel
           onClose={() => setIsAdminPanelOpen(false)}
-          onUpload={handleUploadPdf}
-          onRemove={handleRemovePdf}
+          onUpload={handleUploadAsset}
+          onRemove={handleRemoveAsset}
         />
       )}
 
@@ -619,5 +615,4 @@ const App: React.FC = () => {
   );
 };
 
-// FIX: Add default export to be consumed by index.tsx
 export default App;

@@ -1,11 +1,12 @@
 
+
 import React, { useState, useEffect } from 'react';
 import PdfViewerScreen from './PdfViewerScreen';
 import BookerLoader from './BookerLoader';
 
 const BookerScreen: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
-  const [pdfUrl, setPdfUrl] = useState<string | null>(null);
+  const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -14,10 +15,10 @@ const BookerScreen: React.FC = () => {
       try {
         const timerPromise = new Promise(resolve => setTimeout(resolve, 3000));
         
-        const pdfPromise = fetch('./booker-page.pdf')
+        const imagePromise = fetch('./booker-page.webp')
           .then(res => {
             if (!res.ok) {
-              throw new Error('Não foi possível encontrar o arquivo PDF do booker.');
+              throw new Error('Não foi possível encontrar o arquivo de imagem do booker.');
             }
             return res.blob();
           })
@@ -26,12 +27,12 @@ const BookerScreen: React.FC = () => {
             return objectUrl;
           });
 
-        const [loadedPdfUrl] = await Promise.all([pdfPromise, timerPromise]);
+        const [loadedImageUrl] = await Promise.all([imagePromise, timerPromise]);
         
-        setPdfUrl(loadedPdfUrl);
+        setImageUrl(loadedImageUrl);
 
       } catch (err: any) {
-        console.error("Failed to load Booker PDF:", err);
+        console.error("Failed to load Booker WEBP:", err);
         setError(err.message || 'Ocorreu um erro ao carregar o conteúdo.');
       } finally {
         setIsLoading(false);
@@ -69,9 +70,9 @@ const BookerScreen: React.FC = () => {
         <h1 className="text-3xl font-bold py-8 text-warm-brown" style={{ fontFamily: "'Playfair Display', serif" }}>
           Área do Booker
         </h1>
-        {pdfUrl && (
+        {imageUrl && (
           <div className="flex justify-center">
-             <PdfViewerScreen noPadding preloadedFileUrl={pdfUrl} pageKey="booker_static_page" />
+             <PdfViewerScreen noPadding preloadedFileUrl={imageUrl} pageKey="booker_static_page" />
           </div>
         )}
       </div>

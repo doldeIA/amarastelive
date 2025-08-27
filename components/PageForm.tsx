@@ -1,4 +1,5 @@
 
+
 import React, { useState, useEffect } from 'react';
 import UploadIcon from './icons/UploadIcon';
 
@@ -31,10 +32,10 @@ const PageForm: React.FC<PageFormProps> = ({ pageKey, pageLabel, onUpload, onRem
     setStatus({ type: 'idle', message: '' });
     if (e.target.files && e.target.files.length > 0) {
       const file = e.target.files[0];
-      if (file.type === 'application/pdf') {
+      if (file.type === 'image/webp') {
         setSelectedFile(file);
       } else {
-        setStatus({ type: 'error', message: 'Por favor, selecione um arquivo PDF.' });
+        setStatus({ type: 'error', message: 'Por favor, selecione um arquivo WEBP.' });
         setSelectedFile(null);
       }
     }
@@ -55,7 +56,7 @@ const PageForm: React.FC<PageFormProps> = ({ pageKey, pageLabel, onUpload, onRem
     
     try {
         await onUpload(selectedFile, pageKey);
-        setStatus({ type: 'success', message: 'PDF salvo com sucesso!' });
+        setStatus({ type: 'success', message: 'Imagem salva com sucesso!' });
         setSelectedFile(null); // Clear selection after successful upload
     } catch (error) {
         setStatus({ type: 'error', message: 'Falha ao salvar. Tente novamente.' });
@@ -71,7 +72,7 @@ const PageForm: React.FC<PageFormProps> = ({ pageKey, pageLabel, onUpload, onRem
 
     try {
         await onRemove(pageKey);
-        setStatus({ type: 'success', message: 'PDF removido com sucesso!' });
+        setStatus({ type: 'success', message: 'Imagem removida com sucesso!' });
     } catch (error) {
         setStatus({ type: 'error', message: 'Falha ao remover. Tente novamente.' });
     } finally {
@@ -114,19 +115,19 @@ const PageForm: React.FC<PageFormProps> = ({ pageKey, pageLabel, onUpload, onRem
       <h3 className="text-xl font-semibold text-coke-red">{pageLabel}</h3>
       
       <div>
-        <label htmlFor={`pdf-upload-${pageKey}`} className="block text-sm font-medium text-gray-700 mb-2">
-          Selecione o arquivo PDF
+        <label htmlFor={`image-upload-${pageKey}`} className="block text-sm font-medium text-gray-700 mb-2">
+          Selecione o arquivo WEBP
         </label>
         <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-coke-red/50 border-dashed rounded-md">
           <div className="space-y-1 text-center">
             <UploadIcon className="mx-auto h-12 w-12 text-coke-red/70" />
             <div className="flex text-sm text-gray-600">
               <label
-                htmlFor={`pdf-upload-${pageKey}`}
+                htmlFor={`image-upload-${pageKey}`}
                 className="relative cursor-pointer bg-white rounded-md font-medium text-coke-red hover:text-red-700 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-coke-red px-1"
               >
                 <span>Carregar um arquivo</span>
-                <input id={`pdf-upload-${pageKey}`} name={`pdf-upload-${pageKey}`} type="file" className="sr-only" accept=".pdf" onChange={handleFileChange} />
+                <input id={`image-upload-${pageKey}`} name={`image-upload-${pageKey}`} type="file" className="sr-only" accept="image/webp" onChange={handleFileChange} />
               </label>
               <p className="pl-1">ou arraste e solte</p>
             </div>
@@ -152,7 +153,7 @@ const PageForm: React.FC<PageFormProps> = ({ pageKey, pageLabel, onUpload, onRem
           disabled={isProcessing}
           className="w-full sm:w-auto flex justify-center py-3 px-6 border border-coke-red rounded-md shadow-sm text-sm font-bold text-coke-red bg-white hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-coke-red disabled:opacity-50 disabled:cursor-not-allowed transition-all"
         >
-          Remover PDF
+          Remover Imagem
         </button>
       </div>
 
@@ -164,14 +165,14 @@ const PageForm: React.FC<PageFormProps> = ({ pageKey, pageLabel, onUpload, onRem
 
       {showSaveConfirm && renderConfirmationModal(
         'Confirmar Alteração',
-        'Deseja substituir o PDF atual desta página? Esta ação é permanente.',
+        'Deseja substituir a imagem atual desta página? Esta ação é permanente.',
         handleConfirmSave,
         () => setShowSaveConfirm(false)
       )}
 
       {showRemoveConfirm && renderConfirmationModal(
         'Confirmar Remoção',
-        'Deseja remover o PDF desta página? A página voltará ao seu estado padrão.',
+        'Deseja remover a imagem desta página? A página voltará ao seu estado padrão.',
         handleConfirmRemove,
         () => setShowRemoveConfirm(false)
       )}
