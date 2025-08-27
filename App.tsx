@@ -1,5 +1,6 @@
 
 
+
 import React, { useState, useEffect, useRef } from 'react';
 import { GoogleGenAI, Chat } from '@google/genai';
 import LandingScreen from './components/LandingScreen';
@@ -21,7 +22,6 @@ import AdminHomePage from './components/AdminHomePage';
 import WelcomePage from './components/WelcomePage';
 
 const PDF_PATH = "./home.pdf";
-const BOOKER_PDF_PATH = "./abracadabra.pdf";
 
 // --- Animation Helper ---
 export const applyClickAnimation = (e: React.MouseEvent<HTMLElement>) => {
@@ -206,8 +206,6 @@ const App: React.FC = () => {
   const [activeScreen, setActiveScreen] = useState<Screen>('landing');
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [isIntegrating, setIsIntegrating] = useState(false);
-  const [mainPdfUrl, setMainPdfUrl] = useState<string | null>(null);
-  const [bookerPdfUrl, setBookerPdfUrl] = useState<string | null>(null);
   const [loginTitle, setLoginTitle] = useState('ENTRAR');
   
   // A counter to force-remount PDF viewers when a file is changed
@@ -294,42 +292,8 @@ const App: React.FC = () => {
   };
 
   const handleAccess = () => {
-    setIsIntegrating(true);
-  
-    const loadMainPdf = async (): Promise<string> => {
-      try {
-        let pdfBlob = await loadPdfFromDb('pdf');
-  
-        if (!pdfBlob && PDF_PATH) {
-          const response = await fetch(PDF_PATH);
-          if (!response.ok) throw new Error(`O arquivo PDF principal não foi encontrado.`);
-          pdfBlob = await response.blob();
-          const file = new File([pdfBlob], `pdf.pdf`, { type: "application/pdf" });
-          await savePdfToDb(file, 'pdf');
-        }
-  
-        if (pdfBlob) {
-          return URL.createObjectURL(pdfBlob);
-        } else {
-          throw new Error('Nenhum conteúdo PDF foi encontrado para a página principal.');
-        }
-      } catch (e: any) {
-        console.error("Failed to load main PDF for preloading:", e);
-        throw e;
-      }
-    };
-  
-    loadMainPdf()
-      .then((loadedPdfUrl) => {
-        setMainPdfUrl(loadedPdfUrl);
-        setActiveScreen('pdf');
-        // isIntegrating is set to false in handlePage1Rendered
-      })
-      .catch((error) => {
-        console.error("Integration process failed:", error);
-        setIsIntegrating(false);
-        alert("Não foi possível carregar o conteúdo. Por favor, tente novamente.");
-      });
+    // No longer loads PDF, just navigates to the main content screen.
+    setActiveScreen('pdf');
   };
 
   const handlePage1Rendered = () => {
@@ -337,41 +301,7 @@ const App: React.FC = () => {
   };
   
   const handleNavigate = (screen: Screen) => {
-    if (screen === 'booker') {
-      setIsIntegrating(true);
-      
-      const loadBookerPdf = async (): Promise<string> => {
-        try {
-          let pdfBlob = await loadPdfFromDb('booker');
-          if (!pdfBlob) {
-            const response = await fetch(BOOKER_PDF_PATH);
-            if (!response.ok) throw new Error('O arquivo PDF do booker não foi encontrado.');
-            pdfBlob = await response.blob();
-            const file = new File([pdfBlob], 'booker-page.pdf', { type: 'application/pdf' });
-            await savePdfToDb(file, 'booker');
-          }
-          return URL.createObjectURL(pdfBlob);
-        } catch (e: any) {
-          console.error("Failed to load Booker PDF for preloading:", e);
-          throw e;
-        }
-      };
-
-      loadBookerPdf()
-        .then((loadedPdfUrl) => {
-          setBookerPdfUrl(loadedPdfUrl);
-          setActiveScreen('booker');
-          // isIntegrating is set to false in handlePage1Rendered
-        })
-        .catch((error) => {
-          console.error("Booker integration process failed:", error);
-          setIsIntegrating(false);
-          alert("Não foi possível carregar o conteúdo do booker. Por favor, tente novamente.");
-        });
-
-    } else {
-       setActiveScreen(screen);
-    }
+    setActiveScreen(screen);
   };
 
   const handleNavigateToPage = (page: Screen) => {
@@ -571,13 +501,6 @@ const App: React.FC = () => {
       case 'pdf':
         return (
           <>
-            <PdfViewerScreen
-              key={`main-pdf-${uploadCount}`}
-              pageKey="pdf"
-              fallbackPath={PDF_PATH}
-              preloadedFileUrl={mainPdfUrl}
-              onPage1Rendered={handlePage1Rendered}
-            />
             <SoundCloudPlayer onTalkAboutMusic={() => setIsChatOpen(true)} onOpenSignUpModal={() => setIsSignUpModalOpen(true)} />
           </>
         );
@@ -585,17 +508,7 @@ const App: React.FC = () => {
         return <DownloadsScreen onBack={() => setActiveScreen('produtosLogin')} />;
       case 'booker':
           return (
-            <div className="w-full min-h-screen flex flex-col items-center text-white">
-              <div className="flex-grow w-full flex justify-center">
-                <PdfViewerScreen
-                  key={`booker-pdf-${uploadCount}`}
-                  pageKey="booker"
-                  fallbackPath={BOOKER_PDF_PATH}
-                  preloadedFileUrl={bookerPdfUrl}
-                  onPage1Rendered={handlePage1Rendered}
-                  noPadding={true}
-                />
-              </div>
+            <div className="w-full min-h-screen flex flex-col items-center justify-center text-white pt-24">
               <div className="w-full flex justify-center my-8 px-4">
                 <a
                   href="https://api.whatsapp.com/send/?phone=5575933002386&text&type=phone_number&app_absent=0"

@@ -13,9 +13,9 @@ const SoundCloudPlayer: React.FC<SoundCloudPlayerProps> = ({ onTalkAboutMusic, o
   useEffect(() => {
     const handleResize = () => {
       const screenWidth = window.innerWidth;
-      // Replicates the responsive logic from PdfViewerScreen
+      // Replicates the responsive logic from PdfViewerScreen but with a smaller max width
       const totalMargin = Math.max(screenWidth * 0.1, 24);
-      const calculatedWidth = Math.min(screenWidth - totalMargin, 1024);
+      const calculatedWidth = Math.min(screenWidth - totalMargin, 640);
       setContainerWidth(calculatedWidth);
     };
 
@@ -33,7 +33,7 @@ const SoundCloudPlayer: React.FC<SoundCloudPlayerProps> = ({ onTalkAboutMusic, o
   }
 
   return (
-    <div style={{ width: `${containerWidth}px` }} className="mx-auto mb-8">
+    <div style={{ width: `${containerWidth}px` }} className="mx-auto mb-8 pt-24">
 
       <div className="relative p-1 rounded-lg bg-black neon-border">
         <div className="relative w-full rounded-lg overflow-hidden" style={{ paddingTop: '56.25%' }}>
@@ -49,12 +49,6 @@ const SoundCloudPlayer: React.FC<SoundCloudPlayerProps> = ({ onTalkAboutMusic, o
       </div>
       
       <div className="glow-line mt-2 mb-2" />
-      
-      <PdfViewerScreen 
-        pageKey="home2" 
-        fallbackPath="./home2.pdf" 
-        noPadding 
-      />
       
       {/* New YouTube Player for "Ansiedade" */}
       <div className="relative p-1 rounded-lg bg-black neon-border mt-6">
