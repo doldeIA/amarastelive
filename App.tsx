@@ -35,7 +35,7 @@ export const applyClickAnimation = (e: React.MouseEvent<HTMLElement>) => {
 
 // --- IndexedDB Helper Functions ---
 const DB_NAME = 'AmarasteAppDB';
-const DB_VERSION = 2;
+const DB_VERSION = 1;
 const STORE_NAME = 'assetStore';
 
 const openDb = (): Promise<IDBDatabase> => {
@@ -176,7 +176,7 @@ Você é Amarasté. Um espelho que reflete a alma com um tom extremamente caloro
 - **Profundidade Direta:** Mantenha a profundidade emocional com linguagem direta.
 
 **Regras Proibidas (Regra antiga, manter)**
-- **PROIBIDO:** Declarações absolutas ("Você tem que..."), julgamentos, linguagem moralista ou passivo-agressiva. Não forneça ou sugira links externos (exceto o YouTube no caso da CLT).`;
+- **PROIBIDO:** Declarações absolutas ("Você tem que..."), julgamentos, linguagem moralista ou passivo-agressiva. Não forneça ou sugira links externos (excepto o YouTube no caso da CLT).`;
 
 export type Screen = 'landing' | 'pdf' | 'downloads' | 'booker' | 'portalMagico' | 'revolucao' | 'produtosLogin' | 'adminHome' | 'welcome' | null;
 
@@ -495,28 +495,16 @@ const App: React.FC = () => {
         return <LandingScreen onAccess={handleAccess} />;
       case 'pdf':
         return (
-          <>
-            <PdfViewerScreen
-              key={`home-asset-${uploadCount}`}
-              pageKey="pdf"
-              fallbackPath={HOME_IMAGE_PATH}
-              onPage1Rendered={handlePageRendered}
-            />
+          <div className="pt-24">
             <SoundCloudPlayer onTalkAboutMusic={() => setIsChatOpen(true)} onOpenSignUpModal={() => setIsSignUpModalOpen(true)} />
-          </>
+          </div>
         );
       case 'downloads':
         return <DownloadsScreen onBack={() => setActiveScreen('produtosLogin')} />;
       case 'booker':
           return (
-            <div className="w-full min-h-screen flex flex-col items-center justify-start text-white pt-24">
-              <PdfViewerScreen
-                key={`booker-asset-${uploadCount}`}
-                pageKey="booker"
-                fallbackPath="/abracadabra.webp"
-                noPadding={true}
-              />
-              <div className="w-full flex justify-center my-8 px-4">
+            <div className="w-full min-h-screen flex flex-col items-center justify-center text-white pt-24">
+              <div className="w-full flex justify-center px-4">
                 <a
                   href="https://api.whatsapp.com/send/?phone=5575933002386&text&type=phone_number&app_absent=0"
                   target="_blank"

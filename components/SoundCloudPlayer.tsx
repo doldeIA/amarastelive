@@ -48,19 +48,7 @@ const SoundCloudPlayer: React.FC<SoundCloudPlayerProps> = ({ onTalkAboutMusic, o
         </div>
       </div>
       
-      <div className="glow-line my-6" />
-      
-      <div className="my-6">
-        <PdfViewerScreen
-          pageKey="home2-asset"
-          fallbackPath="/home2.webp"
-          noPadding={true}
-        />
-      </div>
-
-      <div className="glow-line my-6" />
-
-      <div className="relative p-1 rounded-lg bg-black neon-border">
+      <div className="relative p-1 rounded-lg bg-black neon-border mt-8">
         <div className="relative w-full rounded-lg overflow-hidden" style={{ paddingTop: '56.25%' }}>
           <iframe
             src={youtubeEmbedUrl}
