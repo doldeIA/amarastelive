@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { loadAssetFromDb, saveAssetToDb } from '../App';
+import { loadAssetFromDb, saveAssetToDb } from '../db';
 
 interface PdfViewerScreenProps {
   pageKey: string;

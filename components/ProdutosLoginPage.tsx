@@ -1,6 +1,8 @@
 
+
+
 import React, { useState } from 'react';
-import { applyClickAnimation } from '../App';
+import { applyClickAnimation } from '../animations';
 
 interface ProdutosLoginPageProps {
   onNavigateHome: () => void;
@@ -56,7 +58,7 @@ const ProdutosLoginPage: React.FC<ProdutosLoginPageProps> = ({ onNavigateHome, o
   const renderLoginContent = () => (
       <>
           <h2 className="text-2xl font-bold text-white neon-heading-glow text-center mb-6">
-              {title === 'Acesso aos Produtos' ? title : 'ENTRAR'}
+              Integre-se
           </h2>
           <form onSubmit={handleFormSubmit} className="space-y-4">
                <div>

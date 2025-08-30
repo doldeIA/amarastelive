@@ -1,7 +1,9 @@
 
+
 import React, { useState } from 'react';
 import CloseIcon from './icons/CloseIcon';
-import { applyClickAnimation } from '../App';
+// Fix: Corrected import path for applyClickAnimation helper
+import { applyClickAnimation } from '../animations';
 
 interface AdminLoginModalProps {
   onClose: () => void;

@@ -1,5 +1,6 @@
 
 
+
 import React, { useState, useEffect, useRef } from 'react';
 import MenuIcon from './icons/MenuIcon';
 import CloseIcon from './icons/CloseIcon';
@@ -11,7 +12,8 @@ import PaperPlaneIcon from './icons/PaperPlaneIcon';
 import PhoneIcon from './icons/PhoneIcon';
 import LinkedInIcon from './icons/LinkedInIcon';
 import UserGroupIcon from './icons/UserGroupIcon';
-import { Screen, applyClickAnimation } from '../App';
+import { Screen } from '../types';
+import { applyClickAnimation } from '../animations';
 
 interface HeaderProps {
     activeScreen: Screen;

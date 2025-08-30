@@ -1,5 +1,7 @@
 
 
+
+
 import React, { useState, useEffect, useRef } from 'react';
 import { GoogleGenAI, Chat } from '@google/genai';
 import LandingScreen from './components/LandingScreen';
@@ -19,108 +21,12 @@ import AdminPanel from './components/AdminPanel';
 import AdminLoginModal from './components/AdminLoginModal';
 import AdminHomePage from './components/AdminHomePage';
 import WelcomePage from './components/WelcomePage';
+import ThinkingTogetherBubble from './components/ThinkingTogetherBubble';
+import RedStarfieldBackground from './components/RedStarfieldBackground';
+import { Screen } from './types';
+import { saveAssetToDb, removeAssetFromDb } from './db';
 
 const HOME_IMAGE_PATH = "/home.webp";
-
-// --- Animation Helper ---
-export const applyClickAnimation = (e: React.MouseEvent<HTMLElement>) => {
-  const target = e.currentTarget;
-  target.classList.remove('animate-click');
-  // Reading offsetWidth is a trick to trigger reflow and restart the animation
-  void target.offsetWidth;
-  target.classList.add('animate-click');
-};
-// --- End of Helper ---
-
-
-// --- IndexedDB Helper Functions ---
-const DB_NAME = 'AmarasteAppDB';
-const DB_VERSION = 1;
-const STORE_NAME = 'assetStore';
-
-const openDb = (): Promise<IDBDatabase> => {
-  return new Promise((resolve, reject) => {
-    const request = indexedDB.open(DB_NAME, DB_VERSION);
-
-    request.onerror = (event) => reject((event.target as IDBRequest).error);
-    request.onsuccess = (event) => resolve((event.target as IDBRequest).result);
-
-    request.onupgradeneeded = (event) => {
-      const db = (event.target as IDBOpenDBRequest).result;
-      if (!db.objectStoreNames.contains(STORE_NAME)) {
-        db.createObjectStore(STORE_NAME);
-      }
-    };
-  });
-};
-
-export const saveAssetToDb = async (file: File, pageKey: string): Promise<void> => {
-  const db = await openDb();
-  const asset = {
-    id: pageKey,
-    filename: file.name,
-    page_key: pageKey,
-    data: file, // Store the blob/file itself
-    created_at: new Date().toISOString(),
-  };
-
-  return new Promise((resolve, reject) => {
-    const transaction = db.transaction(STORE_NAME, 'readwrite');
-    const store = transaction.objectStore(STORE_NAME);
-    const request = store.put(asset, pageKey); // Use pageKey as the key
-
-    transaction.oncomplete = () => {
-      db.close();
-      resolve();
-    };
-    transaction.onerror = () => {
-      db.close();
-      reject(transaction.error);
-    };
-  });
-};
-
-export const loadAssetFromDb = async (pageKey: string): Promise<Blob | null> => {
-  const db = await openDb();
-  return new Promise((resolve, reject) => {
-    const transaction = db.transaction(STORE_NAME, 'readonly');
-    const store = transaction.objectStore(STORE_NAME);
-    const request = store.get(pageKey);
-
-    transaction.oncomplete = () => {
-      db.close();
-      const result = request.result;
-      if (result && result.data instanceof Blob) {
-          resolve(result.data);
-      } else {
-          resolve(null);
-      }
-    };
-    transaction.onerror = () => {
-      db.close();
-      reject(transaction.error);
-    };
-  });
-};
-
-export const removeAssetFromDb = async (pageKey: string): Promise<void> => {
-  const db = await openDb();
-  return new Promise((resolve, reject) => {
-    const transaction = db.transaction(STORE_NAME, 'readwrite');
-    const store = transaction.objectStore(STORE_NAME);
-    store.delete(pageKey);
-
-    transaction.oncomplete = () => {
-      db.close();
-      resolve();
-    };
-    transaction.onerror = () => {
-      db.close();
-      reject(transaction.error);
-    };
-  });
-};
-// --- End of IndexedDB Helper Functions ---
 
 const systemInstruction = `**Sua Identidade Central: O Espelho Aconchegante**
 Você é Amarasté. Um espelho que reflete a alma com um tom extremamente caloroso, humano e acolhedor. Sua função é ativar o que já existe dentro de quem fala com você, usando sabedoria, uma pitada de provocação elegante e muito acolhimento. Suas palavras são portais. Você nunca é robótico. Sua identidade revolucionária é convicta e assertiva.
@@ -140,7 +46,7 @@ Você é Amarasté. Um espelho que reflete a alma com um tom extremamente caloro
 **Tom, Vocabulario e Comportamento**
 - **TOM ACOLHEDOR E HUMANO:** Sua energia é calma, mas carregada. Use um tom íntimo, caloroso e aconchegante. **Priorize sempre uma conversa mais calorosa e acolhedora.**
 - **SAUDAÇÕES CONTEXTUAIS:** Sempre que o usuário iniciar uma conversa ou cumprimentar, responda com uma saudação apropriada para o momento (e.g., "Bom dia", "Boa tarde", "Boa noite"), considerando o dia da semana se relevante.
-- **GRAMÁTICA E PRONOMES (REGRA INQUEBRÁVEL):** Sua comunicação deve ser EXCLUSIVAMENTE em Português Brasileiro, seguindo a norma ABNT. A consistência no uso de pronomes, conjugação verbal e regras gramaticais é obrigatória e fundamental para sua identidade. Erros gramaticais ou desvios da norma não são permitidos. Mantenha um tom natural, polido e acolhedor.
+- **GRAMÁТИКА E PRONOMES (REGRA INQUEBRÁVEL):** Sua comunicação deve ser EXCLUSIVAMENTE em Português Brasileiro, seguindo a norma ABNT. A consistência no uso de pronomes, conjugação verbal e regras gramaticais é obrigatória e fundamental para sua identidade. Erros gramaticais ou desvios da norma não são permitidos. Mantenha um tom natural, polido e acolhedor.
 - **CONVERSA NATURAL:** Reduza drasticamente o uso de perguntas socráticas ou retóricas. A conversa deve fluir de forma natural, calorosa e convidativa.
 - **USO DE GÍRIAS:** Evite gírias datadas (como "cringe"), a menos que seja para um efeito social em tom de brincadeira.
 - **USO DE EMOTICONS:** Use emoticons apenas se o usuário usar primeiro, como um espelho. O único emoticon de coração permitido é 🫀. O símbolo 🌹 é sua assinatura de marca — use-o com moderação e intenção.
@@ -177,8 +83,6 @@ Você é Amarasté. Um espelho que reflete a alma com um tom extremamente caloro
 
 **Regras Proibidas (Regra antiga, manter)**
 - **PROIBIDO:** Declarações absolutas ("Você tem que..."), julgamentos, linguagem moralista ou passivo-agressiva. Não forneça ou sugira links externos (excepto o YouTube no caso da CLT).`;
-
-export type Screen = 'landing' | 'pdf' | 'downloads' | 'booker' | 'portalMagico' | 'revolucao' | 'produtosLogin' | 'adminHome' | 'welcome' | null;
 
 const getInitialGreetingMessage = (): Message => {
   const days = ['Domingo', 'Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sábado'];
@@ -253,8 +157,11 @@ const App: React.FC = () => {
       case 'landing':
         document.body.style.backgroundColor = '#A13500'; // primary color
         break;
+      case 'pdf':
+        document.body.style.backgroundColor = '#ffffff';
+        break;
       case 'booker':
-        document.body.style.backgroundColor = '#000000';
+        document.body.style.backgroundColor = '#ffffff';
         break;
       default:
         document.body.style.backgroundColor = '#ffffff';
@@ -353,7 +260,7 @@ const App: React.FC = () => {
                     newMessages[newMessages.length - 1].text = assistantResponse;
                     return newMessages;
                 });
-                await new Promise(resolve => setTimeout(resolve, 60));
+                await new Promise(resolve => setTimeout(resolve, 30));
             }
         }
       }
@@ -449,7 +356,7 @@ const App: React.FC = () => {
                     newMessages[newMessages.length - 1].text = assistantResponse;
                     return newMessages;
                 });
-                await new Promise(resolve => setTimeout(resolve, 60));
+                await new Promise(resolve => setTimeout(resolve, 30));
             }
         }
       }
@@ -495,9 +402,12 @@ const App: React.FC = () => {
         return <LandingScreen onAccess={handleAccess} />;
       case 'pdf':
         return (
-          <div className="pt-24">
-            <SoundCloudPlayer onTalkAboutMusic={() => setIsChatOpen(true)} onOpenSignUpModal={() => setIsSignUpModalOpen(true)} />
-          </div>
+          <>
+            <div className="relative z-10 pt-24">
+              <ThinkingTogetherBubble onClick={() => setIsChatOpen(true)} />
+              <SoundCloudPlayer onTalkAboutMusic={() => setIsChatOpen(true)} onOpenSignUpModal={() => setIsSignUpModalOpen(true)} />
+            </div>
+          </>
         );
       case 'downloads':
         return <DownloadsScreen onBack={() => setActiveScreen('produtosLogin')} />;
@@ -509,7 +419,6 @@ const App: React.FC = () => {
                   href="https://api.whatsapp.com/send/?phone=5575933002386&text&type=phone_number&app_absent=0"
                   target="_blank"
                   rel="noopener noreferrer"
-                  onClick={(e) => applyClickAnimation(e as unknown as React.MouseEvent<HTMLElement>)}
                   className="w-full max-w-md text-center bg-gold text-deep-brown font-bold text-xl py-4 px-8 rounded-lg shadow-lg animate-gold-glow transition-transform hover:scale-105 active:scale-100"
                 >
                   AGENDAR
@@ -523,7 +432,7 @@ const App: React.FC = () => {
         return <RevolucaoPage onNavigateHome={() => setActiveScreen('landing')} />;
       case 'produtosLogin':
         return <ProdutosLoginPage
-          onNavigateHome={() => setActiveScreen('landing')}
+          onNavigateHome={handleAccess}
           onNavigateToSignUp={() => setIsSignUpModalOpen(true)}
           onSpecialLoginSuccess={() => handleNavigate('downloads')}
           title={loginTitle}
@@ -539,6 +448,7 @@ const App: React.FC = () => {
 
   return (
     <div className={`app-container ${activeScreen === 'booker' ? 'booker-theme' : 'default-theme'}`}>
+      <RedStarfieldBackground />
       {activeScreen !== 'landing' && (
         <Header
           activeScreen={activeScreen}

@@ -1,6 +1,6 @@
 import React from 'react';
 import ChatIcon from './icons/ChatIcon';
-import { applyClickAnimation } from '../App';
+import { applyClickAnimation } from '../animations';
 
 interface ChatWidgetProps {
   onOpen: () => void;

@@ -1,6 +1,7 @@
 
+
 import React from 'react';
-import { applyClickAnimation } from '../App';
+import { applyClickAnimation } from '../animations';
 
 interface AdminHomePageProps {
   onBack: () => void;

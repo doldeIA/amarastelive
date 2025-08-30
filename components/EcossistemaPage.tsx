@@ -1,7 +1,9 @@
+
 import React from 'react';
 import PdfViewerScreen from './PdfViewerScreen';
 import SparkleOverlay from './SparkleOverlay';
-import { Screen } from '../App';
+// Fix: Corrected import path for Screen type
+import { Screen } from '../types';
 
 interface EcossistemaPageProps {
   onNavigate: (screen: Screen) => void;

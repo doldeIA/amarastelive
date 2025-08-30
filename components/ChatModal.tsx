@@ -1,11 +1,13 @@
 
 
+
+
 import React, { useState, useEffect, useRef } from 'react';
 import CloseIcon from './icons/CloseIcon';
 import SendIcon from './icons/SendIcon';
 import RotatingCircleIcon from './icons/RotatingCircleIcon';
 import AssistantAvatar from './AssistantAvatar';
-import { applyClickAnimation } from '../App';
+import { applyClickAnimation } from '../animations';
 
 export interface Message {
   sender: 'user' | 'assistant';
@@ -133,7 +135,7 @@ const ChatModal: React.FC<ChatModalProps> = ({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-md" aria-modal="true" role="dialog">
-      <div className="flex flex-col w-[90%] max-w-lg h-[80vh] max-h-[700px] bg-[#F5E3D0] rounded-2xl shadow-2xl ring-1 ring-warm-brown/10 animate-swoop-in overflow-hidden">
+      <div className="flex flex-col w-[90%] max-w-lg h-[80vh] max-h-[700px] md:max-w-2xl md:h-[85vh] md:max-h-[850px] bg-[#F5E3D0] rounded-2xl shadow-2xl ring-1 ring-warm-brown/10 animate-swoop-in overflow-hidden">
         
         <div className="flex-shrink-0 border-b border-warm-brown/10">
             <div className="relative text-center py-6 sm:py-8 liquid-glow-background">

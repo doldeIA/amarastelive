@@ -1,5 +1,5 @@
 import React from 'react';
-import { applyClickAnimation } from '../App';
+import { applyClickAnimation } from '../animations';
 
 interface WelcomePageProps {
   onBackToChat: () => void;

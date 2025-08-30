@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { applyClickAnimation } from '../App';
-import PdfViewerScreen from './PdfViewerScreen';
+import React from 'react';
+import { applyClickAnimation } from '../animations';
 
 interface SoundCloudPlayerProps {
   onTalkAboutMusic: () => void;
@@ -8,47 +7,76 @@ interface SoundCloudPlayerProps {
 }
 
 const SoundCloudPlayer: React.FC<SoundCloudPlayerProps> = ({ onTalkAboutMusic, onOpenSignUpModal }) => {
-  const [containerWidth, setContainerWidth] = useState(0);
-
-  useEffect(() => {
-    const handleResize = () => {
-      const screenWidth = window.innerWidth;
-      // Replicates the responsive logic from PdfViewerScreen to match its width.
-      const totalMargin = Math.max(screenWidth * 0.1, 24);
-      const calculatedWidth = Math.min(screenWidth - totalMargin, 1024);
-      setContainerWidth(calculatedWidth);
-    };
-
-    handleResize(); // Initial calculation
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
-  const soundCloudEmbedUrl = "https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/amarastelive/explicar-a-garrafa&visual=true";
+  // The color #A13500 matches the app's primary theme color. Options are set for a cleaner look.
+  const soundCloudEmbedUrl = "https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/amarastelive/explicar-a-garrafa&color=%23A13500&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=true";
   const youtubeEmbedUrl = "https://www.youtube.com/embed/6A6JHhknJts";
 
-  if (containerWidth === 0) {
-    // Avoid rendering with 0 width, which could cause a flash of unstyled content
-    return null;
-  }
-
   return (
-    <div style={{ width: `${containerWidth}px` }} className="mx-auto my-8">
+    <div className="w-full max-w-lg mx-auto my-8 px-4 sm:px-0">
 
-      <div className="relative p-1 rounded-lg bg-black neon-border">
-        <div className="relative w-full rounded-lg overflow-hidden" style={{ paddingTop: '56.25%' }}>
-            <iframe
-              title="Explicar a Garrafa"
-              scrolling="no"
-              frameBorder="no"
-              allow="autoplay"
-              src={soundCloudEmbedUrl}
-              className="absolute top-0 left-0 w-full h-full touch-none"
-            />
-        </div>
+      <div className="relative p-1 rounded-lg bg-black">
+        <iframe
+          title="Explicar a Garrafa"
+          width="100%"
+          height="166"
+          scrolling="no"
+          frameBorder="no"
+          allow="autoplay"
+          src={soundCloudEmbedUrl}
+          className="w-full rounded-lg"
+        />
+      </div>
+
+      <div className="w-full flex items-stretch justify-center gap-2 mt-6">
+        <button
+          onClick={(e) => {
+            applyClickAnimation(e);
+            onOpenSignUpModal();
+          }}
+          className="red-white-btn flex-1 text-center text-2xl py-6 px-4 whitespace-nowrap trembling-button"
+          aria-label="Cadastro"
+        >
+          Cadastro
+        </button>
+        <button
+          onClick={(e) => applyClickAnimation(e)}
+          className="red-white-btn flex-1 text-center text-2xl py-6 px-4 whitespace-nowrap trembling-button"
+          aria-label="Loja"
+        >
+          Loja
+        </button>
+        <button
+          onClick={(e) => applyClickAnimation(e)}
+          className="red-white-btn flex-1 text-center text-2xl py-6 px-4 whitespace-nowrap trembling-button"
+          aria-label="Tribus"
+        >
+          Tribus
+        </button>
+        <button
+          onClick={(e) => applyClickAnimation(e)}
+          className="red-white-btn flex-1 text-center text-2xl py-6 px-4 whitespace-nowrap trembling-button"
+          aria-label="Agenda"
+        >
+          Agenda
+        </button>
       </div>
       
-      <div className="relative p-1 rounded-lg bg-black neon-border mt-8">
+      <div 
+        className="my-8 w-full mx-auto p-1 rounded-lg bg-black/50 border border-white/20"
+        aria-label="Amarasté Instagram feed"
+        tabIndex={0}
+      >
+        <iframe
+          src="https://www.instagram.com/amarastelive/embed"
+          className="w-full h-[500px] border-0 rounded-md bg-white"
+          title="Amarasté Instagram feed"
+          allowTransparency={true}
+          allow="encrypted-media"
+          scrolling="yes"
+        ></iframe>
+      </div>
+
+      <div className="relative p-1 rounded-lg bg-black mt-6">
         <div className="relative w-full rounded-lg overflow-hidden" style={{ paddingTop: '56.25%' }}>
           <iframe
             src={youtubeEmbedUrl}
@@ -61,20 +89,20 @@ const SoundCloudPlayer: React.FC<SoundCloudPlayerProps> = ({ onTalkAboutMusic, o
         </div>
       </div>
       
-      <div className="w-full flex flex-col items-center mt-8 px-4">
+      <div className="w-full flex justify-center mt-8">
         <button
           onClick={(e) => {
             applyClickAnimation(e);
             onOpenSignUpModal();
           }}
-          className="cadastre-btn w-full max-w-lg text-xl py-4"
+          className="cadastre-btn text-xl py-5 px-10 dynamic-pulse-button"
           aria-label="Cadastre-se"
         >
           Cadastre-se
         </button>
       </div>
 
-      <p className="home-copyright mt-4">
+      <p className="home-copyright mt-8">
         Direitos Autorais © 2025 Amarasté Live
       </p>
     </div>
