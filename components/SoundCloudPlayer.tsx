@@ -1,105 +1,143 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { applyClickAnimation } from '../animations';
+import ActionGrid from './home/ActionGrid';
+import SocialMediaScroller from './home/SocialMediaScroller';
+import LogoLoader from './LogoLoader';
 
 interface SoundCloudPlayerProps {
   onTalkAboutMusic: () => void;
   onOpenSignUpModal: () => void;
 }
 
+const soundCloudTracks = [
+  { name: "Explicar a Garrafa", url: "https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/amarastelive/explicar-a-garrafa&color=%23ff0000&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=true" },
+  { name: "Observar", url: "https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/amarastelive/observar&color=%23ff0000&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=true" },
+  { name: "Possibilidades", url: "https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/amarastelive/possibilidades-0101011101&color=%23ff0000&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=true" },
+  { name: "Virtuality", url: "https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/amarastelive/virtuality&color=%23ff0000&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=true" },
+];
+
+const GamifiedUI = () => {
+    useEffect(() => {
+        const playBtn = document.getElementById('play60') as HTMLButtonElement | null;
+        const xpBar = document.getElementById('xpBar') as HTMLDivElement | null;
+        
+        const handleClick = () => {
+            if (!playBtn || playBtn.disabled) return;
+            
+            playBtn.disabled = true;
+            let t = 60;
+            playBtn.textContent = `${t}s`;
+            
+            const interval = setInterval(() => {
+                t--;
+                if (playBtn) playBtn.textContent = `${t}s`;
+                if (t <= 0) {
+                    clearInterval(interval);
+                    if(playBtn) {
+                        playBtn.disabled = false;
+                        playBtn.textContent = 'Play 60s Prompt';
+                    }
+                }
+            }, 1000);
+            
+            if (xpBar) {
+              const currentWidth = parseFloat(xpBar.style.width) || 12;
+              xpBar.style.width = `${Math.min(100, currentWidth + 36)}%`;
+            }
+        };
+
+        playBtn?.addEventListener('click', handleClick);
+
+        return () => {
+            playBtn?.removeEventListener('click', handleClick);
+        };
+    }, []);
+
+    return (
+        <section className="mini-game-ui" id="miniGameUI">
+          <div className="session-card">Quick Book — Next slots: <span id="slots">—</span></div>
+          <div className="mood-slider">Mood: <input type="range" min="0" max="2" id="moodRange"/></div>
+          <button id="play60" className="action-btn">Play 60s Prompt</button>
+          <div className="reward-meter"><div className="bar" id="xpBar" style={{width:'12%'}}></div></div>
+        </section>
+    );
+};
+
+
 const SoundCloudPlayer: React.FC<SoundCloudPlayerProps> = ({ onTalkAboutMusic, onOpenSignUpModal }) => {
-  // The color #A13500 matches the app's primary theme color. Options are set for a cleaner look.
-  const soundCloudEmbedUrl = "https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/amarastelive/explicar-a-garrafa&color=%23A13500&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=true";
-  const youtubeEmbedUrl = "https://www.youtube.com/embed/6A6JHhknJts";
+  const youtubeEmbedUrl = "https://www.youtube-nocookie.com/embed/6A6JHhknJts";
 
   return (
     <div className="w-full max-w-lg mx-auto my-8 px-4 sm:px-0">
-
-      <div className="relative p-1 rounded-lg bg-black">
-        <iframe
-          title="Explicar a Garrafa"
-          width="100%"
-          height="166"
-          scrolling="no"
-          frameBorder="no"
-          allow="autoplay"
-          src={soundCloudEmbedUrl}
-          className="w-full rounded-lg"
-        />
+      <div className="flex justify-center mb-4">
+          <LogoLoader />
       </div>
 
-      <div className="w-full flex items-stretch justify-center gap-2 mt-6">
-        <button
-          onClick={(e) => {
-            applyClickAnimation(e);
-            onOpenSignUpModal();
-          }}
-          className="red-white-btn flex-1 text-center text-2xl py-6 px-4 whitespace-nowrap trembling-button"
-          aria-label="Cadastro"
-        >
-          Cadastro
-        </button>
-        <button
-          onClick={(e) => applyClickAnimation(e)}
-          className="red-white-btn flex-1 text-center text-2xl py-6 px-4 whitespace-nowrap trembling-button"
-          aria-label="Loja"
-        >
-          Loja
-        </button>
-        <button
-          onClick={(e) => applyClickAnimation(e)}
-          className="red-white-btn flex-1 text-center text-2xl py-6 px-4 whitespace-nowrap trembling-button"
-          aria-label="Tribus"
-        >
-          Tribus
-        </button>
-        <button
-          onClick={(e) => applyClickAnimation(e)}
-          className="red-white-btn flex-1 text-center text-2xl py-6 px-4 whitespace-nowrap trembling-button"
-          aria-label="Agenda"
-        >
-          Agenda
-        </button>
-      </div>
+      <div className="w-full max-w-lg mx-auto my-2 flowing-neon-line animate-flow-rtl"></div>
       
-      <div 
-        className="my-8 w-full mx-auto p-1 rounded-lg bg-black/50 border border-white/20"
-        aria-label="Amarasté Instagram feed"
-        tabIndex={0}
-      >
-        <iframe
-          src="https://www.instagram.com/amarastelive/embed"
-          className="w-full h-[500px] border-0 rounded-md bg-white"
-          title="Amarasté Instagram feed"
-          allowTransparency={true}
-          allow="encrypted-media"
-          scrolling="yes"
-        ></iframe>
+      {/* New SoundCloud Scroller */}
+      <div className="my-6 w-full mx-auto media-scroller" tabIndex={0} aria-label="SoundCloud tracks">
+          {soundCloudTracks.map(track => (
+              <div key={track.name} className="media-scroller-panel h-[166px]">
+                  <div className="media-panel-netflix h-full p-1">
+                       <iframe
+                          title={track.name}
+                          width="100%"
+                          height="166"
+                          scrolling="no"
+                          frameBorder="no"
+                          allow="autoplay"
+                          src={track.url}
+                          className="w-full h-full rounded-sm"
+                        />
+                  </div>
+              </div>
+          ))}
       </div>
 
-      <div className="relative p-1 rounded-lg bg-black mt-6">
-        <div className="relative w-full rounded-lg overflow-hidden" style={{ paddingTop: '56.25%' }}>
+
+      <ActionGrid 
+        onTalkAboutMusic={onTalkAboutMusic} 
+        onOpenSignUpModal={onOpenSignUpModal}
+      />
+      
+      <div className="w-full max-w-lg mx-auto my-6 flowing-neon-line animate-flow-rtl"></div>
+      
+      <SocialMediaScroller />
+      
+      <div className="youtube-circle-container">
           <iframe
             src={youtubeEmbedUrl}
             title="YouTube video player - Ansiedade"
             frameBorder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
             allowFullScreen
-            className="absolute top-0 left-0 w-full h-full"
           ></iframe>
-        </div>
       </div>
       
-      <div className="w-full flex justify-center mt-8">
+      <div className="w-full flex flex-col items-center justify-center mt-8 gap-4 px-4 sm:px-0">
         <button
           onClick={(e) => {
             applyClickAnimation(e);
             onOpenSignUpModal();
           }}
-          className="cadastre-btn text-xl py-5 px-10 dynamic-pulse-button"
+          className="cadastre-btn text-xl py-5 px-10 dynamic-pulse-button w-full max-w-xs"
           aria-label="Cadastre-se"
         >
           Cadastre-se
         </button>
+        <div className="w-full max-w-xs my-2 flowing-neon-line animate-flow-ltr"></div>
+        <button
+            onClick={(e) => {
+              applyClickAnimation(e);
+            }}
+            className="red-white-btn text-center text-2xl py-6 px-4 whitespace-nowrap trembling-button w-full max-w-xs"
+            aria-label="AGENDAR DATA"
+          >
+            AGENDAR DATA
+        </button>
+        <div className="neon-line below-final"></div>
+        <GamifiedUI />
       </div>
 
       <p className="home-copyright mt-8">

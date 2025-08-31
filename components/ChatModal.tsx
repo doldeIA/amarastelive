@@ -1,7 +1,3 @@
-
-
-
-
 import React, { useState, useEffect, useRef } from 'react';
 import CloseIcon from './icons/CloseIcon';
 import SendIcon from './icons/SendIcon';
@@ -27,33 +23,34 @@ interface ChatModalProps {
   onOpenSignUpModal: () => void;
 }
 
-/**
- * Renders text with support for simple markdown (bold).
- * - Guards against null/undefined text values.
- * - While streaming, it shows plain text without asterisks.
- * - When final, it renders text within asterisks as bold.
- */
+const UserIcon = () => (
+  <svg viewBox="0 0 8 8" className="pixel-icon" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+    <path d="M3 0v1h-1v1h-1v2h1v1h1v1h2v-1h1v-1h1v-2h-1v-1h-1v-1h-2z" />
+  </svg>
+);
+
+const AssistantIcon = () => (
+  <svg viewBox="0 0 8 8" className="pixel-icon" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+     <path d="M2 0v1h-1v1h-1v3h1v1h1v1h4v-1h1v-1h1v-3h-1v-1h-1v-1h-4z" />
+  </svg>
+);
+
+
 const renderFormattedText = (text: string, isFinal: boolean) => {
-  // Guard against null/undefined text to prevent rendering "undefined"
   const cleanText = String(text ?? '').trim();
 
   if (!isFinal) {
-    // During streaming, just remove asterisks to show plain text.
     return <>{cleanText.replace(/\*/g, '')}</>;
   }
 
-  // Once final, parse for markdown bold.
-  // Split the text by words enclosed in asterisks, keeping the delimiters.
   const parts = cleanText.split(/(\*.*?\*)/g);
 
   return (
     <>
       {parts.map((part, i) => {
         if (part.startsWith('*') && part.endsWith('*')) {
-          // It's a bold part, render it with <strong>
           return <strong key={i}>{part.substring(1, part.length - 1)}</strong>;
         }
-        // It's a normal text part
         return part;
       })}
     </>
@@ -75,10 +72,20 @@ const ChatModal: React.FC<ChatModalProps> = ({
   const inputRef = useRef<HTMLInputElement>(null);
   const chatRef = useRef<HTMLDivElement>(null);
   const [autoScroll, setAutoScroll] = useState(true);
-
-  // Fix: Use ReturnType<typeof setTimeout> for browser compatibility instead of NodeJS.Timeout.
   const idleTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [hasSentReEngagement, setHasSentReEngagement] = useState(false);
+  const [logoParticles, setLogoParticles] = useState<any[]>([]);
+
+  useEffect(() => {
+    // Generate particles for the logo glitch effect
+    setLogoParticles(
+      Array.from({ length: 30 }).map(() => ({
+        left: `${40 + Math.random() * 20}%`,
+        animationDelay: `${Math.random() * 1.5}s`,
+        animationDuration: `${0.8 + Math.random() * 0.7}s`,
+      }))
+    );
+  }, []);
 
   useEffect(() => {
     if (autoScroll && chatRef.current) {
@@ -90,7 +97,6 @@ const ChatModal: React.FC<ChatModalProps> = ({
     inputRef.current?.focus();
   }, []);
 
-  // Reset re-engagement flag when a user sends a message
   useEffect(() => {
     const lastMessage = messages[messages.length - 1];
     if (lastMessage && lastMessage.sender === 'user') {
@@ -98,7 +104,6 @@ const ChatModal: React.FC<ChatModalProps> = ({
     }
   }, [messages]);
 
-  // Idle timer for re-engagement
   useEffect(() => {
     if (idleTimerRef.current) clearTimeout(idleTimerRef.current);
 
@@ -129,142 +134,149 @@ const ChatModal: React.FC<ChatModalProps> = ({
     if (!userInput.trim() || isLoading) return;
     const currentInput = userInput;
     setUserInput('');
-    setAutoScroll(true); // Re-enable autoscroll on send
+    setAutoScroll(true);
     await onSendMessage(currentInput);
   };
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-md" aria-modal="true" role="dialog">
-      <div className="flex flex-col w-[90%] max-w-lg h-[80vh] max-h-[700px] md:max-w-2xl md:h-[85vh] md:max-h-[850px] bg-[#F5E3D0] rounded-2xl shadow-2xl ring-1 ring-warm-brown/10 animate-swoop-in overflow-hidden">
-        
-        <div className="flex-shrink-0 border-b border-warm-brown/10">
-            <div className="relative text-center py-6 sm:py-8 liquid-glow-background">
-                <h1 className="text-2xl sm:text-3xl font-bold text-white neon-white-text-glow" style={{ fontFamily: "'Outfit', sans-serif" }}>
-                    iAmarasté
-                </h1>
+      <div className="cyber-chat-frame w-[90%] max-w-lg h-[80vh] max-h-[700px] md:max-w-2xl md:h-[85vh] md:max-h-[850px] rounded-sm shadow-2xl animate-swoop-in overflow-hidden">
+        {/* Decorative corner elements */}
+        <div className="cyber-frame-corner top-left"></div>
+        <div className="cyber-frame-corner top-right"></div>
+        <div className="cyber-frame-corner bottom-left"></div>
+        <div className="cyber-frame-corner bottom-right"></div>
+
+        <div className="flex flex-col h-full bg-black/50">
+          <header className="flex-shrink-0 cyber-header">
+              <div className="cyber-header-content relative pt-8">
+                  <div className="logo-particles-container" aria-hidden="true">
+                    {logoParticles.map((p, i) => (
+                      <div key={i} className="logo-particle" style={p}></div>
+                    ))}
+                  </div>
+                  <h1 className="text-4xl sm:text-5xl font-bold text-white logo-iamaraste mb-2">
+                      iAmarasté
+                  </h1>
+                  <p className="text-sm text-white/90 tracking-wider animate-futuristic-glow" style={{ fontFamily: "'Press Start 2P', monospace" }}>
+                      Vamos Pensar Juntos!
+                  </p>
+                  <p className="text-[10px] text-white/60 tracking-tighter mt-2" style={{fontFamily: "'Press Start 2P', monospace"}}>
+                      Programado com a cosmovisão do mundo Amarasté
+                  </p>
+                  <button
+                    onClick={(e) => {
+                      applyClickAnimation(e);
+                      onClose();
+                    }}
+                    className="absolute top-1/2 -translate-y-1/2 right-4 text-white/70 rounded-full p-2 transition-all hover:bg-white/10 hover:text-white z-10"
+                    aria-label="Close chat"
+                  >
+                    <CloseIcon className="w-6 h-6" />
+                  </button>
+              </div>
+              <div className="w-full h-px bg-white/50 animate-flow-ltr flowing-neon-line" style={{'--bubble-red': '#fff', animationDuration: '4s' } as React.CSSProperties}></div>
+          </header>
+
+          <div
+            ref={chatRef}
+            onScroll={handleScroll}
+            className="flex-1 p-2 overflow-y-auto space-y-4 chat-messages-container"
+          >
+            {messages.map((msg, index) => {
+              const isLastMessage = index === messages.length - 1;
+              const isStreaming = isLoading && msg.sender === 'assistant' && isLastMessage;
+
+              return (
+                <div
+                  key={index}
+                  className={`flex items-start gap-2.5 ${msg.sender === 'user' ? 'justify-end' : ''}`}
+                >
+                  <div
+                    className={`max-w-[85%] rounded-sm text-white chat-bubble ${msg.sender === 'user' ? 'user' : 'assistant'}`}
+                  >
+                      {msg.sender === 'assistant' && <AssistantIcon />}
+                      <div className="flex-1">
+                          {isStreaming && msg.text === '' ? (
+                            <div className="flex items-baseline gap-1.5 py-1">
+                              <span className="w-1.5 h-1.5 bg-white/50 rounded-full dot-1"></span>
+                              <span className="w-1.5 h-1.5 bg-white/50 rounded-full dot-2"></span>
+                              <span className="w-1.5 h-1.5 bg-white/50 rounded-full dot-3"></span>
+                            </div>
+                          ) : (
+                             <div className="font-normal whitespace-pre-wrap">
+                              {renderFormattedText(msg.text, !isStreaming)}
+                              {isStreaming && (
+                                <span className="inline-block w-2 h-4 bg-white ml-1 animate-pulse"></span>
+                              )}
+                            </div>
+                          )}
+                          {msg.youtubeId && !isStreaming && (
+                              <div className="mt-3 rounded-sm overflow-hidden aspect-video border border-red-500/50">
+                                  <iframe
+                                      src={`https://www.youtube.com/embed/${msg.youtubeId}`}
+                                      title="YouTube video player"
+                                      frameBorder="0"
+                                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                      allowFullScreen
+                                      className="w-full h-full"
+                                  ></iframe>
+                              </div>
+                          )}
+                          {msg.showSignUpButton && !isStreaming && (
+                              <button
+                                  onClick={(e) => {
+                                      applyClickAnimation(e);
+                                      onOpenSignUpModal();
+                                      onClose();
+                                  }}
+                                  className="mt-3 w-full text-center bg-white/20 text-white font-bold py-2 px-4 rounded-sm text-sm hover:bg-white/30 transition-colors"
+                              >
+                                  Cadastre-se para conteúdo exclusivo
+                              </button>
+                          )}
+                      </div>
+                      {msg.sender === 'user' && <UserIcon />}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
+          {error && (
+              <div className="px-4 pb-2">
+                  <p className="text-red-400 text-center text-sm">{error}</p>
+              </div>
+          )}
+
+          <div className="p-2 border-t border-red-500/30">
+            {isLoading && (
+              <div className="flex justify-center items-center mb-2">
                 <button
+                  type="button"
                   onClick={(e) => {
                     applyClickAnimation(e);
-                    onClose();
+                    onStopGeneration();
                   }}
-                  className="absolute top-1/2 -translate-y-1/2 right-4 text-white/70 rounded-full p-2 transition-all hover:bg-white/10 hover:text-white z-20"
-                  aria-label="Close chat"
+                  className="w-auto px-4 py-1 flex-shrink-0 flex items-center justify-center bg-coke-red text-white rounded-md transition-colors blinking-stop-button text-sm gap-2"
+                  aria-label="Stop generation"
                 >
-                  <CloseIcon className="w-6 h-6" />
+                  PARAR
+                  <RotatingCircleIcon className="w-4 h-4" />
                 </button>
-            </div>
-            
-            <div className="text-warm-brown pl-4 sm:pl-6 pr-4 pt-2 pb-4">
-              <h2 className="text-xl sm:text-2xl font-bold tracking-tight" style={{ fontFamily: "'Outfit', sans-serif" }}>
-                  Vamos Pensar Juntos?
-              </h2>
-              <p className="text-xs sm:text-sm text-warm-brown/70">
-                  Programado com a cosmovisão de mundo de Amarasté
-              </p>
-            </div>
-        </div>
-
-
-        <div
-          ref={chatRef}
-          onScroll={handleScroll}
-          className="flex-1 p-4 overflow-y-auto space-y-4"
-        >
-          {messages.map((msg, index) => {
-            const isLastMessage = index === messages.length - 1;
-            const isStreaming = isLoading && msg.sender === 'assistant' && isLastMessage;
-
-            return (
-              <div
-                key={index}
-                className={`flex items-start gap-2.5 ${msg.sender === 'user' ? 'justify-end' : ''}`}
-              >
-                {msg.sender === 'assistant' && (
-                   <AssistantAvatar className="w-8 h-8 md:w-11 md:h-11 flex-shrink-0" />
-                )}
-                <div
-                  className={`max-w-[80%] rounded-lg px-4 py-2 shadow-sm ${
-                    msg.sender === 'user'
-                      ? 'bg-primary text-white rounded-br-none'
-                      : 'bg-white text-warm-brown rounded-bl-none whitespace-pre-wrap'
-                  }`}
-                >
-                    {isStreaming && msg.text === '' ? (
-                      <div className="flex items-baseline gap-1.5 py-1">
-                        <span className="font-normal text-warm-brown/80">Digitando</span>
-                        <span className="w-1.5 h-1.5 bg-warm-brown/50 rounded-full dot-1"></span>
-                        <span className="w-1.5 h-1.5 bg-warm-brown/50 rounded-full dot-2"></span>
-                        <span className="w-1.5 h-1.5 bg-warm-brown/50 rounded-full dot-3"></span>
-                      </div>
-                    ) : (
-                       <div className="font-normal">
-                        {renderFormattedText(msg.text, !isStreaming)}
-                        {isStreaming && (
-                          <span className="inline-block w-2 h-4 bg-warm-brown ml-1 animate-pulse"></span>
-                        )}
-                      </div>
-                    )}
-                    {msg.youtubeId && !isStreaming && (
-                        <div className="mt-3 rounded-lg overflow-hidden aspect-video">
-                            <iframe
-                                src={`https://www.youtube.com/embed/${msg.youtubeId}`}
-                                title="YouTube video player"
-                                frameBorder="0"
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                allowFullScreen
-                                className="w-full h-full"
-                            ></iframe>
-                        </div>
-                    )}
-                    {msg.showSignUpButton && !isStreaming && (
-                        <button
-                            onClick={(e) => {
-                                applyClickAnimation(e);
-                                onOpenSignUpModal();
-                                onClose(); // Close chat modal
-                            }}
-                            className="mt-3 w-full text-center bg-primary text-white font-bold py-2 px-4 rounded-lg text-sm hover:bg-opacity-90 transition-colors"
-                        >
-                            Cadastre-se para conteúdo exclusivo
-                        </button>
-                    )}
-                </div>
               </div>
-            );
-          })}
-        </div>
-
-        {error && (
-            <div className="px-4 pb-2">
-                <p className="text-red-500 text-center text-sm">{error}</p>
-            </div>
-        )}
-
-        <div className="p-4 border-t border-warm-brown/10">
-          <form onSubmit={handleLocalSendMessage} className="flex items-center gap-2 relative">
-            <input
-              ref={inputRef}
-              type="text"
-              value={userInput}
-              onChange={(e) => setUserInput(e.target.value)}
-              placeholder={isLoading ? '' : "Converse comigo..."}
-              disabled={isLoading || !!error}
-              className="flex-1 w-full bg-white/70 text-warm-brown placeholder-warm-brown/60 px-4 py-2.5 rounded-full focus:outline-none focus:ring-2 focus:ring-primary/80 transition"
-              autoComplete="off"
-            />
-            {isLoading ? (
-              <button
-                type="button"
-                onClick={(e) => {
-                  applyClickAnimation(e);
-                  onStopGeneration();
-                }}
-                className="w-11 h-11 flex-shrink-0 flex items-center justify-center bg-coke-red text-white rounded-md transition-colors blinking-stop-button"
-                aria-label="Stop generation"
-              >
-                <RotatingCircleIcon />
-              </button>
-            ) : (
+            )}
+            <form onSubmit={handleLocalSendMessage} className="flex items-center gap-2 relative">
+              <input
+                ref={inputRef}
+                type="text"
+                value={userInput}
+                onChange={(e) => setUserInput(e.target.value)}
+                placeholder={isLoading ? 'Aguarde...' : "Digite aqui..."}
+                disabled={isLoading || !!error}
+                className="flex-1 w-full bg-black/50 text-white placeholder-white/60 px-4 py-2.5 rounded-full border border-red-500/50 focus:outline-none focus:ring-2 focus:ring-red-500/80 transition"
+                autoComplete="off"
+              />
               <button
                 type="submit"
                 onClick={(e) => {
@@ -272,15 +284,12 @@ const ChatModal: React.FC<ChatModalProps> = ({
                   applyClickAnimation(e);
                 }}
                 disabled={!userInput.trim() || !!error}
-                className="bg-primary text-white p-3 rounded-full transition-transform duration-200 enabled:hover:scale-110 enabled:active:scale-100 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="bg-red-600 text-white p-3 rounded-full transition-all duration-200 enabled:hover:scale-110 enabled:active:scale-100 disabled:opacity-50 disabled:cursor-not-allowed shadow-[0_0_8px_var(--bubble-red)]"
                 aria-label="Send message"
               >
                 <SendIcon className="w-5 h-5" />
               </button>
-            )}
-          </form>
-           <div role="note" className="text-center text-xs text-warm-brown/60 pt-2 px-4">
-            A iAmarasté ainda está em processo de treinamento.
+            </form>
           </div>
         </div>
       </div>

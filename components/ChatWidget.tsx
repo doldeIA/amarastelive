@@ -13,10 +13,10 @@ const ChatWidget: React.FC<ChatWidgetProps> = ({ onOpen }) => {
         applyClickAnimation(e);
         onOpen();
       }}
-      className="fixed bottom-6 right-6 z-20 bg-white/50 backdrop-blur-sm text-primary p-4 rounded-full shadow-lg transition-transform hover:scale-110 active:scale-100 chat-pulse-glow"
+      className="fixed bottom-6 right-6 z-20 bg-white/50 backdrop-blur-sm text-primary p-8 rounded-full shadow-lg transition-transform hover:scale-110 active:scale-100 chat-pulse-glow"
       aria-label="Open chat"
     >
-      <ChatIcon className="w-8 h-8" />
+      <ChatIcon className="w-16 h-16" />
     </button>
   );
 };

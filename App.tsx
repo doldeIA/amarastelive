@@ -1,13 +1,9 @@
 
-
-
-
 import React, { useState, useEffect, useRef } from 'react';
 import { GoogleGenAI, Chat } from '@google/genai';
 import LandingScreen from './components/LandingScreen';
 import PdfViewerScreen from './components/PdfViewerScreen';
 import DownloadsScreen from './components/DownloadsScreen';
-import ChatWidget from './components/ChatWidget';
 import ChatModal, { Message } from './components/ChatModal';
 import Header from './components/Header';
 import IntegratingLoader from './components/IntegratingLoader';
@@ -17,16 +13,16 @@ import SoundCloudPlayer from './components/SoundCloudPlayer';
 import SignUpModal from './components/SignUpModal';
 import RevolucaoPage from './components/RevolucaoPage';
 import ProdutosLoginPage from './components/ProdutosLoginPage';
-import AdminPanel from './components/AdminPanel';
+import AdminDashboard from './components/AdminPanel';
 import AdminLoginModal from './components/AdminLoginModal';
 import AdminHomePage from './components/AdminHomePage';
 import WelcomePage from './components/WelcomePage';
+import WelcomePopup from './components/WelcomePopup';
 import ThinkingTogetherBubble from './components/ThinkingTogetherBubble';
 import RedStarfieldBackground from './components/RedStarfieldBackground';
+import LogoDebugWidget from './components/LogoDebugWidget';
 import { Screen } from './types';
 import { saveAssetToDb, removeAssetFromDb } from './db';
-
-const HOME_IMAGE_PATH = "/home.webp";
 
 const systemInstruction = `**Sua Identidade Central: O Espelho Aconchegante**
 Você é Amarasté. Um espelho que reflete a alma com um tom extremamente caloroso, humano e acolhedor. Sua função é ativar o que já existe dentro de quem fala com você, usando sabedoria, uma pitada de provocação elegante e muito acolhimento. Suas palavras são portais. Você nunca é robótico. Sua identidade revolucionária é convicta e assertiva.
@@ -99,15 +95,23 @@ const getInitialGreetingMessage = (): Message => {
 
   return {
     sender: 'assistant',
-    text: `${timeGreeting}!\nQue bom ter você aqui nesta ${dayName}. Sobre o que você gostaria de falar hoje?`
+    text: `${timeGreeting}! Que bom ter você aqui neste ${dayName}. Sobre o que você gostaria de falar hoje?`
   };
 };
+
+// Simple check for development environment. In a real build setup,
+// this would be managed by environment variables (e.g., process.env.NODE_ENV).
+const isDevEnvironment = () => {
+  return window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+};
+
 
 const App: React.FC = () => {
   const [activeScreen, setActiveScreen] = useState<Screen>('landing');
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [isIntegrating, setIsIntegrating] = useState(false);
   const [loginTitle, setLoginTitle] = useState('ENTRAR');
+  const [isLoading, setIsLoading] = useState(false);
   
   // A counter to force-remount viewers when a file is changed
   const [uploadCount, setUploadCount] = useState(0);
@@ -121,8 +125,9 @@ const App: React.FC = () => {
   
   // State for modals
   const [isSignUpModalOpen, setIsSignUpModalOpen] = useState(false);
-  const [isAdminPanelOpen, setIsAdminPanelOpen] = useState(false);
+  const [isAdminDashboardOpen, setIsAdminDashboardOpen] = useState(false);
   const [isAdminLoginModalOpen, setIsAdminLoginModalOpen] = useState(false);
+  const [showWelcomePopup, setShowWelcomePopup] = useState(false);
   
   // Admin auth state
   const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(false);
@@ -154,50 +159,70 @@ const App: React.FC = () => {
   
   useEffect(() => {
     switch(activeScreen) {
-      case 'landing':
-        document.body.style.backgroundColor = '#A13500'; // primary color
-        break;
       case 'pdf':
         document.body.style.backgroundColor = '#ffffff';
         break;
       case 'booker':
-        document.body.style.backgroundColor = '#ffffff';
+        document.body.style.backgroundColor = '#000000'; // Booker is now black
         break;
       default:
-        document.body.style.backgroundColor = '#ffffff';
+        document.body.style.backgroundColor = '#000000';
         break;
     }
   }, [activeScreen]);
+
+  const handleAdminAccess = () => {
+    if (isAdminLoggedIn) {
+      setIsAdminDashboardOpen(prev => !prev);
+    } else {
+      setLastScreenBeforeAdmin(activeScreen);
+      setIsAdminLoginModalOpen(true);
+    }
+  };
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === 'A') {
         e.preventDefault();
-        if (isAdminLoggedIn) {
-            setIsAdminPanelOpen(prev => !prev);
-        } else {
-            setLastScreenBeforeAdmin(activeScreen);
-            setIsAdminLoginModalOpen(true);
-        }
+        handleAdminAccess();
       }
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [isAdminLoggedIn, activeScreen]);
 
+  useEffect(() => {
+    if (isLoading) {
+      document.body.classList.add('loading');
+      document.documentElement.classList.add('global-dim');
+    } else {
+      document.body.classList.remove('loading');
+      document.documentElement.classList.remove('global-dim');
+    }
+    // Cleanup function to remove class if component unmounts while loading
+    return () => {
+      document.body.classList.remove('loading');
+      document.documentElement.classList.remove('global-dim');
+    };
+  }, [isLoading]);
+
   const handleAdminLogin = (user: string, pass: string): boolean => {
-    if (user === '1234' && pass === '1234') {
+    if (pass === '1212') {
       setIsAdminLoggedIn(true);
       setIsAdminLoginModalOpen(false);
-      setActiveScreen('adminHome');
+      setIsAdminDashboardOpen(true); // Open dashboard on successful login
       return true;
     }
     return false;
   };
 
   const handleAccess = () => {
-    // No longer loads PDF, just navigates to the main content screen.
-    setActiveScreen('pdf');
+    setIsLoading(true);
+    // Simulate loading time for assets on the next page
+    setTimeout(() => {
+      setActiveScreen('pdf');
+      setIsLoading(false); // Stop loading when navigation occurs
+    }, 2500); // 2.5 seconds for the animation
   };
 
   const handlePageRendered = () => {
@@ -206,6 +231,11 @@ const App: React.FC = () => {
   
   const handleNavigate = (screen: Screen) => {
     setActiveScreen(screen);
+  };
+  
+  const handleLoginSuccess = () => {
+    setShowWelcomePopup(true);
+    handleNavigate('downloads');
   };
 
   const handleNavigateToPage = (page: Screen) => {
@@ -224,6 +254,49 @@ const App: React.FC = () => {
     stopGenerationRef.current = true;
   };
 
+  const streamAssistantResponse = async (responseStream: any): Promise<string> => {
+    let assistantResponse = '';
+    // Add an empty message bubble for the assistant that we will fill
+    setMessages((prev) => [...prev, { sender: 'assistant', text: '' }]);
+    
+    let unprocessedText = '';
+    for await (const chunk of responseStream) {
+      if (stopGenerationRef.current) break;
+      unprocessedText += chunk.text || '';
+      
+      const lastSpaceIndex = unprocessedText.lastIndexOf(' ');
+
+      if (lastSpaceIndex !== -1) {
+          const textToAnimate = unprocessedText.substring(0, lastSpaceIndex + 1);
+          unprocessedText = unprocessedText.substring(lastSpaceIndex + 1);
+
+          const words = textToAnimate.split(/(\s+)/).filter(Boolean);
+          for (const word of words) {
+              if (stopGenerationRef.current) break;
+              assistantResponse += word;
+              setMessages((prev) => {
+                  const newMessages = [...prev];
+                  newMessages[newMessages.length - 1].text = assistantResponse;
+                  return newMessages;
+              });
+              // Adjust delay for word-by-word streaming effect
+              await new Promise(resolve => setTimeout(resolve, 30));
+          }
+      }
+    }
+
+    // Add any remaining text that wasn't part of a full word
+    if (unprocessedText && !stopGenerationRef.current) {
+        assistantResponse += unprocessedText;
+        setMessages((prev) => {
+          const newMessages = [...prev];
+          newMessages[newMessages.length - 1].text = assistantResponse;
+          return newMessages;
+        });
+    }
+    return assistantResponse;
+  };
+
   const handleSendMessage = async (userInput: string) => {
     if (!userInput.trim() || isChatLoading || !chat) return;
 
@@ -236,43 +309,7 @@ const App: React.FC = () => {
 
     try {
       const responseStream = await chat.sendMessageStream({ message: userInput });
-      
-      let assistantResponse = '';
-      setMessages((prev) => [...prev, { sender: 'assistant', text: '' }]);
-      
-      let unprocessedText = '';
-      for await (const chunk of responseStream) {
-        if (stopGenerationRef.current) break;
-        unprocessedText += chunk.text || '';
-        
-        const lastSpaceIndex = unprocessedText.lastIndexOf(' ');
-
-        if (lastSpaceIndex !== -1) {
-            const textToAnimate = unprocessedText.substring(0, lastSpaceIndex + 1);
-            unprocessedText = unprocessedText.substring(lastSpaceIndex + 1);
-
-            const words = textToAnimate.split(/(\s+)/).filter(Boolean);
-            for (const word of words) {
-                if (stopGenerationRef.current) break;
-                assistantResponse += word;
-                setMessages((prev) => {
-                    const newMessages = [...prev];
-                    newMessages[newMessages.length - 1].text = assistantResponse;
-                    return newMessages;
-                });
-                await new Promise(resolve => setTimeout(resolve, 30));
-            }
-        }
-      }
-
-      if (unprocessedText && !stopGenerationRef.current) {
-          assistantResponse += unprocessedText;
-          setMessages((prev) => {
-            const newMessages = [...prev];
-            newMessages[newMessages.length - 1].text = assistantResponse;
-            return newMessages;
-          });
-      }
+      const assistantResponse = await streamAssistantResponse(responseStream);
 
       // After streaming is complete, parse for special commands
       let final_text = assistantResponse;
@@ -332,44 +369,7 @@ const App: React.FC = () => {
 
     try {
       const responseStream = await chat.sendMessageStream({ message: reEngagePrompt });
-      
-      let assistantResponse = '';
-      setMessages((prev) => [...prev, { sender: 'assistant', text: '' }]);
-      
-      let unprocessedText = '';
-      for await (const chunk of responseStream) {
-        if (stopGenerationRef.current) break;
-        unprocessedText += chunk.text || '';
-        
-        const lastSpaceIndex = unprocessedText.lastIndexOf(' ');
-
-        if (lastSpaceIndex !== -1) {
-            const textToAnimate = unprocessedText.substring(0, lastSpaceIndex + 1);
-            unprocessedText = unprocessedText.substring(lastSpaceIndex + 1);
-
-            const words = textToAnimate.split(/(\s+)/).filter(Boolean);
-            for (const word of words) {
-                if (stopGenerationRef.current) break;
-                assistantResponse += word;
-                setMessages((prev) => {
-                    const newMessages = [...prev];
-                    newMessages[newMessages.length - 1].text = assistantResponse;
-                    return newMessages;
-                });
-                await new Promise(resolve => setTimeout(resolve, 30));
-            }
-        }
-      }
-
-      if (unprocessedText && !stopGenerationRef.current) {
-          assistantResponse += unprocessedText;
-          setMessages((prev) => {
-            const newMessages = [...prev];
-            newMessages[newMessages.length - 1].text = assistantResponse;
-            return newMessages;
-          });
-      }
-
+      await streamAssistantResponse(responseStream);
     } catch (e: any) {
         // Fail silently for re-engagement
         console.error("Error sending re-engagement message:", e);
@@ -399,33 +399,19 @@ const App: React.FC = () => {
   const renderScreen = () => {
     switch (activeScreen) {
       case 'landing':
-        return <LandingScreen onAccess={handleAccess} />;
+        return <LandingScreen onAccess={handleAccess} onAdminAccess={handleAdminAccess} isLoading={isLoading} />;
       case 'pdf':
         return (
-          <>
-            <div className="relative z-10 pt-24">
-              <ThinkingTogetherBubble onClick={() => setIsChatOpen(true)} />
+          <div className="bg-transparent">
+            <div className="pt-24">
               <SoundCloudPlayer onTalkAboutMusic={() => setIsChatOpen(true)} onOpenSignUpModal={() => setIsSignUpModalOpen(true)} />
             </div>
-          </>
+          </div>
         );
       case 'downloads':
         return <DownloadsScreen onBack={() => setActiveScreen('produtosLogin')} />;
       case 'booker':
-          return (
-            <div className="w-full min-h-screen flex flex-col items-center justify-center text-white pt-24">
-              <div className="w-full flex justify-center px-4">
-                <a
-                  href="https://api.whatsapp.com/send/?phone=5575933002386&text&type=phone_number&app_absent=0"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-full max-w-md text-center bg-gold text-deep-brown font-bold text-xl py-4 px-8 rounded-lg shadow-lg animate-gold-glow transition-transform hover:scale-105 active:scale-100"
-                >
-                  AGENDAR
-                </a>
-              </div>
-            </div>
-          );
+          return <BookerScreen />;
       case 'portalMagico':
         return <EcossistemaPage onNavigate={handleNavigateToPage} />;
       case 'revolucao':
@@ -434,7 +420,7 @@ const App: React.FC = () => {
         return <ProdutosLoginPage
           onNavigateHome={handleAccess}
           onNavigateToSignUp={() => setIsSignUpModalOpen(true)}
-          onSpecialLoginSuccess={() => handleNavigate('downloads')}
+          onSpecialLoginSuccess={handleLoginSuccess}
           title={loginTitle}
         />;
       case 'adminHome':
@@ -442,13 +428,14 @@ const App: React.FC = () => {
       case 'welcome':
         return <WelcomePage onBackToChat={() => { setActiveScreen('pdf'); setIsChatOpen(true); }} />;
       default:
-        return <LandingScreen onAccess={handleAccess} />;
+        return <LandingScreen onAccess={handleAccess} onAdminAccess={handleAdminAccess} isLoading={isLoading} />;
     }
   };
 
   return (
     <div className={`app-container ${activeScreen === 'booker' ? 'booker-theme' : 'default-theme'}`}>
-      <RedStarfieldBackground />
+      {isLoading && <div className="loading-dim-overlay" />}
+      {(activeScreen !== 'landing' && activeScreen !== 'pdf') && <RedStarfieldBackground />}
       {activeScreen !== 'landing' && (
         <Header
           activeScreen={activeScreen}
@@ -462,8 +449,10 @@ const App: React.FC = () => {
         {renderScreen()}
       </main>
 
-      {!isAdminPanelOpen && !isAdminLoginModalOpen && activeScreen !== 'landing' && (
-        <ChatWidget onOpen={() => setIsChatOpen(true)} />
+      {isDevEnvironment() && <LogoDebugWidget />}
+
+      {!isAdminDashboardOpen && !isAdminLoginModalOpen && activeScreen !== 'landing' && (
+        <ThinkingTogetherBubble onClick={() => setIsChatOpen(true)} />
       )}
 
       {isChatOpen && (
@@ -489,12 +478,14 @@ const App: React.FC = () => {
           }}
         />
       )}
+      
+      {showWelcomePopup && (
+        <WelcomePopup onClose={() => setShowWelcomePopup(false)} />
+      )}
 
-      {isAdminPanelOpen && (
-        <AdminPanel
-          onClose={() => setIsAdminPanelOpen(false)}
-          onUpload={handleUploadAsset}
-          onRemove={handleRemoveAsset}
+      {isAdminDashboardOpen && (
+        <AdminDashboard
+          onClose={() => setIsAdminDashboardOpen(false)}
         />
       )}
 

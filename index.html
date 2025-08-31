@@ -34,7 +34,8 @@
     </script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700&family=Outfit:wght@400;700&family=Playfair+Display:ital,wght@0,400..000;1,400..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700&family=Outfit:wght@400;700&family=Playfair+Display:ital,wght@0,400..0.00;1,400..900&family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="preload" href="/logo.webp" as="image">
     <style>
       :root {
         --chat-brown: #5c3a21;
@@ -43,12 +44,13 @@
         --glow-intensity: 0.9;
         --glow-speed: 8s;
         --liquid-alpha: 0.25;
-        --bubble-red: #c90000;
+        --bubble-red: #FF0000;
         --bubble-white: #ffffff;
       }
 
       body {
         margin: 0;
+        background-color: #000;
       }
       
       @keyframes neonPulse {
@@ -90,20 +92,20 @@
         animation: chatPulseGlow 1.5s infinite ease-in-out;
       }
       
-      @keyframes neon-green-pulse {
+      @keyframes neon-red-pulse {
         0%, 100% {
-          box-shadow: 0 0 8px #00ff00;
+          box-shadow: 0 0 8px var(--bubble-red);
           text-shadow: 0 0 4px #ffffff;
         }
         50% {
-          box-shadow: 0 0 20px #00ff00, 0 0 30px #00ff00;
-          text-shadow: 0 0 8px #ffffff, 0 0 12px #00ff00;
+          box-shadow: 0 0 20px var(--bubble-red), 0 0 30px var(--bubble-red);
+          text-shadow: 0 0 8px #ffffff, 0 0 12px var(--bubble-red);
         }
       }
 
       .downloads-button-glow {
-        border: 2px solid #00ff00;
-        animation: neon-green-pulse 1s infinite ease-in-out;
+        border: 2px solid var(--bubble-red);
+        animation: neon-red-pulse 1.5s infinite ease-in-out;
       }
 
       @keyframes swoopIn {
@@ -140,12 +142,12 @@
       
       @keyframes blink-red-button {
           0%, 100% {
-              background-color: #E41B17; /* coke-red */
-              box-shadow: 0 0 5px rgba(228, 27, 23, 0.7), 0 0 10px rgba(228, 27, 23, 0.5);
+              background-color: var(--bubble-red);
+              box-shadow: 0 0 5px rgba(255, 10, 10, 0.7), 0 0 10px rgba(255, 10, 10, 0.5);
           }
           50% {
               background-color: #ff4d4d;
-              box-shadow: 0 0 10px rgba(228, 27, 23, 1), 0 0 20px rgba(228, 27, 23, 0.7);
+              box-shadow: 0 0 10px rgba(255, 10, 10, 1), 0 0 20px rgba(255, 10, 10, 0.7);
           }
       }
       .blinking-stop-button {
@@ -375,11 +377,11 @@
 
       @keyframes neonRedFloat {
         0%,100% { 
-          box-shadow: 0 0 10px rgba(255, 26, 26, 0.8), 0 0 20px rgba(255, 26, 26, 0.6), inset 0 0 10px rgba(255, 26, 26, 0.4);
+          box-shadow: 0 0 10px var(--bubble-red), 0 0 20px var(--bubble-red), inset 0 0 10px var(--bubble-red);
           transform: translateY(0); 
         }
         50% { 
-          box-shadow: 0 0 25px rgba(255, 26, 26, 1), 0 0 40px rgba(255, 26, 26, 0.8), inset 0 0 14px rgba(255, 26, 26, 0.5);
+          box-shadow: 0 0 25px var(--bubble-red), 0 0 40px var(--bubble-red), inset 0 0 14px var(--bubble-red);
           transform: translateY(-4px); 
         }
       }
@@ -437,30 +439,11 @@
       .glass-scrollbar::-webkit-scrollbar-track { background: rgba(0,0,0,0.2); }
       .glass-scrollbar::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.6); border-radius: 2px; }
 
-      /* === START: LANDING BACKGROUND WITH mov.png === */
-      .landing-background {
-        position: fixed;
-        inset: 0;
-        width: 100%;
-        height: 100%;
-        z-index: -1;
-        background: #3b2a1a url("mov.png") no-repeat center center;
-        background-size: cover;
-      }
-
       /* Ensure landing content stays above background */
       .landing-content {
         position: relative;
         z-index: 10;
       }
-
-      /* Responsive adjustments */
-      @media (max-width: 768px) {
-        .landing-background {
-          background-position: center top;
-        }
-      }
-      /* === END: LANDING BACKGROUND WITH mov.png === */
 
       /* === START: TACTILE CLICK ANIMATION === */
       @keyframes button-click-pulse {
@@ -519,26 +502,26 @@
       /* === START: Minimal Social Icons Glow (Unified Neon Red) === */
       @keyframes neon-red-glow {
         0%, 100% {
-          filter: drop-shadow(0 0 4px rgba(255, 26, 26, 0.7)) drop-shadow(0 0 8px rgba(255, 26, 26, 0.5));
+          filter: drop-shadow(0 0 4px var(--bubble-red)) drop-shadow(0 0 8px var(--bubble-red));
         }
         50% {
-          filter: drop-shadow(0 0 8px rgba(255, 26, 26, 0.9)) drop-shadow(0 0 16px rgba(255, 26, 26, 0.7));
+          filter: drop-shadow(0 0 8px var(--bubble-red)) drop-shadow(0 0 16px var(--bubble-red));
         }
       }
 
       .social-link {
-        color: #ff1a1a;
+        color: var(--bubble-red);
         transition: transform 0.2s ease-in-out, filter 0.2s ease-in-out;
         animation: neon-red-glow 2.5s infinite ease-in-out;
       }
       .social-link:hover, .social-link:focus-visible {
         transform: scale(1.08);
-        filter: drop-shadow(0 0 12px rgba(255, 26, 26, 1)) drop-shadow(0 0 20px rgba(255, 26, 26, 0.8));
+        filter: drop-shadow(0 0 12px var(--bubble-red)) drop-shadow(0 0 20px var(--bubble-red));
         animation: none; /* Pause animation on hover for a stable, stronger glow */
       }
       /* Ensure focus visible state is clear */
       .social-link:focus-visible {
-         outline: 2px solid #ff1a1a;
+         outline: 2px solid var(--bubble-red);
          outline-offset: 4px;
          border-radius: 9999px; /* For circular icons */
       }
@@ -550,7 +533,7 @@
       .home-copyright {
         text-align: center;
         font-size: 0.9rem;
-        color: #fff;
+        color: #000;
         margin-top: 1rem;
         opacity: 0.85;
       }
@@ -599,22 +582,22 @@
       }
 
       .red-white-btn {
-        background-color: var(--bubble-red, #c90000);
+        background-color: var(--bubble-red);
         color: #fff;
         font-weight: 600;
         font-size: 1.125rem;
         padding: 0.75rem 1.5rem;
         border-radius: 0.5rem;
         text-align: center;
-        box-shadow: 0 0 8px rgba(255, 255, 255, 0.6),
-                    0 0 14px rgba(255, 255, 255, 0.3);
+        box-shadow: 0 0 8px var(--bubble-red),
+                    0 0 14px var(--bubble-red);
         transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
       }
       .red-white-btn:hover,
       .red-white-btn:focus-visible {
         transform: scale(1.02);
-        box-shadow: 0 0 10px rgba(255, 255, 255, 0.8),
-                    0 0 18px rgba(255, 255, 255, 0.5);
+        box-shadow: 0 0 10px var(--bubble-red),
+                    0 0 18px var(--bubble-red);
       }
 
       /* === START: Booker Header Icon Glow === */
@@ -829,6 +812,11 @@
         50% { transform: translate(-50%, -50%) scale(1.6) rotate(180deg); }
         100% { transform: translate(-50%, -50%) scale(1); }
       }
+      .liquid-blob-1 { animation: move-blob-1 2.03s ease-in-out infinite; }
+      .liquid-blob-2 { animation: move-blob-2 1.69s ease-in-out infinite alternate; }
+      .liquid-blob-3 { animation: move-blob-3 2.37s ease-in-out infinite; }
+      .liquid-blob-4 { animation: move-blob-4 1.86s ease-in-out infinite alternate; }
+
       @keyframes click-reaction {
         0% { transform: scale(1); filter: brightness(1); }
         20% { transform: scale(0.9, 1.2) rotate(-2deg); filter: brightness(1.5); }
@@ -863,35 +851,26 @@
         }
       }
       .animate-text-liquid-glow {
-        animation: text-liquid-glow 1.2s ease-in-out infinite;
+        animation: text-liquid-glow 2.2s ease-in-out infinite;
       }
-
-      /* === START: Red Starfield Background === */
-      @keyframes star-flicker {
+      
+      @keyframes text-liquid-glow-dark {
         0%, 100% {
-          opacity: 1;
+          text-shadow: 0 0 4px var(--bubble-red), 0 0 8px var(--bubble-red);
           transform: scale(1);
-          box-shadow: 0 0 5px #ff0000, 0 0 10px #ff0000;
         }
         50% {
-          opacity: 0.5;
-          transform: scale(0.8);
-          box-shadow: 0 0 10px #ff0000, 0 0 20px #ff0000;
+          text-shadow: 0 0 8px var(--bubble-red), 0 0 16px var(--bubble-red), 0 0 24px var(--bubble-red);
+          transform: scale(1.02);
         }
       }
-      @keyframes star-move-1 {
-        from { transform: translate(0, 0); }
-        to { transform: translate(-100vw, -100vh); }
+      .animate-text-liquid-glow-dark {
+        animation: text-liquid-glow-dark 2.2s ease-in-out infinite;
       }
-      @keyframes star-move-2 {
-        from { transform: translate(0, 0); }
-        to { transform: translate(100vw, -50vh); }
-      }
-      @keyframes star-move-3 {
-        from { transform: translate(0, 0); }
-        to { transform: translate(50vw, 120vh); }
-      }
-      /* === END: Red Starfield Background === */
+
+      /* === START: Red Starfield Background (REMOVED) === */
+      /* Canvas implementation in component now */
+      /* === END: Red Starfield Background (REMOVED) === */
 
       /* === START: Trembling Button Animation === */
       @keyframes tremble-shake {
@@ -980,12 +959,871 @@
 
       /* === START: Neon Red Border for PDF Viewer === */
       .neon-border-red {
-          border: 1px solid rgba(228, 27, 23, 0.7);
-          box-shadow: 0 0 8px rgba(228, 27, 23, 0.6),
-                      0 0 16px rgba(228, 27, 23, 0.4),
-                      inset 0 0 4px rgba(228, 27, 23, 0.5);
+          border: 1px solid var(--bubble-red);
+          box-shadow: 0 0 8px var(--bubble-red),
+                      0 0 16px var(--bubble-red),
+                      inset 0 0 4px var(--bubble-red);
       }
       /* === END: Neon Red Border for PDF Viewer === */
+
+      /* === START: Blinking White Neon for Chat Header === */
+      @keyframes soft-neon-pulse-white {
+        0%, 100% {
+          opacity: 1;
+          text-shadow: 0 0 12px #fff, 0 0 24px #fff, 0 0 35px rgba(255,255,255,0.7);
+        }
+        50% {
+          opacity: 0.6;
+          text-shadow: 0 0 8px rgba(255,255,255,0.9), 0 0 16px rgba(255,255,255,0.6);
+        }
+      }
+      .animate-soft-neon-pulse-white {
+        animation: soft-neon-pulse-white 0.7s infinite ease-in-out;
+      }
+      /* === END: Blinking White Neon for Chat Header === */
+
+      /* === START: Horizontal Media Scroller === */
+      .media-scroller {
+        display: grid;
+        gap: 1rem;
+        grid-auto-flow: column;
+        grid-auto-columns: 85%; /* Each item will be 85% of the container's width */
+        overflow-x: auto;
+        overscroll-behavior-inline: contain;
+        scroll-snap-type: x mandatory;
+        scrollbar-width: thin; /* For Firefox */
+        scrollbar-color: var(--bubble-red) rgba(0,0,0,0.2); /* For Firefox */
+      }
+      @media (min-width: 640px) {
+        .media-scroller {
+          grid-auto-columns: 80%;
+        }
+      }
+      .media-scroller::-webkit-scrollbar {
+        height: 8px;
+      }
+      .media-scroller::-webkit-scrollbar-track {
+        background-color: rgba(0,0,0,0.2);
+        border-radius: 4px;
+      }
+      .media-scroller::-webkit-scrollbar-thumb {
+        background-color: var(--bubble-red);
+        border-radius: 4px;
+        box-shadow: 0 0 6px var(--bubble-red);
+      }
+      .media-scroller-panel {
+        scroll-snap-align: center;
+      }
+      /* === END: Horizontal Media Scroller === */
+
+      /* === START: Netflix-style Media Boxes === */
+      .media-panel-netflix {
+        position: relative;
+        height: 100%;
+        background-color: rgba(0,0,0,0.7);
+        border: 2px solid var(--bubble-red);
+        border-radius: 0.5rem;
+        box-shadow: 0 0 10px var(--bubble-red),
+                    0 0 20px var(--bubble-red),
+                    inset 0 0 8px var(--bubble-red);
+        transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        overflow: hidden;
+      }
+      .media-panel-netflix:hover {
+        transform: scale(1.03);
+        box-shadow: 0 0 15px var(--bubble-red),
+                    0 0 30px var(--bubble-red),
+                    inset 0 0 12px var(--bubble-red);
+      }
+      /* === END: Netflix-style Media Boxes === */
+
+      /* === START: Booker Cosmic Background === */
+      @keyframes float-flicker {
+        0% {
+            transform: translate(0, 0) scale(1);
+            opacity: 0;
+        }
+        5% {
+            opacity: 1;
+            transform: scale(1.3);
+            box-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #FADADD;
+        }
+        10% {
+            opacity: 0.8;
+            transform: translate(calc(var(--wind-x) * 0.1), calc(var(--wind-y) * 0.1)) scale(1);
+            box-shadow: 0 0 6px #fff, 0 0 12px #FADADD;
+        }
+        50% {
+            opacity: 1;
+            box-shadow: 0 0 12px #fff, 0 0 24px #F8AFA6;
+        }
+        52% {
+            opacity: 0.6;
+            box-shadow: 0 0 5px #fff;
+        }
+        54% {
+            opacity: 1;
+            box-shadow: 0 0 12px #fff, 0 0 24px #FADADD;
+        }
+        95% {
+            opacity: 0.8;
+        }
+        100% {
+            transform: translate(var(--wind-x), var(--wind-y)) scale(0.5);
+            opacity: 0;
+        }
+      }
+      .cosmic-sparkle {
+        position: absolute;
+        background-color: white;
+        border-radius: 50%;
+        box-shadow: 0 0 4px #fff, 0 0 8px #fff;
+        animation: float-flicker infinite linear;
+      }
+      /* === END: Booker Cosmic Background === */
+      
+      /* === START: Booker Grok Red Button === */
+      .grok-red-button {
+        background-color: var(--bubble-red);
+        color: white;
+        text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 20px #fff;
+        box-shadow: 0 0 15px var(--bubble-red), 0 0 25px var(--bubble-red), inset 0 0 5px rgba(255,255,255,0.5);
+        transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
+      }
+      .grok-red-button:hover {
+        transform: scale(1.05);
+        box-shadow: 0 0 20px #ff1a1a, 0 0 35px #ff1a1a, inset 0 0 8px rgba(255,255,255,0.7);
+      }
+
+      @keyframes white-neon-flicker {
+        0%, 100% {
+          text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px #fff;
+          opacity: 0.95;
+        }
+        50% {
+          text-shadow: 0 0 8px #fff, 0 0 16px #fff, 0 0 25px #fff, 0 0 30px #fff;
+          opacity: 1;
+        }
+      }
+      .animate-white-neon-flicker {
+        animation: white-neon-flicker 1.5s ease-in-out infinite;
+      }
+      /* === END: Booker Grok Gold Button === */
+      
+      /* === START: Gamified Chat Header === */
+      .gamified-header-box {
+        background-color: #3d2a1a; /* deep-brown variant */
+        border-bottom: 4px solid #211a14;
+        padding: 1rem 0;
+        position: relative;
+        text-align: center;
+        /* Bevel and glow effect */
+        box-shadow: inset 0 4px 0 #5c3a21, /* Top highlight */
+                    inset 0 -4px 0 #211a14, /* Bottom shadow */
+                    0 0 15px rgba(212, 163, 115, 0.3); /* Outer golden glow */
+      }
+      .gamified-header-title {
+        font-family: 'Press Start 2P', monospace;
+        letter-spacing: 2px;
+        /* Keep existing neon blink animation */
+      }
+      /* === END: Gamified Chat Header === */
+
+      /* === START: Electric Chat Border === */
+      .electric-border-container {
+        position: relative;
+        overflow: hidden; /* Hide parts of lines outside the box */
+      }
+      .electric-line {
+        position: absolute;
+        background: #fff;
+        box-shadow: 0 0 6px #fff, 0 0 10px #fff, 0 0 15px #fff;
+        opacity: 0;
+        animation: electric-flicker 3s infinite;
+      }
+      .line-top { top: 0; left: 0; height: 2px; width: 100%; transform-origin: left; }
+      .line-right { top: 0; right: 0; width: 2px; height: 100%; transform-origin: top; animation-delay: 0.7s; }
+      .line-bottom { bottom: 0; right: 0; height: 2px; width: 100%; transform-origin: right; animation-delay: 1.4s; }
+      .line-left { bottom: 0; left: 0; width: 2px; height: 100%; transform-origin: bottom; animation-delay: 2.1s; }
+
+      @keyframes electric-flicker {
+        0%   { opacity: 0; transform: scale(0); }
+        5%   { opacity: 1; transform: scale(1); }
+        10%  { opacity: 0.2; }
+        15%  { opacity: 1; box-shadow: 0 0 10px #fff, 0 0 18px #fff, 0 0 25px #fff; } /* Burst */
+        25%  { opacity: 1; transform: scale(1); }
+        30%  { opacity: 0; transform: scale(1); }
+        100% { opacity: 0; }
+      }
+      /* === END: Electric Chat Border === */
+
+      /* === START: Chat Header Glass Overlay === */
+      .gamified-header-box.glass-overlay {
+          position: relative;
+          overflow: hidden;
+      }
+      .gamified-header-box.glass-overlay::before {
+          content: '';
+          position: absolute;
+          inset: 0;
+          background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.02) 100%);
+          backdrop-filter: blur(2px) brightness(1.1);
+          z-index: 0;
+          pointer-events: none;
+      }
+      .gamified-header-box.glass-overlay > * {
+          position: relative;
+          z-index: 1;
+      }
+      /* === END: Chat Header Glass Overlay === */
+
+      /* === START: NEW STYLES === */
+      @keyframes fast-soft-neon-pulse-white {
+        0%, 100% {
+          opacity: 1;
+          text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px rgba(255,255,255,0.7);
+        }
+        50% {
+          opacity: 0.5;
+          text-shadow: 0 0 6px rgba(255,255,255,0.9), 0 0 12px rgba(255,255,255,0.6);
+        }
+      }
+      .animate-fast-neon-pulse {
+        animation: fast-soft-neon-pulse-white 0.35s infinite ease-in-out;
+      }
+
+      .flowing-neon-line {
+        width: 100%;
+        height: 2px;
+        background: linear-gradient(to right, transparent 0%, var(--bubble-red) 50%, transparent 100%);
+        background-size: 200% 100%;
+        box-shadow: 0 0 5px var(--bubble-red), 0 0 10px var(--bubble-red);
+      }
+      @keyframes flow-ltr {
+        0% { background-position: -100% 0; }
+        100% { background-position: 100% 0; }
+      }
+      .animate-flow-ltr {
+        animation: flow-ltr 2s linear infinite;
+      }
+      @keyframes flow-rtl {
+        0% { background-position: 100% 0; }
+        100% { background-position: -100% 0; }
+      }
+      .animate-flow-rtl {
+        animation: flow-rtl 2s linear infinite;
+      }
+
+      @keyframes subtle-red-pulse-glow {
+        0%, 100% {
+          box-shadow: 0 0 15px var(--bubble-red), 0 0 25px var(--bubble-red), inset 0 0 5px rgba(255,255,255,0.5);
+        }
+        50% {
+          box-shadow: 0 0 20px #ff1a1a, 0 0 35px #ff1a1a, inset 0 0 8px rgba(255,255,255,0.7);
+        }
+      }
+      .animate-subtle-red-pulse {
+        animation: subtle-red-pulse-glow 2.5s ease-in-out infinite;
+      }
+      
+      @keyframes futuristic-glow-pulse {
+        0%, 100% {
+          opacity: 0.9;
+          text-shadow: 0 0 12px #fff, 0 0 24px #fff, 0 0 35px rgba(255,255,255,0.5);
+        }
+        50% {
+          opacity: 1;
+          text-shadow: 0 0 16px #fff, 0 0 32px #fff, 0 0 45px rgba(255,255,255,0.8);
+        }
+      }
+      .animate-futuristic-glow {
+        animation: futuristic-glow-pulse 2s infinite ease-in-out;
+      }
+      
+      @keyframes intense-neon-flicker {
+        0%, 100% {
+          opacity: 1;
+          text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #fff, 0 0 40px #fff;
+        }
+        20% {
+          opacity: 0.8;
+          text-shadow: 0 0 5px #fff, 0 0 10px #fff;
+        }
+        50% {
+          opacity: 1;
+          text-shadow: 0 0 12px #fff, 0 0 25px #fff, 0 0 40px #fff, 0 0 55px #fff;
+        }
+        75% {
+          opacity: 0.6;
+          text-shadow: 0 0 8px #fff, 0 0 15px #fff;
+        }
+      }
+      .animate-intense-flicker {
+        animation: intense-neon-flicker 0.8s infinite ease-in-out;
+      }
+      /* === END: NEW STYLES === */
+
+      /* === START: Enhanced Chat Header (OLD) === */
+      /* This section is now deprecated in favor of the new cyber-chat UI */
+      /* === END: Enhanced Chat Header (OLD) === */
+
+
+      /* === START: Reduced Motion Fallbacks === */
+      @media (prefers-reduced-motion: reduce) {
+        .media-panel-netflix:hover,
+        .grok-red-button:hover {
+          transform: none;
+        }
+        .cosmic-sparkle,
+        .animate-white-neon-flicker,
+        .animate-text-liquid-glow,
+        .animate-text-liquid-glow-dark,
+        .animate-liquid-click,
+        .liquid-melt-container > div,
+        .animate-soft-neon-pulse-white,
+        .animate-fast-neon-pulse,
+        .animate-subtle-red-pulse,
+        .animate-futuristic-glow,
+        .animate-intense-flicker,
+        .arcade-scanlines, 
+        .arcade-frame::before, 
+        .arcade-frame::after {
+          animation: none;
+        }
+        .animate-soft-neon-pulse-white,
+        .animate-fast-neon-pulse,
+        .animate-futuristic-glow,
+        .animate-intense-flicker,
+        .logo-iamaraste {
+           text-shadow: 0 0 10px #fff, 0 0 20px #fff;
+        }
+        .cosmic-sparkle {
+          opacity: 0.5;
+        }
+        .animate-text-liquid-glow {
+          text-shadow: 0 0 5px var(--bubble-white), 0 0 10px var(--bubble-red);
+        }
+        .electric-line {
+          animation: none !important;
+          opacity: 0.6;
+          box-shadow: 0 0 4px #fff;
+        }
+        .gamified-header-box.glass-overlay::before {
+          animation: none;
+          background: rgba(255,255,255,0.05);
+        }
+        .flowing-neon-line {
+          animation: none !important;
+          background: var(--bubble-red);
+          box-shadow: 0 0 5px var(--bubble-red);
+        }
+        .animate-subtle-red-pulse {
+           box-shadow: 0 0 15px var(--bubble-red), 0 0 25px var(--bubble-red), inset 0 0 5px rgba(255,255,255,0.5);
+        }
+        .logo-iamaraste { 
+          animation: none; 
+          opacity: 1; 
+        }
+
+        .glitch-particles {
+          animation: none;
+          opacity: 0;
+        }
+        .pixel-particle {
+          animation: none;
+          opacity: 0.7;
+        }
+
+      }
+      /* === END: Reduced Motion Fallbacks === */
+
+      /* === START: NEW CYBERPUNK CHAT UI === */
+      .cyber-chat-frame {
+        background-color: rgba(10, 0, 0, 0.85);
+        backdrop-filter: blur(8px);
+        border: 1px solid rgba(255, 0, 0, 0.5);
+        box-shadow: 0 0 30px rgba(255, 0, 0, 0.4), inset 0 0 20px rgba(255, 0, 0, 0.3);
+        position: relative;
+        padding: 4px;
+        will-change: transform;
+      }
+      .cyber-chat-frame::before, .cyber-chat-frame::after {
+        content: '';
+        position: absolute;
+        height: 10px;
+        width: 100px;
+        background: transparent;
+        border-color: var(--bubble-red);
+        border-style: solid;
+      }
+      .cyber-chat-frame::before {
+        top: 0;
+        left: 20px;
+        border-width: 2px 0 0 0;
+      }
+       .cyber-chat-frame::after {
+        bottom: 0;
+        right: 20px;
+        border-width: 0 0 2px 0;
+      }
+
+      .cyber-frame-corner {
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        border-color: var(--bubble-red);
+        border-style: solid;
+        box-shadow: 0 0 8px var(--bubble-red);
+      }
+      .top-left { top: -2px; left: -2px; border-width: 2px 0 0 2px; }
+      .top-right { top: -2px; right: -2px; border-width: 2px 2px 0 0; }
+      .bottom-left { bottom: -2px; left: -2px; border-width: 0 0 2px 2px; }
+      .bottom-right { bottom: -2px; right: -2px; border-width: 0 2px 2px 0; }
+
+      .cyber-header {
+        padding: 0;
+        text-align: center;
+        position: relative;
+        border-bottom: 1px solid rgba(255,0,0,0.4);
+        background: rgba(0,0,0,0.3);
+        margin-bottom: 4px;
+      }
+      .cyber-header-content {
+        padding: 4px 0 8px 0;
+      }
+
+      .chat-messages-container {
+        background-color: transparent;
+        background-image: 
+          linear-gradient(rgba(255, 0, 0, 0.08) 1px, transparent 1px);
+        background-size: 100% 20px;
+      }
+      
+      @keyframes neonBlink {
+        0%, 100% { opacity: 1; text-shadow: 0 0 10px #fff, 0 0 20px #fff; }
+        60% { opacity: 0.35; text-shadow: none; }
+      }
+      .logo-iamaraste {
+        font-family: 'Press Start 2P', monospace;
+        color: #fff;
+        animation: neonBlink 1.2s infinite ease-in-out;
+        position: relative;
+      }
+      
+      .logo-particles-container {
+        position: absolute;
+        top: -20px;
+        left: 0;
+        width: 100%;
+        height: 30px;
+        pointer-events: none;
+        filter: drop-shadow(0 0 8px #fff);
+      }
+      @keyframes glitch-particles {
+        0% { opacity: 0; transform: translateY(0) scale(1); }
+        20% { opacity: 1; }
+        100% { opacity: 0; transform: translateY(-30px) scale(0.5); }
+      }
+      .logo-particle {
+        position: absolute;
+        width: 3px;
+        height: 3px;
+        background: white;
+        animation: glitch-particles 1.5s infinite ease-out;
+      }
+
+      .chat-bubble {
+        background: rgba(255, 0, 0, 0.2);
+        border: 1px solid rgba(255,0,0,0.6);
+        box-shadow: inset 0 0 8px rgba(255,0,0,0.4);
+        padding: 8px 12px;
+        display: flex;
+        gap: 8px;
+        align-items: flex-start;
+      }
+
+      .chat-bubble.user {
+        background: rgba(255, 0, 0, 0.25);
+      }
+      
+      .pixel-icon {
+        width: 32px;
+        height: 32px;
+        flex-shrink: 0;
+        image-rendering: pixelated;
+      }
+      /* === END: NEW CYBERPUNK CHAT UI === */
+
+      /* === START: NEW TRIANGLE LOADER & DIMMING === */
+      .triangle-container {
+        all: unset; /* Reset button styles */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: clamp(140px, 18vw, 420px);
+        height: clamp(140px, 18vw, 420px);
+        margin: 0 auto;
+        cursor: pointer;
+        z-index: 20;
+      }
+      .rot-triangle {
+        width: 100%;
+        height: 100%;
+        transform-origin: 50% 50%;
+        --tri-scale: 0.7;
+        transform: scale(var(--tri-scale));
+        transition: transform 200ms ease;
+        will-change: transform;
+      }
+      .triangle-shape {
+        fill: url(#triGrad);
+        filter: drop-shadow(0 0 22px rgba(255,20,20,0.8));
+      }
+      body.loading .rot-triangle {
+        animation: triangleSpin 900ms linear infinite;
+      }
+      @keyframes triangleSpin {
+        from { transform: rotate(0deg) scale(var(--tri-scale)); }
+        to   { transform: rotate(360deg) scale(var(--tri-scale)); }
+      }
+      .loading-dim-overlay {
+        position: fixed;
+        inset: 0;
+        background-color: rgba(0,0,0,0.3);
+        z-index: 19; /* Below triangle (z-20), above everything else */
+        pointer-events: none;
+        transition: opacity 160ms linear;
+        opacity: 0;
+      }
+      body.loading .loading-dim-overlay {
+        opacity: 1;
+        pointer-events: auto;
+      }
+      html.global-dim #root {
+        filter: brightness(0.7);
+        transition: filter 160ms linear;
+      }
+      @media (prefers-reduced-motion: reduce) {
+        body.loading .rot-triangle,
+        .rot-triangle {
+          animation: none !important;
+          transition: none !important;
+          transform: scale(var(--tri-scale)) !important; /* static smaller */
+        }
+      }
+      /* === END: NEW TRIANGLE LOADER & DIMMING === */
+
+      /* === START: PSYCHEDELIC BUBBLE BUTTON === */
+      .psychedelic-bubble-button {
+        position: relative;
+        overflow: hidden;
+      }
+      .psychedelic-bubble-button::before {
+        content: "";
+        position: absolute;
+        top: 100%;
+        left: 25%;
+        width: 50%;
+        padding-bottom: 50%;
+        background: radial-gradient(circle, rgba(255,255,255,0.2) 20%, transparent 70%);
+        border-radius: 50%;
+        animation: bubbleRise 6s infinite ease-in-out;
+        pointer-events: none;
+      }
+      @keyframes bubbleRise {
+          0% {
+              transform: translateY(0);
+              opacity: 0.5;
+          }
+          50% {
+              transform: translateY(-150%) scale(1.2);
+              opacity: 0.3;
+          }
+          100% {
+              transform: translateY(-300%) scale(1);
+              opacity: 0;
+          }
+      }
+      /* === END: PSYCHEDELIC BUBBLE BUTTON === */
+      
+      /* === START: NEW ADMIN DASHBOARD & YOUTUBE PLAYER === */
+      .admin-dashboard {
+        background: rgba(10, 0, 0, 0.95);
+        backdrop-filter: blur(8px);
+        border: 1px solid rgba(255, 0, 0, 0.7);
+        box-shadow: 0 0 30px rgba(255, 0, 0, 0.5), inset 0 0 20px rgba(255, 0, 0, 0.3);
+        color: #fff;
+        will-change: transform;
+      }
+      .admin-dashboard-header {
+        border-bottom: 1px solid rgba(255, 0, 0, 0.5);
+        background: rgba(255, 0, 0, 0.1);
+      }
+      .admin-section { 
+        margin-bottom: 1.5rem;
+        padding: 1rem;
+        border: 1px solid rgba(255, 0, 0, 0.2);
+        border-radius: 0.25rem;
+        background: rgba(0,0,0,0.2);
+      }
+      .admin-section h3 {
+        color: var(--bubble-red);
+        font-family: 'Press Start 2P', monospace;
+        margin-bottom: 0.75rem;
+        text-shadow: 0 0 8px var(--bubble-red);
+      }
+      .admin-dashboard .db-display {
+        background: #000;
+        border: 1px solid rgba(255, 0, 0, 0.4);
+        padding: 0.5rem;
+        max-height: 200px;
+        overflow-y: auto;
+        font-family: monospace;
+        font-size: 0.8rem;
+        white-space: pre-wrap;
+        color: #0f0; /* Classic terminal green */
+      }
+
+      .youtube-circle-container {
+        position: relative;
+        width: 60%;
+        max-width: 240px;
+        aspect-ratio: 1 / 1;
+        margin: 8px auto;
+        border-radius: 50%;
+        overflow: hidden;
+        border: 4px solid #fff;
+        box-shadow: 0 0 12px var(--bubble-red), 0 0 24px #ffffff;
+        animation: youtube-neon-pulse 2s infinite alternate;
+      }
+      .youtube-circle-container iframe {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 177.77%; /* 16/9 aspect ratio */
+        height: 100%;
+        transform: translate(-50%, -50%);
+        border: none;
+      }
+      @keyframes youtube-neon-pulse {
+        from { box-shadow: 0 0 8px var(--bubble-red), 0 0 16px #ffffff; }
+        to { box-shadow: 0 0 16px #ffffff, 0 0 30px var(--bubble-red); }
+      }
+      /* === END: NEW ADMIN DASHBOARD & YOUTUBE PLAYER === */
+
+      /* === START: LAYOUT REFINEMENTS (Homepage/Opening) === */
+      .home-buttons {
+        gap: 12px;
+      }
+      .home-buttons .btn {
+        transform: scale(0.85);
+        padding: 10px 18px;
+      }
+      @media (max-width: 768px) {
+        .home-buttons .btn {
+          transform: scale(0.75);
+        }
+      }
+
+      .access-btn-red {
+        background-color: #ff1d1d;
+        color: #fff;
+        text-shadow: 0 0 8px rgba(255,255,255,0.85);
+        box-shadow: 0 0 12px rgba(255,50,50,0.9), 0 0 20px rgba(255,50,50,0.5);
+        border: none;
+      }
+      .access-btn-red:hover {
+        filter: brightness(1.2);
+      }
+
+      .first-page {
+        background-color: #3b2b1f; /* Darker brown */
+        position: relative;
+        overflow: hidden;
+        height: 100vh;
+        width: 100vw;
+      }
+
+      /* Animated scanlines overlay */
+      .arcade-scanlines {
+        position: absolute;
+        inset: 0;
+        background: repeating-linear-gradient( to bottom, rgba(0,0,0,0.4), rgba(0,0,0,0.4) 1px, transparent 1px, transparent 3px );
+        animation: scanlines 0.5s linear infinite;
+        pointer-events: none;
+        z-index: 2;
+      }
+
+      @keyframes scanlines {
+        from { background-position: 0 0; }
+        to { background-position: 0 -4px; }
+      }
+      
+      /* Main arcade frame container */
+      .arcade-frame {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 85%;
+        height: 85%;
+        max-width: 600px;
+        max-height: 800px;
+        border: 2px solid rgba(255,255,255,0.2);
+        box-shadow: inset 0 0 15px rgba(255,255,255,0.1);
+        pointer-events: none;
+      }
+      
+      .arcade-frame::before, .arcade-frame::after {
+        content: '';
+        position: absolute;
+        background: #fff;
+        box-shadow: 0 0 4px #fff, 0 0 8px #fff, 0 0 12px #fff;
+        animation: flicker 1.5s infinite linear;
+      }
+      .arcade-frame::before { left: 0; width: 100%; height: 2px; top: 10px; }
+      .arcade-frame::after { top: 0; height: 100%; width: 2px; left: 10px; animation-delay: 0.5s; }
+
+      @keyframes flicker {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.4; }
+      }
+
+      .arcade-corner {
+        position: absolute;
+        width: 30px;
+        height: 30px;
+        background: 
+          linear-gradient(to right, #fff 4px, transparent 4px),
+          linear-gradient(to bottom, #fff 4px, transparent 4px);
+        background-repeat: repeat;
+        background-size: 8px 8px; /* Pixel size */
+        filter: drop-shadow(0 0 5px #fff);
+      }
+      .arcade-corner.top-left { top: 0; left: 0; }
+      .arcade-corner.top-right { top: 0; right: 0; transform: rotate(90deg); }
+      .arcade-corner.bottom-left { bottom: 0; left: 0; transform: rotate(-90deg); }
+      .arcade-corner.bottom-right { bottom: 0; right: 0; transform: rotate(180deg); }
+
+      @keyframes pixel-flicker {
+        0%, 100% { opacity: 0.5; box-shadow: 0 0 5px #fff; }
+        50% { opacity: 1; box-shadow: 0 0 12px #fff, 0 0 18px rgba(255,255,255,0.7); }
+      }
+      .pixel-particle {
+        position: absolute;
+        background: #fff;
+        animation: pixel-flicker infinite ease-in-out;
+        z-index: 1;
+      }
+      /* === END: LAYOUT REFINEMENTS (Homepage/Opening) === */
+
+      /* === START: PNG Uploader Preview === */
+      .uploaded-png-container {
+        border: 2px solid var(--bubble-red);
+        padding: 4px;
+        background: rgba(0,0,0,0.3);
+        box-shadow: 0 0 10px var(--bubble-red);
+      }
+      .uploaded-png-container img {
+        width: 100%;
+        height: auto;
+        display: block;
+      }
+      /* === END: PNG Uploader Preview === */
+      
+      /* === START: Gamified UI === */
+      .neon-line.below-final {
+        height: 3px;
+        width: 100%;
+        max-width: 20rem; /* Match button width */
+        margin: 12px auto;
+        background: linear-gradient(90deg, rgba(255,0,0,0.9), rgba(255,100,150,0.7));
+        box-shadow: 0 0 16px rgba(255,20,20,0.6);
+      }
+      .mini-game-ui {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        align-items: center;
+        padding: 12px;
+        border-radius: 10px;
+        background: rgba(0,0,0,0.25);
+        color: #fff;
+        width: 100%;
+        max-width: 20rem; /* Match button width */
+        margin: 0 auto;
+        border: 1px solid rgba(255,255,255,0.1);
+      }
+      .mini-game-ui .action-btn {
+        padding: 10px 14px;
+        border-radius: 8px;
+        background: var(--bubble-red);
+        color: #fff;
+        font-weight: bold;
+        border: none;
+        cursor: pointer;
+        width: 100%;
+      }
+       .mini-game-ui .action-btn:disabled {
+         background: #555;
+         cursor: not-allowed;
+       }
+      .mini-game-ui .reward-meter {
+        width: 100%;
+        height: 10px;
+        background: rgba(255,255,255,0.08);
+        border-radius: 6px;
+        overflow: hidden;
+      }
+      .mini-game-ui .reward-meter .bar {
+        height: 100%;
+        background: linear-gradient(90deg,#ff6b6b,#ff2d2d);
+        transition: width 300ms ease;
+      }
+      .mini-game-ui .session-card, .mini-game-ui .mood-slider {
+        font-size: 0.9rem;
+        width: 100%;
+        text-align: center;
+      }
+       .mini-game-ui .mood-slider input {
+         width: 80%;
+       }
+      /* === END: Gamified UI === */
+
+      /* === START: LOGO LOADER === */
+      .logo-loader-container {
+          width: 100%; /* Take up available space */
+          max-width: 320px; /* Match old constraints */
+          height: 90px; /* Fixed height to prevent CLS */
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin: 0 auto; /* Center the container */
+      }
+      .logo-loader-image {
+          max-width: 100%;
+          max-height: 100%;
+          object-fit: contain;
+          animation: fadeIn 0.3s ease-out;
+      }
+      .logo-loader-placeholder {
+          width: 100%;
+          height: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          animation: fadeIn 0.2s ease-out;
+      }
+      .logo-loader-placeholder.failed {
+          animation: none; /* Show failure instantly */
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .logo-loader-image, .logo-loader-placeholder {
+          animation: none;
+        }
+      }
+      /* === END: LOGO LOADER === */
+
     </style>
   <script type="importmap">
 {
@@ -1020,5 +1858,6 @@
     </svg>
     <div id="root"></div>
     <script type="module" src="./index.tsx"></script>
+    <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
   </body>
 </html>
