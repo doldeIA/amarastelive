@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { applyClickAnimation } from '../animations';
 import ActionGrid from './home/ActionGrid';
 import SocialMediaScroller from './home/SocialMediaScroller';
-import LogoLoader from './LogoLoader';
+
 
 interface SoundCloudPlayerProps {
   onTalkAboutMusic: () => void;
@@ -69,9 +69,7 @@ const SoundCloudPlayer: React.FC<SoundCloudPlayerProps> = ({ onTalkAboutMusic, o
 
   return (
     <div className="w-full max-w-lg mx-auto my-8 px-4 sm:px-0">
-      <div className="flex justify-center mb-4">
-          <LogoLoader />
-      </div>
+      
 
       <div className="w-full max-w-lg mx-auto my-2 flowing-neon-line animate-flow-rtl"></div>
       

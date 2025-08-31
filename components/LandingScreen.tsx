@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import { applyClickAnimation } from '../animations';
-import LogoLoader from './LogoLoader';
+
 
 interface LandingScreenProps {
   onAccess: () => void;
@@ -62,7 +62,7 @@ const LandingScreen: React.FC<LandingScreenProps> = ({ onAccess, onAdminAccess, 
         
         {/* Centered Logo */}
         <div className="flex-grow flex items-center justify-center -mt-16 w-full">
-            <LogoLoader />
+            
         </div>
 
 

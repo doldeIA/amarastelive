@@ -20,7 +20,7 @@ import WelcomePage from './components/WelcomePage';
 import WelcomePopup from './components/WelcomePopup';
 import ThinkingTogetherBubble from './components/ThinkingTogetherBubble';
 import RedStarfieldBackground from './components/RedStarfieldBackground';
-import LogoDebugWidget from './components/LogoDebugWidget';
+
 import { Screen } from './types';
 import { saveAssetToDb, removeAssetFromDb } from './db';
 
@@ -449,7 +449,7 @@ const App: React.FC = () => {
         {renderScreen()}
       </main>
 
-      {isDevEnvironment() && <LogoDebugWidget />}
+      
 
       {!isAdminDashboardOpen && !isAdminLoginModalOpen && activeScreen !== 'landing' && (
         <ThinkingTogetherBubble onClick={() => setIsChatOpen(true)} />
