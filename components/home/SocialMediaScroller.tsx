@@ -60,11 +60,17 @@ const SocialMediaScroller: React.FC = () => (
       
       {/* Threads Panel */}
       <div className="media-scroller-panel h-[500px]">
-          <a href={socialFeeds.threads} target="_blank" rel="noopener noreferrer" className="media-panel-netflix h-full text-black flex flex-col items-center justify-center p-4 no-underline">
-            <div className="text-[8rem] font-black leading-none">@</div>
-            <p className="text-xl mt-4 font-semibold">Ver no Threads</p>
-            <p className="text-xs text-black/70 mt-2 text-center max-w-[80%]">A incorporação de feeds ao vivo ainda não é suportada pelo Threads.</p>
-          </a>
+          <div className="media-panel-netflix h-full p-0">
+            <a href={socialFeeds.threads} target="_blank" rel="noopener noreferrer" className="social-card-link" aria-label="@amarastelive no Threads">
+              <div className="social-card">
+                <img src="./amarastelive.jpg" alt="Avatar de Amarasté" className="social-avatar" />
+                <div className="social-meta">
+                  <div className="social-handle">@amarastelive</div>
+                  <div className="social-bio">Ver perfil no Threads</div>
+                </div>
+              </div>
+            </a>
+          </div>
       </div>
 
       {/* X Panel */}

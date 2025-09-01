@@ -1,7 +1,8 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { applyClickAnimation } from '../animations';
 import ActionGrid from './home/ActionGrid';
 import SocialMediaScroller from './home/SocialMediaScroller';
+import WebpGallery from './WebpGallery';
 
 
 interface SoundCloudPlayerProps {
@@ -66,6 +67,41 @@ const GamifiedUI = () => {
 
 const SoundCloudPlayer: React.FC<SoundCloudPlayerProps> = ({ onTalkAboutMusic, onOpenSignUpModal }) => {
   const youtubeEmbedUrl = "https://www.youtube-nocookie.com/embed/6A6JHhknJts";
+  const [isYoutubeVisible, setIsYoutubeVisible] = useState(false);
+  const youtubeRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+        ([entry]) => {
+            if (entry.isIntersecting) {
+                setIsYoutubeVisible(true);
+                observer.unobserve(entry.target);
+            }
+        },
+        { rootMargin: '100px' }
+    );
+
+    if (youtubeRef.current) {
+        observer.observe(youtubeRef.current);
+    }
+
+    return () => {
+        if (youtubeRef.current) {
+            // eslint-disable-next-line react-hooks/exhaustive-deps
+            observer.unobserve(youtubeRef.current);
+        }
+    };
+  }, []);
+
+  /* WEBP GALLERY - ADDED BY STUDIO */
+  // NOTE: Replace these placeholders with your actual image paths.
+  // Ensure you have both .webp and a fallback (.jpg, .png) in your /public folder if one is created.
+  const galleryImages = [
+    { webp: 'https://placehold.co/1200x675/ff0000/ffffff.webp?text=IMG+1', fallback: 'https://placehold.co/1200x675/ff0000/ffffff.png?text=IMG+1', alt: 'Descrição da Imagem 1' },
+    { webp: 'https://placehold.co/1200x675/e41b17/ffffff.webp?text=IMG+2', fallback: 'https://placehold.co/1200x675/e41b17/ffffff.png?text=IMG+2', alt: 'Descrição da Imagem 2' },
+    { webp: 'https://placehold.co/1200x675/b22222/ffffff.webp?text=IMG+3', fallback: 'https://placehold.co/1200x675/b22222/ffffff.png?text=IMG+3', alt: 'Descrição da Imagem 3' },
+    { webp: 'https://placehold.co/1200x675/7b3f1a/ffffff.webp?text=IMG+4', fallback: 'https://placehold.co/1200x675/7b3f1a/ffffff.png?text=IMG+4', alt: 'Descrição da Imagem 4' },
+  ];
 
   return (
     <div className="w-full max-w-lg mx-auto my-8 px-4 sm:px-0">
@@ -103,14 +139,25 @@ const SoundCloudPlayer: React.FC<SoundCloudPlayerProps> = ({ onTalkAboutMusic, o
       
       <SocialMediaScroller />
       
-      <div className="youtube-circle-container">
-          <iframe
-            src={youtubeEmbedUrl}
-            title="YouTube video player - Ansiedade"
-            frameBorder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            allowFullScreen
-          ></iframe>
+      <div className="ansiedade-decor-wrapper" ref={youtubeRef}>
+          <div className="ans-ball ans-ball-left" aria-hidden="true"></div>
+          <div className="ans-ball ans-ball-right" aria-hidden="true"></div>
+          <div className="youtube-circle-container">
+            {isYoutubeVisible ? (
+              <iframe
+                src={youtubeEmbedUrl}
+                title="YouTube video player - Ansiedade"
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowFullScreen
+                loading="lazy"
+              ></iframe>
+            ) : (
+              <div className="w-full h-full bg-black flex items-center justify-center">
+                <p className="text-white/50 text-xs animate-pulse">Carregando vídeo...</p>
+              </div>
+            )}
+          </div>
       </div>
       
       <div className="w-full flex flex-col items-center justify-center mt-8 gap-4 px-4 sm:px-0">
@@ -138,9 +185,12 @@ const SoundCloudPlayer: React.FC<SoundCloudPlayerProps> = ({ onTalkAboutMusic, o
         <GamifiedUI />
       </div>
 
-      <p className="home-copyright mt-8">
+      <p className="home-copyright mt-8 text-black">
         Direitos Autorais © 2025 Amarasté Live
       </p>
+
+      {/* WEBP GALLERY - ADDED BY STUDIO */}
+      <WebpGallery images={galleryImages} />
     </div>
   );
 };
