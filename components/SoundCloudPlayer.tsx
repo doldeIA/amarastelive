@@ -2,12 +2,14 @@ import React, { useEffect, useState, useRef } from 'react';
 import { applyClickAnimation } from '../animations';
 import ActionGrid from './home/ActionGrid';
 import SocialMediaScroller from './home/SocialMediaScroller';
-import WebpGallery from './WebpGallery';
+import ImageUploadGrid from './ImageUploadGrid';
+import { Screen } from '../types';
 
 
 interface SoundCloudPlayerProps {
   onTalkAboutMusic: () => void;
   onOpenSignUpModal: () => void;
+  onNavigate: (screen: Screen) => void;
 }
 
 const soundCloudTracks = [
@@ -22,55 +24,7 @@ const soundCloudTracks = [
   { name: "Yourself", url: "https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/amarastelive/yourself&color=%23ff0000&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=true" },
 ];
 
-const GamifiedUI = () => {
-    useEffect(() => {
-        const playBtn = document.getElementById('play60') as HTMLButtonElement | null;
-        const xpBar = document.getElementById('xpBar') as HTMLDivElement | null;
-        
-        const handleClick = () => {
-            if (!playBtn || playBtn.disabled) return;
-            
-            playBtn.disabled = true;
-            let t = 60;
-            playBtn.textContent = `${t}s`;
-            
-            const interval = setInterval(() => {
-                t--;
-                if (playBtn) playBtn.textContent = `${t}s`;
-                if (t <= 0) {
-                    clearInterval(interval);
-                    if(playBtn) {
-                        playBtn.disabled = false;
-                        playBtn.textContent = 'Play 60s Prompt';
-                    }
-                }
-            }, 1000);
-            
-            if (xpBar) {
-              const currentWidth = parseFloat(xpBar.style.width) || 12;
-              xpBar.style.width = `${Math.min(100, currentWidth + 36)}%`;
-            }
-        };
-
-        playBtn?.addEventListener('click', handleClick);
-
-        return () => {
-            playBtn?.removeEventListener('click', handleClick);
-        };
-    }, []);
-
-    return (
-        <section className="mini-game-ui" id="miniGameUI">
-          <div className="session-card">Quick Book — Next slots: <span id="slots">—</span></div>
-          <div className="mood-slider">Mood: <input type="range" min="0" max="2" id="moodRange"/></div>
-          <button id="play60" className="action-btn">Play 60s Prompt</button>
-          <div className="reward-meter"><div className="bar" id="xpBar" style={{width:'12%'}}></div></div>
-        </section>
-    );
-};
-
-
-const SoundCloudPlayer: React.FC<SoundCloudPlayerProps> = ({ onTalkAboutMusic, onOpenSignUpModal }) => {
+const SoundCloudPlayer: React.FC<SoundCloudPlayerProps> = ({ onTalkAboutMusic, onOpenSignUpModal, onNavigate }) => {
   const youtubeEmbedUrl = "https://www.youtube-nocookie.com/embed/6A6JHhknJts";
   const [isYoutubeVisible, setIsYoutubeVisible] = useState(false);
   const youtubeRef = useRef<HTMLDivElement>(null);
@@ -97,16 +51,6 @@ const SoundCloudPlayer: React.FC<SoundCloudPlayerProps> = ({ onTalkAboutMusic, o
         }
     };
   }, []);
-
-  /* WEBP GALLERY - ADDED BY STUDIO */
-  // NOTE: Replace these placeholders with your actual image paths.
-  // Ensure you have both .webp and a fallback (.jpg, .png) in your /public folder if one is created.
-  const galleryImages = [
-    { webp: 'https://placehold.co/1200x675/ff0000/ffffff.webp?text=IMG+1', fallback: 'https://placehold.co/1200x675/ff0000/ffffff.png?text=IMG+1', alt: 'Descrição da Imagem 1' },
-    { webp: 'https://placehold.co/1200x675/e41b17/ffffff.webp?text=IMG+2', fallback: 'https://placehold.co/1200x675/e41b17/ffffff.png?text=IMG+2', alt: 'Descrição da Imagem 2' },
-    { webp: 'https://placehold.co/1200x675/b22222/ffffff.webp?text=IMG+3', fallback: 'https://placehold.co/1200x675/b22222/ffffff.png?text=IMG+3', alt: 'Descrição da Imagem 3' },
-    { webp: 'https://placehold.co/1200x675/7b3f1a/ffffff.webp?text=IMG+4', fallback: 'https://placehold.co/1200x675/7b3f1a/ffffff.png?text=IMG+4', alt: 'Descrição da Imagem 4' },
-  ];
 
   return (
     <div className="w-full max-w-lg mx-auto my-8 px-4 sm:px-0">
@@ -142,6 +86,8 @@ const SoundCloudPlayer: React.FC<SoundCloudPlayerProps> = ({ onTalkAboutMusic, o
       
       <div className="w-full max-w-lg mx-auto my-6 flowing-neon-line animate-flow-rtl"></div>
       
+      <ImageUploadGrid />
+
       <SocialMediaScroller />
       
       <div className="ansiedade-decor-wrapper" ref={youtubeRef}>
@@ -186,16 +132,23 @@ const SoundCloudPlayer: React.FC<SoundCloudPlayerProps> = ({ onTalkAboutMusic, o
           >
             AGENDAR DATA
         </button>
-        <div className="neon-line below-final"></div>
-        <GamifiedUI />
+        <div className="w-full max-w-xs my-2 flowing-neon-line animate-flow-rtl"></div>
+        <button
+          onClick={(e) => {
+            applyClickAnimation(e);
+            onNavigate('iamarasteInfo');
+          }}
+          className="cadastre-btn text-xl py-5 px-10 dynamic-pulse-button w-full max-w-xs"
+          aria-label="O que é a iAmarasté?"
+        >
+          O que é a iAmarasté?
+        </button>
       </div>
 
       <p className="home-copyright mt-8 text-black">
         Direitos Autorais © 2025 Amarasté Live
       </p>
 
-      {/* WEBP GALLERY - ADDED BY STUDIO */}
-      <WebpGallery images={galleryImages} />
     </div>
   );
 };

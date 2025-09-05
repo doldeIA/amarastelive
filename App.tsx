@@ -20,6 +20,7 @@ import WelcomePage from './components/WelcomePage';
 import WelcomePopup from './components/WelcomePopup';
 import ThinkingTogetherBubble from './components/ThinkingTogetherBubble';
 import RedStarfieldBackground from './components/RedStarfieldBackground';
+import IAmarasteInfoScreen from './components/IAmarasteInfoScreen';
 
 import { Screen } from './types';
 import { saveAssetToDb, removeAssetFromDb } from './db';
@@ -404,7 +405,11 @@ const App: React.FC = () => {
         return (
           <div className="bg-transparent">
             <div className="pt-24">
-              <SoundCloudPlayer onTalkAboutMusic={() => setIsChatOpen(true)} onOpenSignUpModal={() => setIsSignUpModalOpen(true)} />
+              <SoundCloudPlayer 
+                onTalkAboutMusic={() => setIsChatOpen(true)} 
+                onOpenSignUpModal={() => setIsSignUpModalOpen(true)}
+                onNavigate={handleNavigate}
+              />
             </div>
           </div>
         );
@@ -427,6 +432,8 @@ const App: React.FC = () => {
         return <AdminHomePage onBack={() => setActiveScreen(lastScreenBeforeAdmin)} />;
       case 'welcome':
         return <WelcomePage onBackToChat={() => { setActiveScreen('pdf'); setIsChatOpen(true); }} />;
+      case 'iamarasteInfo':
+        return <IAmarasteInfoScreen onBack={() => setActiveScreen('pdf')} />;
       default:
         return <LandingScreen onAccess={handleAccess} onAdminAccess={handleAdminAccess} isLoading={isLoading} />;
     }
@@ -435,7 +442,7 @@ const App: React.FC = () => {
   return (
     <div className={`app-container ${activeScreen === 'booker' ? 'booker-theme' : 'default-theme'}`}>
       {isLoading && <div className="loading-dim-overlay" />}
-      {(activeScreen !== 'landing' && activeScreen !== 'pdf') && <RedStarfieldBackground />}
+      {(activeScreen !== 'landing' && activeScreen !== 'pdf' && activeScreen !== 'iamarasteInfo') && <RedStarfieldBackground />}
       {activeScreen !== 'landing' && (
         <Header
           activeScreen={activeScreen}
