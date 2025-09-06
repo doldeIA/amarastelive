@@ -290,6 +290,9 @@ const ChatModal: React.FC<ChatModalProps> = ({
                 <SendIcon className="w-5 h-5" />
               </button>
             </form>
+            <p className="text-center text-xs text-white/50 px-4 pt-1">
+                A iAmarasté ainda está em processo de treinamento
+            </p>
           </div>
         </div>
       </div>

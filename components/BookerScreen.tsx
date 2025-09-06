@@ -1,6 +1,6 @@
 
+
 import React, { useState, useEffect, useMemo } from 'react';
-import { applyClickAnimation } from '../animations';
 
 const SparklesBackground: React.FC = () => {
     const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
@@ -52,18 +52,19 @@ const BookerScreen: React.FC = () => {
                 ABRACADABRA AGENCY
             </h1>
             <p className="text-sm text-white/80 mb-10 max-w-xl">
-                Entre em contato para agendamentos e propostas.
+                Ouça o álbum 'Jogos Psíquicos' abaixo ou entre em contato para agendamentos e propostas.
             </p>
-            <a
-              href="https://api.whatsapp.com/send/?phone=5575933002386&text&type=phone_number&app_absent=0"
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={(e) => applyClickAnimation(e)}
-              className="w-full max-w-md text-center grok-red-button font-bold text-2xl py-5 px-10 rounded-lg shadow-lg animate-subtle-red-pulse"
-              aria-label="Agendar via WhatsApp"
-            >
-              <span className="animate-white-neon-flicker">AGENDAR</span>
-            </a>
+            
+            <div className="bandcamp-container">
+                <iframe 
+                    style={{border: 0, width: '100%', height: '120px'}} 
+                    src="https://bandcamp.com/EmbeddedPlayer/album=3380295254/size=large/bgcol=333333/linkcol=e32929/tracklist=false/artwork=small/transparent=true/" 
+                    seamless
+                    title="Jogos Psíquicos by Amarasté"
+                >
+                    <a href="https://amarastelive.bandcamp.com/album/jogos-ps-quicos">Jogos Psíquicos by Amarasté</a>
+                </iframe>
+            </div>
         </div>
     </div>
   );

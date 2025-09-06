@@ -1,4 +1,5 @@
 
+
 import React, { useEffect, useState, useRef } from 'react';
 import { applyClickAnimation } from '../animations';
 import ActionGrid from './home/ActionGrid';
@@ -105,6 +106,10 @@ const SoundCloudPlayer: React.FC<SoundCloudPlayerProps> = ({ onTalkAboutMusic, o
               </div>
             )}
           </div>
+          {/* Orbiting dots */}
+          <div className="orbiting-dot dot-1" aria-hidden="true"></div>
+          <div className="orbiting-dot dot-2" aria-hidden="true"></div>
+          <div className="orbiting-dot dot-3" aria-hidden="true"></div>
       </div>
       
       <div className="w-full flex flex-col items-center justify-center mt-8 gap-4 px-4 sm:px-0">
@@ -119,15 +124,22 @@ const SoundCloudPlayer: React.FC<SoundCloudPlayerProps> = ({ onTalkAboutMusic, o
           Cadastre-se
         </button>
         <div className="w-full max-w-xs my-2 flowing-neon-line animate-flow-ltr"></div>
-        <button
-            onClick={(e) => {
-              applyClickAnimation(e);
-            }}
-            className="red-white-btn text-center text-2xl py-6 px-4 whitespace-nowrap trembling-button w-full max-w-xs"
-            aria-label="AGENDAR DATA"
+        <a 
+          href="https://api.whatsapp.com/send/?phone=5575933002386&text&type=phone_number&app_absent=0"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="w-full max-w-xs"
+          aria-label="AGENDAR DATA via WhatsApp"
+        >
+          <button
+              onClick={(e) => {
+                applyClickAnimation(e);
+              }}
+              className="red-white-btn text-center text-2xl py-6 px-4 whitespace-nowrap trembling-button w-full"
           >
-            AGENDAR DATA
-        </button>
+              AGENDAR DATA
+          </button>
+        </a>
         <div className="w-full max-w-xs my-2 flowing-neon-line animate-flow-rtl"></div>
         <button
           onClick={(e) => {

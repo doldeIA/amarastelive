@@ -1597,8 +1597,10 @@
       }
 
       .youtube-circle-container {
-        position: relative;
-        width: 100%; /* Take full width of its wrapper */
+        position: absolute;
+        top: 0; left: 0;
+        width: 100%; 
+        height: 100%;
         aspect-ratio: 1 / 1;
         border-radius: 50%;
         overflow: hidden;
@@ -1882,49 +1884,15 @@
         border-width: 0;
       }
 
-      /* === START: Ansiedade Display Balls === */
+      /* === START: Ansiedade Display Wrapper === */
       .ansiedade-decor-wrapper {
         position: relative;
         width: 60%;
         max-width: 240px;
         margin: 8px auto;
+        aspect-ratio: 1 / 1;
       }
-      .ans-ball {
-        position: absolute;
-        width: var(--ans-ball-size, 28px);
-        height: var(--ans-ball-size, 28px);
-        border-radius: 50%;
-        background: linear-gradient(180deg, #ff4b4b, #ff1d1d);
-        box-shadow: 0 0 12px rgba(255, 40, 40, 0.85), 0 0 24px rgba(255, 80, 80, 0.28);
-        transform: translateZ(0);
-        animation: ballPulse 2.2s ease-in-out infinite;
-      }
-      .ans-ball-left {
-        left: -12px;
-        top: 20%;
-      }
-      .ans-ball-right {
-        right: -12px;
-        top: 20%;
-      }
-      @keyframes ballPulse {
-        0%, 100% {
-          transform: scale(0.96);
-          opacity: .9;
-        }
-        50% {
-          transform: scale(1.08);
-          opacity: 1;
-        }
-      }
-      @media (prefers-reduced-motion: reduce) {
-        .ans-ball {
-          animation: none;
-          transform: none;
-          opacity: 1;
-        }
-      }
-      /* === END: Ansiedade Display Balls === */
+      /* === END: Ansiedade Display Wrapper === */
       
       /* === START: Social Media Fallback Card === */
       .social-card {
@@ -1974,6 +1942,75 @@
         max-width: 80%;
       }
       /* === END: Social Media Fallback Card === */
+
+      /* === START: Booker Bandcamp Player === */
+      .bandcamp-container {
+        width: 100%;
+        max-width: 700px;
+        border: 2px solid var(--bubble-red);
+        border-radius: 0.5rem;
+        background-color: rgba(0,0,0,0.5);
+        box-shadow: 0 0 15px var(--bubble-red),
+                    0 0 30px var(--bubble-red),
+                    inset 0 0 10px rgba(255, 0, 0, 0.5);
+        padding: 0.5rem;
+      }
+      .bandcamp-container iframe {
+        display: block;
+        border: 0;
+        width: 100%;
+        height: 380px;
+        border-radius: 0.25rem;
+      }
+      @media (max-width: 640px) {
+        .bandcamp-container iframe {
+          height: 120px;
+        }
+      }
+      /* === END: Booker Bandcamp Player === */
+
+      /* === START: YouTube Orbiting Dots === */
+      @keyframes orbit {
+        from { transform: rotate(0deg) translateX(50%) rotate(0deg); }
+        to   { transform: rotate(360deg) translateX(50%) rotate(-360deg); }
+      }
+      .orbiting-dot {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 120%; /* Controls the orbit radius */
+        height: 120%;
+        margin-top: -60%;
+        margin-left: -60%;
+        animation: orbit 3s linear infinite;
+        transform-origin: center;
+      }
+      .orbiting-dot::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 0;
+        width: 12px;
+        height: 12px;
+        margin-top: -6px;
+        margin-left: -6px;
+        border-radius: 50%;
+        background-color: var(--bubble-red);
+        box-shadow: 0 0 8px var(--bubble-red), 0 0 12px var(--bubble-red);
+      }
+      .dot-2 { animation-delay: -1s; }
+      .dot-3 { animation-delay: -2s; }
+
+      @media (prefers-reduced-motion: reduce) {
+        .orbiting-dot {
+          animation: none;
+        }
+        /* Static placement for reduced motion */
+        .dot-1 { transform: rotate(0deg) translateX(50%); }
+        .dot-2 { transform: rotate(120deg) translateX(50%); }
+        .dot-3 { transform: rotate(240deg) translateX(50%); }
+      }
+      /* === END: YouTube Orbiting Dots === */
 
     </style>
   <script type="importmap">
