@@ -89,8 +89,6 @@ const SoundCloudPlayer: React.FC<SoundCloudPlayerProps> = ({ onTalkAboutMusic, o
       <SocialMediaScroller />
       
       <div className="ansiedade-decor-wrapper" ref={youtubeRef}>
-          <div className="ans-ball ans-ball-left" aria-hidden="true"></div>
-          <div className="ans-ball ans-ball-right" aria-hidden="true"></div>
           <div className="youtube-circle-container">
             {isYoutubeVisible ? (
               <iframe

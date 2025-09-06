@@ -1,10 +1,9 @@
 
-
 import React, { useState, useRef, useEffect } from 'react';
 import { loadAssetFromDb } from '../db';
 
 const IMAGE_DB_KEY = 'home-image-upload-1';
-const FALLBACK_IMAGE_PATH = './@amarastelive-002.png';
+const FALLBACK_IMAGE_PATH = './amarastelive.jpg';
 
 interface ImageUploadGridProps {
   onOpenModal: () => void;

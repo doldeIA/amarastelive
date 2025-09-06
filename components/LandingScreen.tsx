@@ -12,15 +12,16 @@ const LandingScreen: React.FC<LandingScreenProps> = ({ onAccess, onAdminAccess, 
     
     const particles = useMemo(() => {
         const isMobile = typeof window !== 'undefined' && window.innerWidth <= 768;
-        const count = isMobile ? 25 : 50;
+        const count = isMobile ? 35 : 70;
         return Array.from({ length: count }).map((_, i) => ({
             id: i,
             left: `${Math.random() * 100}%`,
             top: `${Math.random() * 100}%`,
-            animationDuration: `${2 + Math.random() * 3}s`,
-            animationDelay: `${Math.random() * 5}s`,
+            animationDuration: `${3 + Math.random() * 4}s`,
+            animationDelay: `${Math.random() * 7}s`,
             width: `${1 + Math.random() * 2}px`,
             height: `${1 + Math.random() * 2}px`,
+            backgroundColor: Math.random() > 0.8 ? '#fff' : 'var(--bubble-red)',
         }));
     }, []);
 
@@ -74,7 +75,7 @@ const LandingScreen: React.FC<LandingScreenProps> = ({ onAccess, onAdminAccess, 
               onAccess();
             }}
             disabled={isLoading}
-            className="w-full relative z-10 text-white font-bold py-5 text-lg rounded-lg border border-white transition-transform duration-300 ease-in-out active:scale-95 backdrop-blur-sm access-btn-red"
+            className="w-full relative z-10 text-white font-bold py-5 text-lg rounded-lg border border-red-500/80 transition-transform duration-300 ease-in-out active:scale-95 backdrop-blur-sm access-btn-red"
             aria-label="Acessar conteúdo"
           >
             {isLoading ? 'CARREGANDO...' : 'ACESSAR'}
