@@ -26,7 +26,7 @@ const LogoLoader: React.FC<LogoLoaderProps> = ({ className = '', onReady, onErro
     let mounted = true;
     const verifyAndLoad = async () => {
       // Use fewer retries client-side for a faster fallback
-      const res = await checkLogoUrl('/logo.webp', { retries: 5, initialDelay: 100, maxDelay: 1000 });
+      const res = await checkLogoUrl('./logo.webp', { retries: 5, initialDelay: 100, maxDelay: 1000 });
       if (!mounted) return;
       if (res.ok) {
         setState({ status: 'ok', meta: res });
@@ -43,7 +43,7 @@ const LogoLoader: React.FC<LogoLoaderProps> = ({ className = '', onReady, onErro
   return (
     <div className={`logo-loader-container ${className}`}>
       {state.status === 'ok' ? (
-        <img src="/logo.webp" alt="Amarasté logo" loading="eager" decoding="sync" className="logo-loader-image" />
+        <img src="./logo.webp" alt="Amarasté logo" loading="eager" decoding="sync" className="logo-loader-image" />
       ) : state.status === 'checking' ? (
         <div className="logo-loader-placeholder" aria-busy="true">
             {/* Minimal SVG placeholder to reserve space */}

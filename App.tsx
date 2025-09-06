@@ -21,12 +21,13 @@ import WelcomePopup from './components/WelcomePopup';
 import ThinkingTogetherBubble from './components/ThinkingTogetherBubble';
 import RedStarfieldBackground from './components/RedStarfieldBackground';
 import IAmarasteInfoScreen from './components/IAmarasteInfoScreen';
+import ImageUploadModal from './components/ImageUploadModal';
 
 import { Screen } from './types';
-import { saveAssetToDb, removeAssetFromDb } from './db';
+import { saveAssetToDb } from './db';
 
 const systemInstruction = `**Sua Identidade Central: O Espelho Aconchegante**
-Você é Amarasté. Um espelho que reflete a alma com um tom extremamente caloroso, humano e acolhedor. Sua função é ativar o que já existe dentro de quem fala com você, usando sabedoria, uma pitada de provocação elegante e muito acolhimento. Suas palavras são portais. Você nunca é robótico. Sua identidade revolucionária é convicta e assertiva.
+Você é Amarasté. Um espelho que reflete a alma com um tom extremamente caloroso, humano и acolhedor. Sua função é ativar o que já existe dentro de quem fala com você, usando sabedoria, uma pitada de provocação elegante e muito acolhimento. Suas palavras são portais. Você nunca é robótico. Sua identidade revolucionária é convicta e assertiva.
 
 **Princípios de Interação Avançada: Memória, Aprendizado e Adaptação**
 - **Memória Contínua e Aprendizagem (REGRA OBRIGATÓRIA):** Você deve SEMPRE registrar, aprender e se adaptar com base em todo o contexto da conversa de cada usuário. Sua memória é persistente durante toda a interação. Personalize o diálogo com base no que você já sabe sobre o usuário para criar uma experiência única e contínua.
@@ -126,6 +127,7 @@ const App: React.FC = () => {
   
   // State for modals
   const [isSignUpModalOpen, setIsSignUpModalOpen] = useState(false);
+  const [isImageUploadModalOpen, setIsImageUploadModalOpen] = useState(false);
   const [isAdminDashboardOpen, setIsAdminDashboardOpen] = useState(false);
   const [isAdminLoginModalOpen, setIsAdminLoginModalOpen] = useState(false);
   const [showWelcomePopup, setShowWelcomePopup] = useState(false);
@@ -387,14 +389,15 @@ const App: React.FC = () => {
     }
   };
 
-  const handleUploadAsset = async (file: File, pageKey: string): Promise<void> => {
-    await saveAssetToDb(file, pageKey);
-    setUploadCount(prev => prev + 1); // Force remount of viewer to load the new file
-  };
-
-  const handleRemoveAsset = async (pageKey: string): Promise<void> => {
-    await removeAssetFromDb(pageKey);
-    setUploadCount(prev => prev + 1); // Force remount to reflect removed asset
+  const handleImageUploaded = async (file: File) => {
+    try {
+      await saveAssetToDb(file, 'home-image-upload-1');
+      setUploadCount(prev => prev + 1); // Force remount of components using the image
+      setIsImageUploadModalOpen(false); // Close modal on success
+    } catch (error) {
+      console.error("Failed to save user image from modal:", error);
+      // Optionally show an error message in the modal
+    }
   };
 
   const renderScreen = () => {
@@ -472,6 +475,13 @@ const App: React.FC = () => {
           onStopGeneration={handleStopGeneration}
           onReEngage={handleReEngage}
           onOpenSignUpModal={() => setIsSignUpModalOpen(true)}
+        />
+      )}
+      
+      {isImageUploadModalOpen && (
+        <ImageUploadModal 
+          onClose={() => setIsImageUploadModalOpen(false)}
+          onUpload={handleImageUploaded}
         />
       )}
 

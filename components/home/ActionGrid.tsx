@@ -31,7 +31,7 @@ const ActionGrid: React.FC<ActionGridProps> = ({ onTalkAboutMusic, onOpenSignUpM
                     applyClickAnimation(e);
                     getAction(button)();
                   }}
-                  className="btn red-white-btn md:flex-1 text-center text-base md:text-xl whitespace-nowrap trembling-button"
+                  className="btn red-white-btn md:flex-1 text-center text-2xl md:text-3xl whitespace-nowrap trembling-button"
                   aria-label={button.label}
                 >
                   {button.label}

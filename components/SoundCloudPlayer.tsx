@@ -1,8 +1,8 @@
+
 import React, { useEffect, useState, useRef } from 'react';
 import { applyClickAnimation } from '../animations';
 import ActionGrid from './home/ActionGrid';
 import SocialMediaScroller from './home/SocialMediaScroller';
-import ImageUploadGrid from './ImageUploadGrid';
 import { Screen } from '../types';
 
 
@@ -86,8 +86,6 @@ const SoundCloudPlayer: React.FC<SoundCloudPlayerProps> = ({ onTalkAboutMusic, o
       
       <div className="w-full max-w-lg mx-auto my-6 flowing-neon-line animate-flow-rtl"></div>
       
-      <ImageUploadGrid />
-
       <SocialMediaScroller />
       
       <div className="ansiedade-decor-wrapper" ref={youtubeRef}>
