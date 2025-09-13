@@ -1123,6 +1123,18 @@
       .animate-white-neon-flicker {
         animation: white-neon-flicker 1.5s ease-in-out infinite;
       }
+
+      @keyframes fast-intense-glow {
+        0%, 100% {
+          box-shadow: 0 0 15px var(--bubble-red), 0 0 25px var(--bubble-red), inset 0 0 5px rgba(255,255,255,0.5);
+        }
+        50% {
+          box-shadow: 0 0 25px var(--bubble-red), 0 0 45px var(--bubble-red), inset 0 0 10px rgba(255,255,255,0.8);
+        }
+      }
+      .animate-fast-intense-glow {
+        animation: fast-intense-glow 0.8s ease-in-out infinite;
+      }
       /* === END: Booker Grok Gold Button === */
       
       /* === START: Gamified Chat Header === */
@@ -2001,7 +2013,7 @@
       .youtube-player-wrapper::after {
         content: '';
         position: absolute;
-        inset: -2px; /* Reduced to shrink effect size */
+        inset: -10px; /* Increased to make effect larger and leak */
         border-radius: 50%;
         background: repeating-conic-gradient(
             from var(--angle),
@@ -2028,7 +2040,7 @@
 
       .youtube-player-wrapper .iframe-container {
         position: absolute;
-        inset: 4px; /* Reduced to shrink effect size */
+        inset: 2px; /* Adjusted for larger animation */
         border-radius: 50%;
         overflow: hidden;
         z-index: 2; /* Above the dots */

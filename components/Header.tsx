@@ -1,7 +1,3 @@
-
-
-
-
 import React, { useState, useEffect, useRef } from 'react';
 import MenuIcon from './icons/MenuIcon';
 import CloseIcon from './icons/CloseIcon';
@@ -42,7 +38,7 @@ const Header: React.FC<HeaderProps> = ({ activeScreen, onNavigateDownloads, onNa
 
     const menuItems: MenuItem[] = [
         { name: 'Início', href: '#', type: 'home' },
-        { name: 'Cadastre-se', href: '#', type: 'modal' },
+        { name: 'Cadastre-se', href: '#', type: 'page', pageKey: 'register' },
         { name: 'Booker', href: '#', type: 'page', pageKey: 'booker' },
         { name: 'Amarasté Tribus', href: 'https://chat.whatsapp.com/FDjQZNsS4GVKfhKQCY7Qok', type: 'external' },
         { name: 'Produtos', href: '#', type: 'page', pageKey: 'produtosLogin', specialClass: 'm-2 backdrop-blur bg-amaraste-brown text-white rounded-xl shadow-lg' },
@@ -147,7 +143,7 @@ const Header: React.FC<HeaderProps> = ({ activeScreen, onNavigateDownloads, onNa
                         {/* Center (Default Theme) */}
                         <div className="absolute left-1/2 -translate-x-1/2">
                             {!isBookerTheme && (
-                              <div className="flex items-center justify-center gap-5 sm:gap-6 md:gap-9">
+                              <div className="flex items-center justify-center gap-8 sm:gap-10 md:gap-12">
                                   {socialLinks.map((item) => (
                                       <a
                                           key={item.name}
@@ -160,7 +156,7 @@ const Header: React.FC<HeaderProps> = ({ activeScreen, onNavigateDownloads, onNa
                                           className={`social-link social-link-${item.className} active:scale-110`}
                                           aria-label={item.name}
                                       >
-                                          <item.icon className="h-7 w-7 sm:h-8 sm:w-8 md:h-11 md:w-11" />
+                                          <item.icon className="h-10 w-10 sm:h-12 sm:w-12 md:h-14 md:w-14" />
                                       </a>
                                   ))}
                               </div>

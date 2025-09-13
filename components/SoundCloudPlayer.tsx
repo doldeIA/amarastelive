@@ -1,3 +1,5 @@
+
+
 import React from 'react';
 import { applyClickAnimation } from '../animations';
 import ActionGrid from './home/ActionGrid';
@@ -24,7 +26,7 @@ const soundCloudTracks = [
 ];
 
 const youtubeVideos = [
-  { id: 's5u3h02d-6k', title: 'Ansiedade' },
+  { id: '6A6JHhknJts', title: 'Ansiedade' },
   { id: '2iXyU4WZPIw', title: 'O Começo, o Meio e o Fim' },
   { id: '4XAAx9aPMaM', title: 'Sobre(Existir) XXV' },
   { id: 'vh50NWlWHsk', title: 'Explicar a Garrafa' },
@@ -55,6 +57,7 @@ const SoundCloudPlayer: React.FC<SoundCloudPlayerProps> = ({ onTalkAboutMusic, o
                           allow="autoplay"
                           src={track.url}
                           className="w-full h-full rounded-sm"
+                          loading="lazy"
                         />
                   </div>
               </div>

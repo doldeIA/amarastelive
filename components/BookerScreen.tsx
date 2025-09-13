@@ -1,6 +1,5 @@
 
 
-
 import React, { useState, useEffect, useMemo } from 'react';
 
 const SparklesBackground: React.FC = () => {
@@ -50,29 +49,19 @@ const BookerScreen: React.FC = () => {
         <SparklesBackground />
         <div className="relative z-10 w-full flex flex-col items-center justify-center p-4 text-center">
             <h1 className="text-3xl sm:text-4xl font-bold pt-4 pb-3 text-white welcome-text-glow" style={{ fontFamily: "'Playfair Display', serif" }}>
-                ABRACADABRA AGENCY
+                ABRAKADABRA AGENCY
             </h1>
-            <p className="text-sm text-white/80 mb-10 max-w-xl">
-                Ouça o álbum 'Jogos Psíquicos' abaixo ou entre em contato para agendamentos e propostas.
-            </p>
             
-            <div className="bandcamp-container">
-                <iframe 
-                    style={{border: 0, width: '100%', height: '120px'}} 
-                    src="https://bandcamp.com/EmbeddedPlayer/album=3380295254/size=large/bgcol=333333/linkcol=e32929/tracklist=false/artwork=small/transparent=true/" 
-                    seamless
-                    title="Jogos Psíquicos by Amarasté"
-                >
-                    <a href="https://amarastelive.bandcamp.com/album/jogos-ps-quicos">Jogos Psíquicos by Amarasté</a>
-                </iframe>
-            </div>
+            <p className="mt-8 text-lg text-white animate-white-neon-flicker" style={{ fontFamily: "'Barlow Condensed', sans-serif" }}>
+                @abrakadabragency
+            </p>
 
-            <div className="mt-10 w-full flex justify-center">
+            <div className="mt-8 w-full flex justify-center">
                 <a
                     href="https://api.whatsapp.com/send/?phone=5575933002386&text=Ol%C3%A1%2C%20gostaria%20de%20fazer%20um%20agendamento."
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="grok-red-button font-bold text-lg rounded-full px-12 py-4 animate-white-neon-flicker"
+                    className="grok-red-button font-bold text-lg rounded-full px-12 py-4 animate-fast-intense-glow"
                     style={{ fontFamily: "'Barlow Condensed', sans-serif" }}
                 >
                     AGENDAR DATA

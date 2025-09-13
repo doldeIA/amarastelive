@@ -10,7 +10,6 @@ import IntegratingLoader from './components/IntegratingLoader';
 import BookerScreen from './components/BookerScreen';
 import EcossistemaPage from './components/EcossistemaPage';
 import SoundCloudPlayer from './components/SoundCloudPlayer';
-import SignUpModal from './components/SignUpModal';
 import RevolucaoPage from './components/RevolucaoPage';
 import ProdutosLoginPage from './components/ProdutosLoginPage';
 import AdminDashboard from './components/AdminPanel';
@@ -22,6 +21,7 @@ import ThinkingTogetherBubble from './components/ThinkingTogetherBubble';
 import RedStarfieldBackground from './components/RedStarfieldBackground';
 import IAmarasteInfoScreen from './components/IAmarasteInfoScreen';
 import ImageUploadModal from './components/ImageUploadModal';
+import RegisterScreen from './components/RegisterScreen';
 
 import { Screen } from './types';
 import { saveAssetToDb } from './db';
@@ -139,7 +139,6 @@ const App: React.FC = () => {
   const stopGenerationRef = useRef(false);
   
   // State for modals
-  const [isSignUpModalOpen, setIsSignUpModalOpen] = useState(false);
   const [isImageUploadModalOpen, setIsImageUploadModalOpen] = useState(false);
   const [isAdminDashboardOpen, setIsAdminDashboardOpen] = useState(false);
   const [isAdminLoginModalOpen, setIsAdminLoginModalOpen] = useState(false);
@@ -238,7 +237,7 @@ const App: React.FC = () => {
     setTimeout(() => {
       setActiveScreen('pdf');
       setIsLoading(false); // Stop loading when navigation occurs
-    }, 2500); // 2.5 seconds for the animation
+    }, 500); // Reduced delay for faster feel
   };
 
   const handlePageRendered = () => {
@@ -423,7 +422,7 @@ const App: React.FC = () => {
             <div className="pt-24">
               <SoundCloudPlayer 
                 onTalkAboutMusic={() => setIsChatOpen(true)} 
-                onOpenSignUpModal={() => setIsSignUpModalOpen(true)}
+                onOpenSignUpModal={() => handleNavigate('register')}
                 onNavigate={handleNavigate}
               />
             </div>
@@ -440,7 +439,7 @@ const App: React.FC = () => {
       case 'produtosLogin':
         return <ProdutosLoginPage
           onNavigateHome={handleAccess}
-          onNavigateToSignUp={() => setIsSignUpModalOpen(true)}
+          onNavigateToSignUp={() => handleNavigate('register')}
           onSpecialLoginSuccess={handleLoginSuccess}
           title={loginTitle}
         />;
@@ -450,6 +449,8 @@ const App: React.FC = () => {
         return <WelcomePage onBackToChat={() => { setActiveScreen('pdf'); setIsChatOpen(true); }} />;
       case 'iamarasteInfo':
         return <IAmarasteInfoScreen onBack={() => setActiveScreen('pdf')} />;
+      case 'register':
+        return <RegisterScreen onBack={() => setActiveScreen('pdf')} />;
       default:
         return <LandingScreen onAccess={handleAccess} onAdminAccess={handleAdminAccess} isLoading={isLoading} />;
     }
@@ -458,14 +459,14 @@ const App: React.FC = () => {
   return (
     <div className={`app-container ${activeScreen === 'booker' ? 'booker-theme' : 'default-theme'}`}>
       {isLoading && <div className="loading-dim-overlay" />}
-      {(activeScreen !== 'landing' && activeScreen !== 'pdf' && activeScreen !== 'iamarasteInfo') && <RedStarfieldBackground />}
+      {(activeScreen !== 'landing' && activeScreen !== 'pdf' && activeScreen !== 'iamarasteInfo' && activeScreen !== 'register') && <RedStarfieldBackground />}
       {activeScreen !== 'landing' && (
         <Header
           activeScreen={activeScreen}
           onNavigateDownloads={handleNavigateDownloads}
           onNavigateHome={handleAccess}
           onNavigateToPage={handleNavigateToPage}
-          onOpenSignUpModal={() => setIsSignUpModalOpen(true)}
+          onOpenSignUpModal={() => handleNavigate('register')}
         />
       )}
       <main className="main-content">
@@ -487,7 +488,7 @@ const App: React.FC = () => {
           onSendMessage={handleSendMessage}
           onStopGeneration={handleStopGeneration}
           onReEngage={handleReEngage}
-          onOpenSignUpModal={() => setIsSignUpModalOpen(true)}
+          onOpenSignUpModal={() => handleNavigate('register')}
         />
       )}
       
@@ -495,17 +496,6 @@ const App: React.FC = () => {
         <ImageUploadModal 
           onClose={() => setIsImageUploadModalOpen(false)}
           onUpload={handleImageUploaded}
-        />
-      )}
-
-      {isSignUpModalOpen && (
-        <SignUpModal
-          isOpen={isSignUpModalOpen}
-          onClose={() => setIsSignUpModalOpen(false)}
-          onSwitchToLogin={() => {
-            setIsSignUpModalOpen(false);
-            handleNavigateToPage('produtosLogin');
-          }}
         />
       )}
       

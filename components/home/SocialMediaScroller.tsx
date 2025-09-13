@@ -4,10 +4,8 @@ import React from 'react';
 
 const socialFeeds = {
     instagram: "https://www.instagram.com/amarastelive/embed",
-    tiktok: "https://www.tiktok.com/embed/v2/@amarastelive",
     spotify: "https://open.spotify.com/embed/artist/3407XfslidAhQKTIaFW24m?utm_source=generator&theme=0",
     threads: "https://www.threads.net/@amarastelive",
-    x: "https://twitter.com/amarastelive?ref_src=twsrc%5Etfw",
 };
 
 const SocialMediaScroller: React.FC = () => (
@@ -25,21 +23,9 @@ const SocialMediaScroller: React.FC = () => (
             title="Amarasté Instagram feed"
             allowTransparency={true}
             allow="encrypted-media"
+            loading="lazy"
           ></iframe>
         </div>
-      </div>
-
-      {/* TikTok Panel */}
-      <div className="media-scroller-panel h-[450px] sm:h-[500px]">
-         <div className="media-panel-netflix h-full">
-            <iframe 
-              src={socialFeeds.tiktok}
-              className="w-full h-full border-0 bg-white"
-              title="Amarasté TikTok feed"
-              allow="encrypted-media;"
-              loading="lazy"
-            ></iframe>
-         </div>
       </div>
 
       {/* Spotify Panel */}
@@ -71,13 +57,6 @@ const SocialMediaScroller: React.FC = () => (
                 </div>
               </div>
             </a>
-          </div>
-      </div>
-
-      {/* X Panel */}
-      <div className="media-scroller-panel h-[450px] sm:h-[500px]">
-          <div className="media-panel-netflix h-full">
-            <a className="twitter-timeline" data-height="490" data-theme="dark" href={socialFeeds.x}>Tweets by amarastelive</a>
           </div>
       </div>
     </div>
