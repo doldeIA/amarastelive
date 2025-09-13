@@ -12,19 +12,19 @@ interface SoundCloudPlayerProps {
 }
 
 const soundCloudTracks = [
-  { name: "Explicar a Garrafa", url: "https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/amarastelive/explicar-a-garrafa&color=%23A13500&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=true" },
-  { name: "Observar", url: "https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/amarastelive/observar&color=%233a0ca3&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=true" },
-  { name: "Possibilidades", url: "https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/amarastelive/possibilidades-0101011101&color=%23E41B17&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=true" },
-  { name: "Virtuality", url: "https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/amarastelive/virtuality&color=%23ff0000&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=true" },
-  { name: "Níveis de Resposta 2020", url: "https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/amarastelive/niveis-de-resposta-2020&color=%23e400ff&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=true" },
-  { name: "Recomeçar (feat. Gaia)", url: "https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/amarastelive/recomecar-feat-gaia&color=%2300a896&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=true" },
-  { name: "Coragem", url: "https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/amarastelive/coragem&color=%23B22222&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=true" },
-  { name: "Feirademangaio", url: "https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/amarastelive/feirademangaio&color=%23D4AF37&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=true" },
-  { name: "Yourself", url: "https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/amarastelive/yourself&color=%23FF8345&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=true" },
+  { name: "Explicar a Garrafa", url: "https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/amarastelive/explicar-a-garrafa&color=%23A13500&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false" },
+  { name: "Observar", url: "https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/amarastelive/observar&color=%233a0ca3&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false" },
+  { name: "Possibilidades", url: "https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/amarastelive/possibilidades-0101011101&color=%23E41B17&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false" },
+  { name: "Virtuality", url: "https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/amarastelive/virtuality&color=%23ff0000&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false" },
+  { name: "Níveis de Resposta 2020", url: "https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/amarastelive/niveis-de-resposta-2020&color=%23e400ff&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false" },
+  { name: "Recomeçar (feat. Gaia)", url: "https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/amarastelive/recomecar-feat-gaia&color=%2300a896&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false" },
+  { name: "Coragem", url: "https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/amarastelive/coragem&color=%23B22222&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false" },
+  { name: "Feirademangaio", url: "https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/amarastelive/feirademangaio&color=%23D4AF37&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false" },
+  { name: "Yourself", url: "https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/amarastelive/yourself&color=%23FF8345&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false" },
 ];
 
 const youtubeVideos = [
-  { id: '6A6JHhknJts', title: 'Ansiedade' },
+  { id: 's5u3h02d-6k', title: 'Ansiedade' },
   { id: '2iXyU4WZPIw', title: 'O Começo, o Meio e o Fim' },
   { id: '4XAAx9aPMaM', title: 'Sobre(Existir) XXV' },
   { id: 'vh50NWlWHsk', title: 'Explicar a Garrafa' },

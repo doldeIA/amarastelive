@@ -2005,8 +2005,8 @@
         border-radius: 50%;
         background: repeating-conic-gradient(
             from var(--angle),
-            var(--bubble-red) 0% 2%, /* thinner lines */
-            transparent 2% 12.5%   /* creates 8 rotating lines for a spiral/pinwheel effect */
+            var(--bubble-red) 0% 1%,
+            transparent 1% 6.25%
         );
         z-index: 1;
       }
@@ -2014,14 +2014,14 @@
       .youtube-player-wrapper::before {
         animation: 
           initial-player-flash 0.4s ease-out,
-          spin-dots 0.8s linear 0.4s infinite,
+          spin-dots 0.4s linear 0.4s infinite,
           pulse-dot-glow 1.8s ease-in-out 0.4s infinite;
       }
 
       .youtube-player-wrapper::after {
         animation:
           initial-player-flash 0.4s ease-out,
-          spin-dots 1.2s linear reverse 0.4s infinite,
+          spin-dots 0.6s linear reverse 0.4s infinite,
           pulse-dot-glow 1.8s ease-in-out 0.4s infinite;
         opacity: 0.8;
       }

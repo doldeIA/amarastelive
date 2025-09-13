@@ -1,6 +1,7 @@
 
 
 
+
 import React, { useState, useEffect, useRef } from 'react';
 import MenuIcon from './icons/MenuIcon';
 import CloseIcon from './icons/CloseIcon';
@@ -146,7 +147,7 @@ const Header: React.FC<HeaderProps> = ({ activeScreen, onNavigateDownloads, onNa
                         {/* Center (Default Theme) */}
                         <div className="absolute left-1/2 -translate-x-1/2">
                             {!isBookerTheme && (
-                              <div className="flex items-center justify-center flex-wrap gap-6 sm:gap-7 md:gap-11">
+                              <div className="flex items-center justify-center gap-5 sm:gap-6 md:gap-9">
                                   {socialLinks.map((item) => (
                                       <a
                                           key={item.name}
@@ -159,7 +160,7 @@ const Header: React.FC<HeaderProps> = ({ activeScreen, onNavigateDownloads, onNa
                                           className={`social-link social-link-${item.className} active:scale-110`}
                                           aria-label={item.name}
                                       >
-                                          <item.icon className="h-8 w-8 sm:h-9 sm:w-9 md:h-12 md:w-12" />
+                                          <item.icon className="h-7 w-7 sm:h-8 sm:w-8 md:h-11 md:w-11" />
                                       </a>
                                   ))}
                               </div>
