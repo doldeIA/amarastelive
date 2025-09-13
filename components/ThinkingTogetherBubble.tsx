@@ -1,4 +1,3 @@
-
 import React, { useState, useRef } from 'react';
 import ChatIcon from './icons/ChatIcon';
 
@@ -35,7 +34,7 @@ const ThinkingTogetherBubble: React.FC<ThinkingTogetherBubbleProps> = ({ onClick
       <div className="absolute inset-0 liquid-melt-container" aria-hidden="true">
         <div 
           className="absolute w-2/3 h-2/3 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full" 
-          style={{ backgroundColor: 'var(--bubble-red)', animation: 'move-blob-1 1.2s ease-in-out infinite' }}
+          style={{ backgroundColor: 'rgba(255, 0, 0, 0.3)', animation: 'move-blob-1 1.2s ease-in-out infinite' }}
         ></div>
         <div 
           className="absolute w-1/2 h-1/2 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full" 
@@ -43,7 +42,7 @@ const ThinkingTogetherBubble: React.FC<ThinkingTogetherBubbleProps> = ({ onClick
         ></div>
         <div 
           className="absolute w-2/5 h-2/5 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full" 
-          style={{ backgroundColor: 'var(--bubble-red)', animation: 'move-blob-3 1.4s ease-in-out infinite' }}
+          style={{ backgroundColor: 'rgba(255, 0, 0, 0.3)', animation: 'move-blob-3 1.4s ease-in-out infinite' }}
         ></div>
         {/* New blob for enhanced gradient */}
         <div 

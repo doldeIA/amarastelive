@@ -1,4 +1,5 @@
 
+
 import React from 'react';
 
 const socialFeeds = {
@@ -16,7 +17,7 @@ const SocialMediaScroller: React.FC = () => (
       aria-label="Social media feeds"
     >
       {/* Instagram Panel */}
-      <div className="media-scroller-panel h-[500px]">
+      <div className="media-scroller-panel h-[450px] sm:h-[500px]">
         <div className="media-panel-netflix h-full">
           <iframe
             src={socialFeeds.instagram}
@@ -29,7 +30,7 @@ const SocialMediaScroller: React.FC = () => (
       </div>
 
       {/* TikTok Panel */}
-      <div className="media-scroller-panel h-[500px]">
+      <div className="media-scroller-panel h-[450px] sm:h-[500px]">
          <div className="media-panel-netflix h-full">
             <iframe 
               src={socialFeeds.tiktok}
@@ -42,7 +43,7 @@ const SocialMediaScroller: React.FC = () => (
       </div>
 
       {/* Spotify Panel */}
-      <div className="media-scroller-panel h-[500px]">
+      <div className="media-scroller-panel h-[450px] sm:h-[500px]">
          <div className="media-panel-netflix h-full">
             <iframe
               src={socialFeeds.spotify}
@@ -59,7 +60,7 @@ const SocialMediaScroller: React.FC = () => (
       </div>
       
       {/* Threads Panel */}
-      <div className="media-scroller-panel h-[500px]">
+      <div className="media-scroller-panel h-[450px] sm:h-[500px]">
           <div className="media-panel-netflix h-full p-0">
             <a href={socialFeeds.threads} target="_blank" rel="noopener noreferrer" className="social-card-link" aria-label="@amarastelive no Threads">
               <div className="social-card">
@@ -74,7 +75,7 @@ const SocialMediaScroller: React.FC = () => (
       </div>
 
       {/* X Panel */}
-      <div className="media-scroller-panel h-[500px]">
+      <div className="media-scroller-panel h-[450px] sm:h-[500px]">
           <div className="media-panel-netflix h-full">
             <a className="twitter-timeline" data-height="490" data-theme="dark" href={socialFeeds.x}>Tweets by amarastelive</a>
           </div>

@@ -1,6 +1,4 @@
-
-
-import React, { useEffect, useState, useRef } from 'react';
+import React from 'react';
 import { applyClickAnimation } from '../animations';
 import ActionGrid from './home/ActionGrid';
 import SocialMediaScroller from './home/SocialMediaScroller';
@@ -14,44 +12,28 @@ interface SoundCloudPlayerProps {
 }
 
 const soundCloudTracks = [
-  { name: "Explicar a Garrafa", url: "https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/amarastelive/explicar-a-garrafa&color=%23ff0000&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=true" },
-  { name: "Observar", url: "https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/amarastelive/observar&color=%23ff0000&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=true" },
-  { name: "Possibilidades", url: "https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/amarastelive/possibilidades-0101011101&color=%23ff0000&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=true" },
+  { name: "Explicar a Garrafa", url: "https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/amarastelive/explicar-a-garrafa&color=%23A13500&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=true" },
+  { name: "Observar", url: "https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/amarastelive/observar&color=%233a0ca3&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=true" },
+  { name: "Possibilidades", url: "https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/amarastelive/possibilidades-0101011101&color=%23E41B17&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=true" },
   { name: "Virtuality", url: "https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/amarastelive/virtuality&color=%23ff0000&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=true" },
-  { name: "Níveis de Resposta 2020", url: "https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/amarastelive/niveis-de-resposta-2020&color=%23ff0000&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=true" },
-  { name: "Recomeçar (feat. Gaia)", url: "https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/amarastelive/recomecar-feat-gaia&color=%23ff0000&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=true" },
-  { name: "Coragem", url: "https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/amarastelive/coragem&color=%23ff0000&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=true" },
-  { name: "Feirademangaio", url: "https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/amarastelive/feirademangaio&color=%23ff0000&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=true" },
-  { name: "Yourself", url: "https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/amarastelive/yourself&color=%23ff0000&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=true" },
+  { name: "Níveis de Resposta 2020", url: "https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/amarastelive/niveis-de-resposta-2020&color=%23e400ff&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=true" },
+  { name: "Recomeçar (feat. Gaia)", url: "https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/amarastelive/recomecar-feat-gaia&color=%2300a896&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=true" },
+  { name: "Coragem", url: "https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/amarastelive/coragem&color=%23B22222&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=true" },
+  { name: "Feirademangaio", url: "https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/amarastelive/feirademangaio&color=%23D4AF37&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=true" },
+  { name: "Yourself", url: "https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/amarastelive/yourself&color=%23FF8345&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=true" },
+];
+
+const youtubeVideos = [
+  { id: '6A6JHhknJts', title: 'Ansiedade' },
+  { id: '2iXyU4WZPIw', title: 'O Começo, o Meio e o Fim' },
+  { id: '4XAAx9aPMaM', title: 'Sobre(Existir) XXV' },
+  { id: 'vh50NWlWHsk', title: 'Explicar a Garrafa' },
+  { id: 'P469PRyF5ys', title: 'Jogos Psíquicos' },
+  { id: 'YfdCaNqiddQ', title: 'Magical XXV' },
+  { id: 'm7IgwHTMnwE', title: 'Observar' },
 ];
 
 const SoundCloudPlayer: React.FC<SoundCloudPlayerProps> = ({ onTalkAboutMusic, onOpenSignUpModal, onNavigate }) => {
-  const youtubeEmbedUrl = "https://www.youtube-nocookie.com/embed/6A6JHhknJts";
-  const [isYoutubeVisible, setIsYoutubeVisible] = useState(false);
-  const youtubeRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-        ([entry]) => {
-            if (entry.isIntersecting) {
-                setIsYoutubeVisible(true);
-                observer.unobserve(entry.target);
-            }
-        },
-        { rootMargin: '100px' }
-    );
-
-    if (youtubeRef.current) {
-        observer.observe(youtubeRef.current);
-    }
-
-    return () => {
-        if (youtubeRef.current) {
-            // eslint-disable-next-line react-hooks/exhaustive-deps
-            observer.unobserve(youtubeRef.current);
-        }
-    };
-  }, []);
 
   return (
     <div className="w-full max-w-lg mx-auto my-8 px-4 sm:px-0">
@@ -89,27 +71,23 @@ const SoundCloudPlayer: React.FC<SoundCloudPlayerProps> = ({ onTalkAboutMusic, o
       
       <SocialMediaScroller />
       
-      <div className="ansiedade-decor-wrapper" ref={youtubeRef}>
-          <div className="youtube-circle-container">
-            {isYoutubeVisible ? (
-              <iframe
-                src={youtubeEmbedUrl}
-                title="YouTube video player - Ansiedade"
-                frameBorder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                allowFullScreen
-                loading="lazy"
-              ></iframe>
-            ) : (
-              <div className="w-full h-full bg-black flex items-center justify-center">
-                <p className="text-white/50 text-xs animate-pulse">Carregando vídeo...</p>
+      <div className="my-6 w-full mx-auto media-scroller" tabIndex={0} aria-label="YouTube videos">
+          {youtubeVideos.map(video => (
+              <div key={video.id} className="media-scroller-panel">
+                  <div className="youtube-player-wrapper">
+                      <div className="iframe-container">
+                           <iframe
+                              src={`https://www.youtube-nocookie.com/embed/${video.id}`}
+                              title={`YouTube video player - ${video.title}`}
+                              frameBorder="0"
+                              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                              allowFullScreen
+                              loading="lazy"
+                            ></iframe>
+                      </div>
+                  </div>
               </div>
-            )}
-          </div>
-          {/* Orbiting dots */}
-          <div className="orbiting-dot dot-1" aria-hidden="true"></div>
-          <div className="orbiting-dot dot-2" aria-hidden="true"></div>
-          <div className="orbiting-dot dot-3" aria-hidden="true"></div>
+          ))}
       </div>
       
       <div className="w-full flex flex-col items-center justify-center mt-8 gap-4 px-4 sm:px-0">

@@ -988,17 +988,17 @@
         display: grid;
         gap: 1rem;
         grid-auto-flow: column;
-        grid-auto-columns: 85%; /* Each item will be 85% of the container's width */
         overflow-x: auto;
         overscroll-behavior-inline: contain;
         scroll-snap-type: x mandatory;
+        padding-bottom: 1rem; /* Add space for scrollbar */
+        
+        /* Default column width for mobile */
+        grid-auto-columns: 85%;
+
+        /* Scrollbar styles */
         scrollbar-width: thin; /* For Firefox */
         scrollbar-color: var(--bubble-red) rgba(0,0,0,0.2); /* For Firefox */
-      }
-      @media (min-width: 640px) {
-        .media-scroller {
-          grid-auto-columns: 80%;
-        }
       }
       .media-scroller::-webkit-scrollbar {
         height: 8px;
@@ -1012,8 +1012,22 @@
         border-radius: 4px;
         box-shadow: 0 0 6px var(--bubble-red);
       }
+
       .media-scroller-panel {
         scroll-snap-align: center;
+      }
+
+      /* Tablet and larger: Adjust column widths */
+      @media (min-width: 768px) {
+        .media-scroller {
+          grid-auto-columns: 70%;
+        }
+      }
+
+      @media (min-width: 1024px) {
+        .media-scroller {
+          grid-auto-columns: 50%;
+        }
       }
       /* === END: Horizontal Media Scroller === */
 
@@ -1461,8 +1475,8 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        width: clamp(140px, 18vw, 420px);
-        height: clamp(140px, 18vw, 420px);
+        width: clamp(100px, 14vw, 140px);
+        height: clamp(100px, 14vw, 140px);
         margin: 0 auto;
         cursor: pointer;
         z-index: 20;
@@ -1595,32 +1609,6 @@
         white-space: pre-wrap;
         color: #0f0; /* Classic terminal green */
       }
-
-      .youtube-circle-container {
-        position: absolute;
-        top: 0; left: 0;
-        width: 100%; 
-        height: 100%;
-        aspect-ratio: 1 / 1;
-        border-radius: 50%;
-        overflow: hidden;
-        border: 4px solid #fff;
-        box-shadow: 0 0 12px var(--bubble-red), 0 0 24px #ffffff;
-        animation: youtube-neon-pulse 2s infinite alternate;
-      }
-      .youtube-circle-container iframe {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        width: 177.77%; /* 16/9 aspect ratio */
-        height: 100%;
-        transform: translate(-50%, -50%);
-        border: none;
-      }
-      @keyframes youtube-neon-pulse {
-        from { box-shadow: 0 0 8px var(--bubble-red), 0 0 16px #ffffff; }
-        to { box-shadow: 0 0 16px #ffffff, 0 0 30px var(--bubble-red); }
-      }
       /* === END: NEW ADMIN DASHBOARD & YOUTUBE PLAYER === */
 
       /* === START: LAYOUT REFINEMENTS (Homepage/Opening) === */
@@ -1654,8 +1642,11 @@
         background-color: #110808; /* Darker brown */
         position: relative;
         overflow: hidden;
-        height: 100vh;
+        height: 100dvh;
         width: 100vw;
+        display: flex;
+        align-items: center;
+        justify-content: center;
       }
 
       /* Animated scanlines overlay */
@@ -1884,16 +1875,6 @@
         border-width: 0;
       }
 
-      /* === START: Ansiedade Display Wrapper === */
-      .ansiedade-decor-wrapper {
-        position: relative;
-        width: 60%;
-        max-width: 240px;
-        margin: 8px auto;
-        aspect-ratio: 1 / 1;
-      }
-      /* === END: Ansiedade Display Wrapper === */
-      
       /* === START: Social Media Fallback Card === */
       .social-card {
         display: flex;
@@ -1969,48 +1950,96 @@
       }
       /* === END: Booker Bandcamp Player === */
 
-      /* === START: YouTube Orbiting Dots === */
-      @keyframes orbit {
-        from { transform: rotate(0deg) translateX(50%) rotate(0deg); }
-        to   { transform: rotate(360deg) translateX(50%) rotate(-360deg); }
+      /* === START: YouTube Neon Player === */
+      @property --angle {
+        syntax: '<angle>';
+        initial-value: 0deg;
+        inherits: false;
       }
-      .orbiting-dot {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        width: 120%; /* Controls the orbit radius */
-        height: 120%;
-        margin-top: -60%;
-        margin-left: -60%;
-        animation: orbit 3s linear infinite;
-        transform-origin: center;
+
+      /* Initial fast blink animation */
+      @keyframes initial-player-flash {
+        0% { 
+          opacity: 0;
+        }
+        50% { 
+          opacity: 1; 
+          filter: drop-shadow(0 0 15px var(--bubble-red)) drop-shadow(0 0 25px var(--bubble-red)); 
+        }
+        100% { 
+          opacity: 1;
+          /* The pulse-dot-glow animation takes over the filter property after this */
+        }
       }
-      .orbiting-dot::before {
+
+      /* Continuous rotation */
+      @keyframes spin-dots {
+        from { --angle: 0deg; }
+        to { --angle: 360deg; }
+      }
+
+      /* Continuous glow pulse for intensity */
+      @keyframes pulse-dot-glow {
+        0%, 100% {
+          filter: drop-shadow(0 0 4px var(--bubble-red)) drop-shadow(0 0 8px var(--bubble-red));
+        }
+        50% {
+          filter: drop-shadow(0 0 8px var(--bubble-red)) drop-shadow(0 0 16px var(--bubble-red));
+        }
+      }
+
+      .youtube-player-wrapper {
+        position: relative;
+        width: 100%;
+        /* 1:1 Aspect Ratio */
+        padding-top: 100%; 
+        border-radius: 50%;
+        background-color: transparent; /* Changed from #000 */
+      }
+
+      .youtube-player-wrapper::before,
+      .youtube-player-wrapper::after {
         content: '';
         position: absolute;
-        top: 50%;
-        left: 0;
-        width: 12px;
-        height: 12px;
-        margin-top: -6px;
-        margin-left: -6px;
+        inset: -2px; /* Reduced to shrink effect size */
         border-radius: 50%;
-        background-color: var(--bubble-red);
-        box-shadow: 0 0 8px var(--bubble-red), 0 0 12px var(--bubble-red);
+        background: repeating-conic-gradient(
+            from var(--angle),
+            var(--bubble-red) 0% 2%, /* thinner lines */
+            transparent 2% 12.5%   /* creates 8 rotating lines for a spiral/pinwheel effect */
+        );
+        z-index: 1;
       }
-      .dot-2 { animation-delay: -1s; }
-      .dot-3 { animation-delay: -2s; }
 
-      @media (prefers-reduced-motion: reduce) {
-        .orbiting-dot {
-          animation: none;
-        }
-        /* Static placement for reduced motion */
-        .dot-1 { transform: rotate(0deg) translateX(50%); }
-        .dot-2 { transform: rotate(120deg) translateX(50%); }
-        .dot-3 { transform: rotate(240deg) translateX(50%); }
+      .youtube-player-wrapper::before {
+        animation: 
+          initial-player-flash 0.4s ease-out,
+          spin-dots 0.8s linear 0.4s infinite,
+          pulse-dot-glow 1.8s ease-in-out 0.4s infinite;
       }
-      /* === END: YouTube Orbiting Dots === */
+
+      .youtube-player-wrapper::after {
+        animation:
+          initial-player-flash 0.4s ease-out,
+          spin-dots 1.2s linear reverse 0.4s infinite,
+          pulse-dot-glow 1.8s ease-in-out 0.4s infinite;
+        opacity: 0.8;
+      }
+
+      .youtube-player-wrapper .iframe-container {
+        position: absolute;
+        inset: 4px; /* Reduced to shrink effect size */
+        border-radius: 50%;
+        overflow: hidden;
+        z-index: 2; /* Above the dots */
+      }
+
+      .youtube-player-wrapper iframe {
+        width: 100%;
+        height: 100%;
+        border: 0;
+      }
+      /* === END: YouTube Neon Player === */
 
     </style>
   <script type="importmap">

@@ -274,7 +274,7 @@ const ChatModal: React.FC<ChatModalProps> = ({
                 onChange={(e) => setUserInput(e.target.value)}
                 placeholder={isLoading ? 'Aguarde...' : "Digite aqui..."}
                 disabled={isLoading || !!error}
-                className="flex-1 w-full bg-black/50 text-white placeholder-white/60 px-4 py-2.5 rounded-full border border-red-500/50 focus:outline-none focus:ring-2 focus:ring-red-500/80 transition"
+                className="flex-1 w-full bg-black/50 text-white placeholder-white/60 px-4 py-3 rounded-full border border-red-500/50 focus:outline-none focus:ring-2 focus:ring-red-500/80 transition"
                 autoComplete="off"
               />
               <button
@@ -284,10 +284,10 @@ const ChatModal: React.FC<ChatModalProps> = ({
                   applyClickAnimation(e);
                 }}
                 disabled={!userInput.trim() || !!error}
-                className="bg-red-600 text-white p-3 rounded-full transition-all duration-200 enabled:hover:scale-110 enabled:active:scale-100 disabled:opacity-50 disabled:cursor-not-allowed shadow-[0_0_8px_var(--bubble-red)]"
+                className="bg-coke-red text-white p-3.5 sm:p-4 rounded-full transition-all duration-200 enabled:hover:scale-110 enabled:active:scale-100 disabled:opacity-50 disabled:cursor-not-allowed shadow-[0_0_12px_theme(colors.coke-red)]"
                 aria-label="Send message"
               >
-                <SendIcon className="w-5 h-5" />
+                <SendIcon className="w-6 h-6" />
               </button>
             </form>
             <p className="text-center text-xs text-white/50 px-4 pt-1">

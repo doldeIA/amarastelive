@@ -40,10 +40,10 @@ const LandingScreen: React.FC<LandingScreenProps> = ({ onAccess, onAdminAccess, 
       </div>
       
       {/* Main content container for responsive centering and bottom positioning */}
-      <div className="h-full w-full flex flex-col items-center justify-between p-4 bg-transparent transition-opacity duration-500 overflow-hidden relative landing-content">
+      <div className="h-[85%] w-full flex flex-col items-center justify-between px-4 pb-4 bg-transparent transition-opacity duration-500 overflow-hidden relative landing-content">
         
         {/* Top Triangle Loader */}
-        <div className="w-full flex justify-center pt-8">
+        <div className="w-full flex justify-center pt-2.5">
             <button
                 onClick={onAdminAccess}
                 className="triangle-container"
@@ -62,7 +62,7 @@ const LandingScreen: React.FC<LandingScreenProps> = ({ onAccess, onAdminAccess, 
         </div>
         
         {/* Centered Logo */}
-        <div className="flex-grow flex items-center justify-center -mt-16 w-full">
+        <div className="flex-grow flex items-center justify-center w-full">
             
         </div>
 

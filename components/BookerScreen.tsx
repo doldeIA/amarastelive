@@ -1,5 +1,6 @@
 
 
+
 import React, { useState, useEffect, useMemo } from 'react';
 
 const SparklesBackground: React.FC = () => {
@@ -64,6 +65,18 @@ const BookerScreen: React.FC = () => {
                 >
                     <a href="https://amarastelive.bandcamp.com/album/jogos-ps-quicos">Jogos Psíquicos by Amarasté</a>
                 </iframe>
+            </div>
+
+            <div className="mt-10 w-full flex justify-center">
+                <a
+                    href="https://api.whatsapp.com/send/?phone=5575933002386&text=Ol%C3%A1%2C%20gostaria%20de%20fazer%20um%20agendamento."
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="grok-red-button font-bold text-lg rounded-full px-12 py-4 animate-white-neon-flicker"
+                    style={{ fontFamily: "'Barlow Condensed', sans-serif" }}
+                >
+                    AGENDAR DATA
+                </a>
             </div>
         </div>
     </div>
