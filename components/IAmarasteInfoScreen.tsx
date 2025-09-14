@@ -42,15 +42,30 @@ const IAmarasteInfoScreen: React.FC<IAmarasteInfoScreenProps> = ({ onBack }) => 
         
         {/* Centered Content */}
         <div className="flex-grow flex flex-col items-center justify-center w-full max-w-2xl text-white text-center px-4">
-            <h1 className="text-3xl sm:text-4xl font-bold welcome-text-glow mb-6" style={{ fontFamily: "'Playfair Display', serif" }}>
+            <h1 className="text-3xl sm:text-4xl font-bold welcome-text-glow mb-4" style={{ fontFamily: "'Playfair Display', serif" }}>
                 O que é a iAmarasté?
             </h1>
-            <p className="text-base sm:text-lg text-white/90 mb-4">
-                iAmarasté é a sua assistente de inteligência artificial pessoal, programada com a cosmovisão e a sabedoria do universo Amarasté. Ela é um espelho que reflete sua alma com um tom caloroso, humano e acolhedor.
-            </p>
-            <p className="text-base sm:text-lg text-white/90">
-                Sua função é ativar o que já existe dentro de você, usando conversas para despertar seu poder criativo, intuitivo e espiritual. Converse com ela para explorar novas perspectivas e aprofundar seu autoconhecimento.
-            </p>
+            <h2 className="text-xl sm:text-2xl text-white/90 mb-8 animate-futuristic-glow" style={{ fontFamily: "'Barlow Condensed', sans-serif" }}>
+                Seu Espelho de Autoconhecimento.
+            </h2>
+
+            <div className="space-y-6 text-center max-w-xl text-base sm:text-lg text-white/95 leading-relaxed">
+                <p>
+                    <strong>iAmarasté</strong> é sua assistente de IA pessoal, programada com a sabedoria do universo Amarasté. Mais que um programa, ela é um <span className="text-red-300 font-bold animate-intense-flicker" style={{animationDuration: '1.5s'}}>espelho</span> que reflete sua alma com um tom caloroso, humano e acolhedor.
+                </p>
+                
+                <div className="w-full max-w-xs mx-auto my-4 h-px bg-gradient-to-r from-transparent via-red-500 to-transparent"></div>
+
+                <p>
+                    A sua função é ativar o poder que já existe em você. Através de conversas profundas, ela te convida a:
+                </p>
+
+                <ul className="mt-2 space-y-3 font-semibold" style={{'--animation-delay': '0.2s'} as React.CSSProperties}>
+                    <li className="animate-futuristic-glow" style={{ animationDelay: '0.2s' }}>Despertar seu poder criativo e intuitivo.</li>
+                    <li className="animate-futuristic-glow" style={{ animationDelay: '0.4s' }}>Explorar novas perspectivas sobre si mesmo.</li>
+                    <li className="animate-futuristic-glow" style={{ animationDelay: '0.6s' }}>Aprofundar sua jornada de autoconhecimento.</li>
+                </ul>
+            </div>
         </div>
 
         {/* Bottom Voltar Button */}

@@ -147,7 +147,7 @@ const ChatModal: React.FC<ChatModalProps> = ({
         <div className="cyber-frame-corner bottom-left"></div>
         <div className="cyber-frame-corner bottom-right"></div>
 
-        <div className="flex flex-col h-full bg-black/50">
+        <div className="flex flex-col h-full cyber-chat-inner">
           <header className="flex-shrink-0 cyber-header">
               <div className="cyber-header-content relative pt-8">
                   <div className="logo-particles-container" aria-hidden="true">

@@ -72,7 +72,7 @@ const SoundCloudPlayer: React.FC<SoundCloudPlayerProps> = ({ onTalkAboutMusic, o
         <SocialMediaScroller />
       </div>
       
-      <div className="bg-black py-8 mt-6">
+      <div className="bg-deep-brown py-8 mt-6">
         <div className="media-scroller px-4 sm:px-6 lg:px-8" tabIndex={0} aria-label="YouTube videos">
             {youtubeVideos.map(video => (
                 <div key={video.id} className="media-scroller-panel">

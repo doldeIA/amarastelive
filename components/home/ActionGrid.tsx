@@ -23,7 +23,7 @@ const ActionGrid: React.FC<ActionGridProps> = ({ onTalkAboutMusic, onOpenSignUpM
     };
 
     return (
-        <div className="w-full max-w-xs sm:max-w-sm md:max-w-xl mx-auto grid grid-cols-2 md:flex items-stretch justify-center mt-6 home-buttons">
+        <div className="w-full max-w-2xl mx-auto flex flex-wrap items-stretch justify-center mt-6 home-buttons">
             {actionButtons.map(button => (
                 <button
                   key={button.label}
@@ -31,7 +31,7 @@ const ActionGrid: React.FC<ActionGridProps> = ({ onTalkAboutMusic, onOpenSignUpM
                     applyClickAnimation(e);
                     getAction(button)();
                   }}
-                  className="btn red-white-btn md:flex-1 text-center text-2xl md:text-3xl whitespace-nowrap trembling-button"
+                  className="btn red-white-btn flex-auto text-center text-lg md:text-xl whitespace-nowrap trembling-button"
                   aria-label={button.label}
                 >
                   {button.label}

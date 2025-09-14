@@ -208,10 +208,10 @@ const App: React.FC = () => {
         document.body.style.backgroundColor = '#ffffff';
         break;
       case 'booker':
-        document.body.style.backgroundColor = '#000000'; // Booker is now black
+        document.body.style.backgroundColor = '#211a14';
         break;
       default:
-        document.body.style.backgroundColor = '#000000';
+        document.body.style.backgroundColor = '#211a14';
         break;
     }
   }, [activeScreen]);

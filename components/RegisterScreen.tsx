@@ -64,7 +64,7 @@ const RegisterScreen: React.FC<RegisterScreenProps> = ({ onBack }) => {
                 <div className="cyber-frame-corner bottom-right"></div>
 
                 <form onSubmit={handleSubmit} className="space-y-5">
-                    <h1 className="text-center text-3xl font-bold text-white logo-iamaraste mb-6" style={{animation: 'none'}}>
+                    <h1 className="text-center text-3xl font-bold text-white logo-iamaraste mb-6 pt-10" style={{animation: 'none'}}>
                         CADASTRO
                     </h1>
                     
@@ -105,13 +105,13 @@ const RegisterScreen: React.FC<RegisterScreenProps> = ({ onBack }) => {
             </div>
         </div>
 
-        <div className="w-full max-w-md z-10 mt-6 mb-4 flex-shrink-0">
+        <div className="w-full max-w-md z-10 mt-2 mb-8 flex-shrink-0">
           <button
             onClick={(e) => {
               applyClickAnimation(e);
               onBack();
             }}
-            className="w-full relative z-10 text-white font-semibold py-3 text-base rounded-lg border border-white/50 transition-colors hover:bg-white/10"
+            className="w-full relative z-10 text-white font-semibold py-3 text-base rounded-lg border border-white/50 transition-colors hover:bg-white/10 chat-pulse-glow"
             aria-label="Voltar para a página anterior"
           >
             VOLTAR

@@ -56,10 +56,10 @@
       
       @keyframes neonPulse {
         0%, 100% {
-          box-shadow: 0 0 8px rgba(255, 255, 255, 1), 0 0 16px rgba(255, 255, 255, 0.8), 0 0 24px rgba(255, 255, 255, 0.6);
+          box-shadow: 0 0 11px rgba(255, 255, 255, 0.7), 0 0 22px rgba(255, 255, 255, 0.5), 0 0 34px rgba(255, 255, 255, 0.3);
         }
         50% {
-          box-shadow: 0 0 4px rgba(255, 255, 255, 0.7), 0 0 8px rgba(255, 255, 255, 0.5);
+          box-shadow: 0 0 6px rgba(255, 255, 255, 0.5), 0 0 11px rgba(255, 255, 255, 0.3);
         }
       }
 
@@ -1366,7 +1366,7 @@
 
       /* === START: NEW CYBERPUNK CHAT UI === */
       .cyber-chat-frame {
-        background-color: rgba(10, 0, 0, 0.85);
+        background-color: rgba(33, 26, 20, 0.85);
         backdrop-filter: blur(8px);
         border: 1px solid rgba(255, 0, 0, 0.5);
         box-shadow: 0 0 30px rgba(255, 0, 0, 0.4), inset 0 0 20px rgba(255, 0, 0, 0.3);
@@ -1417,6 +1417,9 @@
       }
       .cyber-header-content {
         padding: 4px 0 8px 0;
+      }
+      .cyber-chat-inner {
+        background-color: rgba(33, 26, 20, 0.5);
       }
 
       .chat-messages-container {
@@ -1586,7 +1589,7 @@
       
       /* === START: NEW ADMIN DASHBOARD & YOUTUBE PLAYER === */
       .admin-dashboard {
-        background: rgba(10, 0, 0, 0.95);
+        background: rgba(33, 26, 20, 0.95);
         backdrop-filter: blur(8px);
         border: 1px solid rgba(255, 0, 0, 0.7);
         box-shadow: 0 0 30px rgba(255, 0, 0, 0.5), inset 0 0 20px rgba(255, 0, 0, 0.3);
@@ -1602,7 +1605,7 @@
         padding: 1rem;
         border: 1px solid rgba(255, 0, 0, 0.2);
         border-radius: 0.25rem;
-        background: rgba(0,0,0,0.2);
+        background: rgba(33, 26, 20, 0.4);
       }
       .admin-section h3 {
         color: var(--bubble-red);
@@ -1628,12 +1631,11 @@
         gap: 18px;
       }
       .home-buttons .btn {
-        padding: 20px 32px;
-        /* Removed transform to improve sharpness and avoid animation conflicts */
+        padding: 14px 22px;
       }
       @media (max-width: 768px) {
         .home-buttons .btn {
-          padding: 18px 26px;
+          padding: 12px 20px;
         }
       }
 
@@ -1651,7 +1653,7 @@
       }
 
       .first-page {
-        background-color: #110808; /* Darker brown */
+        background-color: #211a14;
         position: relative;
         overflow: hidden;
         height: 100dvh;
@@ -1969,7 +1971,7 @@
         /* 1:1 Aspect Ratio */
         padding-top: 100%; 
         border-radius: 50%;
-        background-color: #000;
+        background-color: #211a14;
         animation: neonPulse 1.5s infinite ease-in-out;
       }
 
