@@ -1976,6 +1976,17 @@
       }
       /* === END: Booker Bandcamp Player === */
 
+      @keyframes youtubeNeonPulse {
+        0%, 100% {
+          box-shadow: 0 0 15px rgba(255, 255, 255, 0.9), 0 0 25px rgba(255, 255, 255, 0.7), 0 0 40px rgba(255, 255, 255, 0.5);
+          opacity: 1;
+        }
+        50% {
+          box-shadow: 0 0 5px rgba(255, 255, 255, 0.5), 0 0 10px rgba(255, 255, 255, 0.3);
+          opacity: 0.8;
+        }
+      }
+
       /* === START: YouTube Neon Player === */
       .youtube-player-wrapper {
         position: relative;
@@ -1984,7 +1995,7 @@
         padding-top: 100%; 
         border-radius: 50%;
         background-color: #211a14;
-        animation: neonPulse 1.5s infinite ease-in-out;
+        animation: youtubeNeonPulse 0.05s infinite linear;
       }
 
       .youtube-player-wrapper .iframe-container {
@@ -2000,6 +2011,37 @@
         border: 0;
       }
       /* === END: YouTube Neon Player === */
+
+      /* === START: iAmaraste Info Box === */
+      .iamaraste-box {
+        position: relative;
+        min-height: 200px;
+        border: 1px solid rgba(255, 255, 255, 0.4);
+        border-radius: 0.5rem;
+        box-shadow: 0 0 20px rgba(255, 255, 255, 0.2), inset 0 0 15px rgba(255, 255, 255, 0.15);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .iamaraste-corner {
+        position: absolute;
+        width: 25px;
+        height: 25px;
+        border-color: #fff;
+        border-style: solid;
+        box-shadow: 0 0 10px #fff;
+        animation: iamaraste-flicker 2.5s infinite ease-in-out;
+      }
+      .iamaraste-corner.top-left { top: -1px; left: -1px; border-width: 2px 0 0 2px; }
+      .iamaraste-corner.top-right { top: -1px; right: -1px; border-width: 2px 2px 0 0; animation-delay: 0.5s; }
+      .iamaraste-corner.bottom-left { bottom: -1px; left: -1px; border-width: 0 0 2px 2px; animation-delay: 1s; }
+      .iamaraste-corner.bottom-right { bottom: -1px; right: -1px; border-width: 0 2px 2px 0; animation-delay: 1.5s; }
+
+      @keyframes iamaraste-flicker {
+        0%, 100% { opacity: 1; box-shadow: 0 0 10px #fff; }
+        50% { opacity: 0.5; box-shadow: 0 0 5px #fff; }
+      }
+      /* === END: iAmaraste Info Box === */
 
     </style>
   <script type="importmap">

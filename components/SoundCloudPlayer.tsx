@@ -92,7 +92,7 @@ const SoundCloudPlayer: React.FC<SoundCloudPlayerProps> = ({ onTalkAboutMusic, o
             ))}
         </div>
       </div>
-      
+
       <div className="w-full max-w-lg mx-auto px-4 sm:px-0">
         <div className="w-full flex flex-col items-center justify-center mt-8 gap-4">
           <button
@@ -134,8 +134,22 @@ const SoundCloudPlayer: React.FC<SoundCloudPlayerProps> = ({ onTalkAboutMusic, o
             O que é a iAmarasté?
           </button>
         </div>
+      </div>
 
-        <p className="home-copyright mt-8 text-black">
+      <div id="iamaraste" className="bg-deep-brown py-8 mt-6">
+        <div className="w-full max-w-lg mx-auto px-4 sm:px-0">
+          <div className="iamaraste-box">
+            <div className="iamaraste-corner top-left"></div>
+            <div className="iamaraste-corner top-right"></div>
+            <div className="iamaraste-corner bottom-left"></div>
+            <div className="iamaraste-corner bottom-right"></div>
+            <p className="text-white/40 font-mono text-sm animate-pulse">Conteúdo iAmarasté em breve...</p>
+          </div>
+        </div>
+      </div>
+      
+      <div className="w-full max-w-lg mx-auto px-4 sm:px-0">
+        <p className="home-copyright mt-8 text-white/70">
           Direitos Autorais © 2025 Amarasté Live
         </p>
       </div>

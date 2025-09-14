@@ -27,7 +27,7 @@ const ThinkingTogetherBubble: React.FC<ThinkingTogetherBubbleProps> = ({ onClick
     <button
       ref={bubbleRef}
       onClick={handleClick}
-      className="fixed bottom-6 right-6 z-20 w-32 h-32 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent focus-visible:ring-white rounded-full"
+      className="fixed bottom-6 right-6 z-20 w-44 h-44 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent focus-visible:ring-white rounded-full"
       aria-label="Abrir chat com iAmarasté"
     >
       {/* Canvas for the liquid animation, using the filter defined in index.html */}
@@ -53,7 +53,7 @@ const ThinkingTogetherBubble: React.FC<ThinkingTogetherBubbleProps> = ({ onClick
       
       {/* Icon is placed on top and is not affected by the filter */}
       <div className="relative w-full h-full flex items-center justify-center pointer-events-none">
-        <ChatIcon className="w-16 h-16 text-white" style={{ filter: 'drop-shadow(0 0 5px rgba(0,0,0,0.5))' }} />
+        <ChatIcon className="w-24 h-24 text-white" style={{ filter: 'drop-shadow(0 0 5px rgba(0,0,0,0.5))' }} />
       </div>
     </button>
   );

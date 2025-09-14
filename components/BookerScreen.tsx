@@ -46,7 +46,7 @@ const BookerScreen: React.FC = () => {
     <div className="w-full min-h-screen bg-deep-brown flex flex-col items-center justify-center text-white pt-24 pb-12 relative overflow-hidden">
         <SparklesBackground />
         <div className="relative z-10 w-full flex flex-col items-center justify-center p-4 text-center">
-            <p className="text-3xl sm:text-4xl font-bold mb-8 text-white animate-white-neon-flicker" style={{ fontFamily: "'Barlow Condensed', sans-serif" }}>
+            <p className="text-2xl sm:text-3xl font-bold mb-8 text-white animate-white-neon-flicker" style={{ fontFamily: "'Barlow Condensed', sans-serif" }}>
                 @abrakadabragency
             </p>
 
