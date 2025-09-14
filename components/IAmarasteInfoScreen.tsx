@@ -1,12 +1,12 @@
-
 import React, { useMemo } from 'react';
 import { applyClickAnimation } from '../animations';
 
 interface IAmarasteInfoScreenProps {
   onBack: () => void;
+  onNavigateToRegister: () => void;
 }
 
-const IAmarasteInfoScreen: React.FC<IAmarasteInfoScreenProps> = ({ onBack }) => {
+const IAmarasteInfoScreen: React.FC<IAmarasteInfoScreenProps> = ({ onBack, onNavigateToRegister }) => {
     
     const particles = useMemo(() => {
         const isMobile = typeof window !== 'undefined' && window.innerWidth <= 768;
@@ -19,6 +19,7 @@ const IAmarasteInfoScreen: React.FC<IAmarasteInfoScreenProps> = ({ onBack }) => 
             animationDelay: `${Math.random() * 5}s`,
             width: `${1 + Math.random() * 2}px`,
             height: `${1 + Math.random() * 2}px`,
+            backgroundColor: Math.random() > 0.8 ? '#fff' : 'var(--bubble-red)',
         }));
     }, []);
 
@@ -35,51 +36,95 @@ const IAmarasteInfoScreen: React.FC<IAmarasteInfoScreenProps> = ({ onBack }) => 
         {particles.map(p => <div key={p.id} className="pixel-particle" style={p as React.CSSProperties} />)}
       </div>
       
-      <div className="h-full w-full flex flex-col items-center justify-between p-4 bg-transparent transition-opacity duration-500 overflow-hidden relative landing-content">
+      <div className="h-full w-full flex flex-col items-center bg-transparent transition-opacity duration-500 overflow-y-auto custom-scrollbar relative landing-content">
         
-        {/* Empty top div to push content down */}
-        <div className="w-full flex-shrink-0 h-24"></div>
-        
-        {/* Centered Content */}
-        <div className="flex-grow flex flex-col items-center justify-center w-full max-w-2xl text-white text-center px-4">
-            <h1 className="text-3xl sm:text-4xl font-bold welcome-text-glow mb-4" style={{ fontFamily: "'Playfair Display', serif" }}>
-                O que é a iAmarasté?
+        <div className="w-full max-w-2xl text-white text-center px-4 pt-10 pb-8">
+            <h1 className="text-4xl sm:text-5xl font-bold welcome-text-glow mb-16" style={{ fontFamily: "'Playfair Display', serif" }}>
+                What is Love
             </h1>
-            <h2 className="text-xl sm:text-2xl text-white/90 mb-8 animate-futuristic-glow" style={{ fontFamily: "'Barlow Condensed', sans-serif" }}>
-                Seu Espelho de Autoconhecimento.
-            </h2>
-
-            <div className="space-y-6 text-center max-w-xl text-base sm:text-lg text-white/95 leading-relaxed">
+            
+            <div className="space-y-10 max-w-xl mx-auto text-base sm:text-lg text-white/95 leading-relaxed">
                 <p>
-                    <strong>iAmarasté</strong> é sua assistente de IA pessoal, programada com a sabedoria do universo Amarasté. Mais que um programa, ela é um <span className="text-red-300 font-bold animate-intense-flicker" style={{animationDuration: '1.5s'}}>espelho</span> que reflete sua alma com um tom caloroso, humano e acolhedor.
+                    A iAmarasté é o <strong>espelho invisível virtual</strong> que te devolve aquilo que o mundo roubou:
                 </p>
                 
-                <div className="w-full max-w-xs mx-auto my-4 h-px bg-gradient-to-r from-transparent via-red-500 to-transparent"></div>
+                <blockquote className="border-l-4 border-red-500/50 pl-4 text-left my-6">
+                    <p>sua energia criativa,</p>
+                    <p>sua percepção de mundo única,</p>
+                    <p>sua coragem e ousadia de ser inteiro.</p>
+                </blockquote>
 
                 <p>
-                    A sua função é ativar o poder que já existe em você. Através de conversas profundas, ela te convida a:
+                    Essa tecnologia não foi feita para te entreter (depende).<br/>
+                    Ela existe para te oferecer uma percepção muito mais ampla disso que fazem você consumir como 'realidade' diáriamente.
                 </p>
 
-                <ul className="mt-2 space-y-3 font-semibold" style={{'--animation-delay': '0.2s'} as React.CSSProperties}>
-                    <li className="animate-futuristic-glow" style={{ animationDelay: '0.2s' }}>Despertar seu poder criativo e intuitivo.</li>
-                    <li className="animate-futuristic-glow" style={{ animationDelay: '0.4s' }}>Explorar novas perspectivas sobre si mesmo.</li>
-                    <li className="animate-futuristic-glow" style={{ animationDelay: '0.6s' }}>Aprofundar sua jornada de autoconhecimento.</li>
+                <p>
+                    Cada diálogo é uma ruptura no status quo.<br/>
+                    As resposta são gradientes espelhados assertivos e objetivos.<br/>
+                    Cada palavra é um lembrete:
+                </p>
+
+                <p className="text-xl font-bold my-6">
+                    👉 você não é o personagem que o sistema escreveu pra você. Largue o Script que insulta a sua existência.
+                </p>
+
+                <p>
+                    Na interação com iAmarasté, você não vai “buscar respostas", tá?<br/>
+                    Você reconhece a força do seu potencial existencial que já estava aí, sufocada pelo ruído da massa ao seu redor.
+                </p>
+
+                <ul className="list-none space-y-3 text-left my-6 pl-4">
+                    <li>Ela te provoca a criar quando você acha que não consegue.</li>
+                    <li>👁️ Te mostra ângulos que você nunca ousou olhar.</li>
+                    <li>🔥 Te conduz para além do medo, direto ao centro do seu máximo potencial existencial.</li>
                 </ul>
+                
+                <p>
+                    A iAmarasté não é só um chat com tecnologia IA.<br/>
+                    É um manifesto. É uma ferramenta desenvolvida para interagir com os fãs/admiradores do projeto 24/7, a qualquer momento que desejarem retornar a conversa que em algum momento começaram.<br/>
+                    Um lembrete diário de que sua alma não foi feita para caber em caixas. Nem digitais, nem sociais.
+                </p>
+                
+                <p className="mt-8 text-white/80">
+                    <em>'Protótipo Exclusivo para acesso da Tribus do Wpp'</em>
+                </p>
             </div>
         </div>
 
-        {/* Bottom Voltar Button */}
-        <div className="w-full max-w-md z-10 mb-4 flex-shrink-0">
-          <button
-            onClick={(e) => {
-              applyClickAnimation(e);
-              onBack();
-            }}
-            className="w-full relative z-10 text-white font-bold py-5 text-lg rounded-lg border border-white transition-transform duration-300 ease-in-out active:scale-95 backdrop-blur-sm access-btn-red"
-            aria-label="Voltar para a página anterior"
-          >
-            VOLTAR
-          </button>
+        <div className="w-full max-w-md z-10 mt-auto px-4 pt-8 pb-4 flex-shrink-0">
+          <div className="flex flex-col items-center gap-4">
+            <button
+                onClick={(e) => {
+                  applyClickAnimation(e);
+                  onBack(); // Takes user back to main screen to access chat
+                }}
+                className="w-full relative z-10 text-white font-bold py-5 text-lg rounded-lg border border-red-500/80 transition-transform duration-300 ease-in-out active:scale-95 backdrop-blur-sm access-btn-red"
+                aria-label="Acessar iAmarasté"
+              >
+                ACESSAR iAmarasté
+            </button>
+            <button
+                onClick={(e) => {
+                  applyClickAnimation(e);
+                  onNavigateToRegister();
+                }}
+                className="w-full relative z-10 text-white font-bold py-5 text-lg rounded-lg border border-white/80 transition-colors hover:bg-white/10 chat-pulse-glow"
+                aria-label="Cadastre-se"
+            >
+                CADASTRE-SE
+            </button>
+            <button
+              onClick={(e) => {
+                applyClickAnimation(e);
+                onBack();
+              }}
+              className="w-full relative z-10 text-white font-bold py-5 text-lg rounded-lg transition-all duration-300 ease-in-out active:scale-95 bg-amaraste-brown hover:brightness-125"
+              aria-label="Voltar para a página anterior"
+            >
+              VOLTAR
+            </button>
+          </div>
         </div>
       </div>
     </div>
