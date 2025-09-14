@@ -499,7 +499,7 @@ const App: React.FC = () => {
 
       
 
-      {!isAdminDashboardOpen && !isAdminLoginModalOpen && activeScreen !== 'landing' && (
+      {!isAdminDashboardOpen && !isAdminLoginModalOpen && activeScreen !== 'landing' && activeScreen !== 'booker' && (
         <ThinkingTogetherBubble onClick={() => setIsChatOpen(true)} />
       )}
 

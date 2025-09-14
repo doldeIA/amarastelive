@@ -1,6 +1,8 @@
 
+
 import React, { useState } from 'react';
 import { applyClickAnimation } from '../animations';
+import CloseIcon from './icons/CloseIcon';
 
 interface ProdutosLoginPageProps {
   onNavigateHome: () => void;
@@ -32,17 +34,21 @@ const ProdutosLoginPage: React.FC<ProdutosLoginPageProps> = ({ onNavigateHome, o
 
   return (
     <div className="fixed inset-0 bg-black/50 backdrop-blur-md z-50 flex items-center justify-center p-4 animate-swoop-in">
-        <div className="bg-white/10 backdrop-blur-md rounded-2xl border border-white/30 shadow-lg p-6 w-full max-w-md mx-auto relative">
+        <div className="cyber-chat-frame p-6 sm:p-8 w-full max-w-md mx-auto relative">
+          <div className="cyber-frame-corner top-left"></div>
+          <div className="cyber-frame-corner top-right"></div>
+          <div className="cyber-frame-corner bottom-left"></div>
+          <div className="cyber-frame-corner bottom-right"></div>
           
           <button 
             onClick={(e) => {
                 applyClickAnimation(e);
                 onNavigateHome();
             }}
-            className="absolute top-4 right-4 text-white text-2xl hover:text-white/80 cursor-pointer"
+            className="absolute top-2 right-2 text-white/70 rounded-full p-2 transition-all hover:bg-white/10 hover:text-white z-10"
             aria-label="Close"
           >
-            &times;
+            <CloseIcon className="w-6 h-6" />
           </button>
 
           <h2 className="text-2xl font-bold text-white neon-heading-glow text-center mb-6">
@@ -56,13 +62,13 @@ const ProdutosLoginPage: React.FC<ProdutosLoginPageProps> = ({ onNavigateHome, o
                <div>
                   <label htmlFor="access-code" className="sr-only">Código de Acesso</label>
                   <input 
-                    type="password" // Use password type to hide input
+                    type="password"
                     id="access-code" 
                     required 
                     value={accessCode}
                     onChange={(e) => setAccessCode(e.target.value)}
                     placeholder="Código de Acesso"
-                    className="w-full bg-transparent border-b border-white/40 text-white text-center tracking-widest placeholder-white/60 p-2 mb-4 focus:outline-none focus:border-white/70"
+                    className="w-full bg-transparent border-b-2 border-red-500/50 text-white text-center tracking-widest placeholder-white/60 p-2 mb-4 focus:outline-none focus:border-red-400 transition"
                   />
               </div>
               
@@ -74,16 +80,16 @@ const ProdutosLoginPage: React.FC<ProdutosLoginPageProps> = ({ onNavigateHome, o
                     if (accessCode) applyClickAnimation(e);
                 }}
                 disabled={isLoading}
-                className="w-full bg-transparent text-white px-4 py-2 rounded-lg ring-1 ring-white/50 hover:ring-white/80 transition mb-4 disabled:opacity-50 disabled:cursor-wait"
+                className="w-full text-white font-bold py-3 text-base rounded-lg transition-transform duration-300 ease-in-out active:scale-95 backdrop-blur-sm access-btn-red disabled:opacity-50 disabled:cursor-wait"
               >
                   {isLoading ? 'Verificando...' : 'DESBLOQUEAR'}
               </button>
           </form>
           
           <div className="relative flex py-5 items-center">
-            <div className="flex-grow border-t border-white/20"></div>
-            <span className="flex-shrink mx-4 text-white/50 text-sm">OU</span>
-            <div className="flex-grow border-t border-white/20"></div>
+            <div className="flex-grow border-t border-red-500/30"></div>
+            <span className="flex-shrink mx-4 text-red-400/70 text-sm">OU</span>
+            <div className="flex-grow border-t border-red-500/30"></div>
           </div>
           
           <a 
@@ -93,7 +99,7 @@ const ProdutosLoginPage: React.FC<ProdutosLoginPageProps> = ({ onNavigateHome, o
             onClick={(e) => {
                 applyClickAnimation(e);
             }}
-            className="w-full py-3 px-4 bg-white text-warm-brown font-semibold rounded-lg shadow-md transition-transform hover:scale-105 flex items-center justify-center gap-2"
+            className="w-full block text-center text-white font-bold py-3 text-base rounded-lg transition-transform duration-300 ease-in-out active:scale-95 backdrop-blur-sm access-btn-brown"
           >
             Visitar Loja (Bandcamp)
           </a>
