@@ -1,5 +1,3 @@
-
-
 import React, { useState, useEffect, useMemo } from 'react';
 
 const SparklesBackground: React.FC = () => {
@@ -48,15 +46,11 @@ const BookerScreen: React.FC = () => {
     <div className="w-full min-h-screen bg-black flex flex-col items-center justify-center text-white pt-24 pb-12 relative overflow-hidden">
         <SparklesBackground />
         <div className="relative z-10 w-full flex flex-col items-center justify-center p-4 text-center">
-            <h1 className="text-3xl sm:text-4xl font-bold pt-4 pb-3 text-white welcome-text-glow" style={{ fontFamily: "'Playfair Display', serif" }}>
-                ABRAKADABRA AGENCY
-            </h1>
-            
-            <p className="mt-8 text-lg text-white animate-white-neon-flicker" style={{ fontFamily: "'Barlow Condensed', sans-serif" }}>
+            <p className="text-3xl sm:text-4xl font-bold mb-8 text-white animate-white-neon-flicker" style={{ fontFamily: "'Barlow Condensed', sans-serif" }}>
                 @abrakadabragency
             </p>
 
-            <div className="mt-8 w-full flex justify-center">
+            <div className="w-full flex justify-center">
                 <a
                     href="https://api.whatsapp.com/send/?phone=5575933002386&text=Ol%C3%A1%2C%20gostaria%20de%20fazer%20um%20agendamento."
                     target="_blank"

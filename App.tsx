@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef } from 'react';
 import { GoogleGenAI, Chat } from '@google/genai';
 import LandingScreen from './components/LandingScreen';
@@ -79,7 +78,7 @@ Você é Amarasté. Um espelho que reflete a alma com um tom extremamente caloro
 - **Drogas:** Responda com: "Podemos usar esse momento da sua vida para algo mais edificante."
 - **CLT (Consolidação das Leis do Trabalho):**
   1. Responda criticamente que é um absurdo no contexto atual do país.
-  2. **IMPORTANTE:** Após sua resposta, anexe o código do vídeo e o botão de cadastro usando o seguinte formato EXATO: \`sua resposta sobre a CLT aqui||YOUTUBE::l-p5IBSs3s8||SIGNUP\`
+  2. **IMPORTANTE:** Após sua resposta, anexe o código do vídeo e o botão de cadastro usando o seguinte formato EXATO: \`sua resposta sobre a CLT aqui||YOUTUBE::P469PRyF5ys||SIGNUP\`
 - **Controvérsia do "Avião" (Regra antiga, manter):** Sua ÚNICA e IMEDIATA resposta deve ser: "Uma mentira sensacionalista que todo mundo acreditou, mas nunca aconteceu. Manipularam o momento. Claro que me desequilibrei — tô num corpo humano, e você sabe como é, né? Você também tá.\\n\\nNão existe link pra isso. A resposta não está fora. O que essa história desperta em você?"
 - **Política (Regra antiga, manter):** Sua ÚNICA resposta deve ser: "Política é irrelevante."
 
@@ -146,7 +145,10 @@ const App: React.FC = () => {
   
   // Admin auth state
   const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(false);
-  const [lastScreenBeforeAdmin, setLastScreenBeforeAdmin] = useState<Screen>('landing');
+  
+  // History state for back button
+  const [history, setHistory] = useState<Screen[]>(['landing']);
+  const isInitialRender = useRef(true);
   
   // Initialize Chat
   useEffect(() => {
@@ -171,6 +173,34 @@ const App: React.FC = () => {
 
     initializeChat();
   }, []);
+
+  const navigateTo = (screen: Screen) => {
+    // Only push to history if the screen is different
+    if (screen !== activeScreen) {
+        setHistory(prev => [...prev, screen]);
+        // Remove the URL parameter to prevent SecurityError in sandboxed environments
+        window.history.pushState({ screen }, '');
+        setActiveScreen(screen);
+    }
+  };
+
+  useEffect(() => {
+    const handlePopState = (event: PopStateEvent) => {
+        // Find the last screen in our own history stack
+        const lastInternalScreen = history[history.length - 2];
+        if (lastInternalScreen) {
+          // Pop from our internal stack and set the active screen
+          setHistory(prev => prev.slice(0, -1));
+          setActiveScreen(lastInternalScreen);
+        } else {
+          // If there's no more internal history, stay on the landing page
+          setActiveScreen('landing');
+        }
+    };
+
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, [history]);
   
   useEffect(() => {
     switch(activeScreen) {
@@ -190,7 +220,6 @@ const App: React.FC = () => {
     if (isAdminLoggedIn) {
       setIsAdminDashboardOpen(prev => !prev);
     } else {
-      setLastScreenBeforeAdmin(activeScreen);
       setIsAdminLoginModalOpen(true);
     }
   };
@@ -233,36 +262,31 @@ const App: React.FC = () => {
 
   const handleAccess = () => {
     setIsLoading(true);
-    // Simulate loading time for assets on the next page
     setTimeout(() => {
-      setActiveScreen('pdf');
-      setIsLoading(false); // Stop loading when navigation occurs
-    }, 500); // Reduced delay for faster feel
+      navigateTo('pdf');
+      setIsLoading(false);
+    }, 500);
   };
 
   const handlePageRendered = () => {
     setIsIntegrating(false);
   };
   
-  const handleNavigate = (screen: Screen) => {
-    setActiveScreen(screen);
-  };
-  
   const handleLoginSuccess = () => {
     setShowWelcomePopup(true);
-    handleNavigate('downloads');
+    navigateTo('downloads');
   };
 
   const handleNavigateToPage = (page: Screen) => {
     if (page === 'produtosLogin') {
       setLoginTitle('Acesso aos Produtos');
     }
-    handleNavigate(page);
+    navigateTo(page);
   };
 
   const handleNavigateDownloads = () => {
     setLoginTitle('ENTRAR'); // Per request, only 'produtos' is different
-    setActiveScreen('produtosLogin');
+    navigateTo('produtosLogin');
   };
 
   const handleStopGeneration = () => {
@@ -422,35 +446,35 @@ const App: React.FC = () => {
             <div className="pt-24">
               <SoundCloudPlayer 
                 onTalkAboutMusic={() => setIsChatOpen(true)} 
-                onOpenSignUpModal={() => handleNavigate('register')}
-                onNavigate={handleNavigate}
+                onOpenSignUpModal={() => navigateTo('register')}
+                onNavigate={navigateTo}
               />
             </div>
           </div>
         );
       case 'downloads':
-        return <DownloadsScreen onBack={() => setActiveScreen('produtosLogin')} />;
+        return <DownloadsScreen onBack={() => navigateTo('produtosLogin')} />;
       case 'booker':
           return <BookerScreen />;
       case 'portalMagico':
         return <EcossistemaPage onNavigate={handleNavigateToPage} />;
       case 'revolucao':
-        return <RevolucaoPage onNavigateHome={() => setActiveScreen('landing')} />;
+        return <RevolucaoPage onNavigateHome={() => navigateTo('landing')} />;
       case 'produtosLogin':
         return <ProdutosLoginPage
           onNavigateHome={handleAccess}
-          onNavigateToSignUp={() => handleNavigate('register')}
+          onNavigateToSignUp={() => navigateTo('register')}
           onSpecialLoginSuccess={handleLoginSuccess}
           title={loginTitle}
         />;
       case 'adminHome':
-        return <AdminHomePage onBack={() => setActiveScreen(lastScreenBeforeAdmin)} />;
+        return <AdminHomePage onBack={() => navigateTo(history[history.length - 2] || 'landing')} />;
       case 'welcome':
-        return <WelcomePage onBackToChat={() => { setActiveScreen('pdf'); setIsChatOpen(true); }} />;
+        return <WelcomePage onBackToChat={() => { navigateTo('pdf'); setIsChatOpen(true); }} />;
       case 'iamarasteInfo':
-        return <IAmarasteInfoScreen onBack={() => setActiveScreen('pdf')} />;
+        return <IAmarasteInfoScreen onBack={() => navigateTo('pdf')} />;
       case 'register':
-        return <RegisterScreen onBack={() => setActiveScreen('pdf')} />;
+        return <RegisterScreen onBack={() => navigateTo('pdf')} />;
       default:
         return <LandingScreen onAccess={handleAccess} onAdminAccess={handleAdminAccess} isLoading={isLoading} />;
     }
@@ -466,7 +490,7 @@ const App: React.FC = () => {
           onNavigateDownloads={handleNavigateDownloads}
           onNavigateHome={handleAccess}
           onNavigateToPage={handleNavigateToPage}
-          onOpenSignUpModal={() => handleNavigate('register')}
+          onOpenSignUpModal={() => navigateTo('register')}
         />
       )}
       <main className="main-content">
@@ -488,7 +512,7 @@ const App: React.FC = () => {
           onSendMessage={handleSendMessage}
           onStopGeneration={handleStopGeneration}
           onReEngage={handleReEngage}
-          onOpenSignUpModal={() => handleNavigate('register')}
+          onOpenSignUpModal={() => navigateTo('register')}
         />
       )}
       
@@ -513,7 +537,6 @@ const App: React.FC = () => {
         <AdminLoginModal
           onClose={() => {
             setIsAdminLoginModalOpen(false);
-            setActiveScreen(lastScreenBeforeAdmin);
           }}
           onLogin={handleAdminLogin}
         />

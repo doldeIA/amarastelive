@@ -53,7 +53,11 @@ const SocialMediaScroller: React.FC = () => (
                 <img src="./amarastelive.jpg" alt="Avatar de Amarasté" className="social-avatar" />
                 <div className="social-meta">
                   <div className="social-handle">@amarastelive</div>
-                  <div className="social-bio">Ver perfil no Threads</div>
+                  <div className="flex flex-col text-sm sm:flex-row sm:gap-4 mt-2 text-white/80">
+                    <span><strong>531</strong> publicações</span>
+                    <span><strong>10,9 mil</strong> seguidores</span>
+                  </div>
+                  <div className="social-bio mt-4 text-base">Ver perfil no Threads</div>
                 </div>
               </div>
             </a>
