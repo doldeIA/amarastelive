@@ -109,7 +109,7 @@ const IAmarasteInfoScreen: React.FC<IAmarasteInfoScreenProps> = ({ onBack, onNav
                   applyClickAnimation(e);
                   onNavigateToRegister();
                 }}
-                className="w-full relative z-10 text-white font-bold py-5 text-lg rounded-lg border border-white/80 transition-colors hover:bg-white/10 chat-pulse-glow"
+                className="w-full relative z-10 text-deep-brown bg-white font-bold py-5 text-lg rounded-lg transition-colors hover:bg-gray-200"
                 aria-label="Cadastre-se"
             >
                 CADASTRE-SE
