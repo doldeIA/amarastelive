@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { applyClickAnimation } from '../animations';
 import ActionGrid from './home/ActionGrid';
 import SocialMediaScroller from './home/SocialMediaScroller';
@@ -34,19 +34,41 @@ const youtubeVideos = [
 ];
 
 const SoundCloudPlayer: React.FC<SoundCloudPlayerProps> = ({ onTalkAboutMusic, onOpenSignUpModal, onNavigate }) => {
+  // Logo with BASE_URL + fallback
+  const base = (import.meta as any)?.env?.BASE_URL ?? '/';
+  const candidates = [
+    `${base}logo.webp?v=2`,
+    `${base}logo.png?v=2`,
+    `${base}logo.jpg?v=2`,
+  ];
+  const [logoIndex, setLogoIndex] = useState(0);
+  const logoSrc = candidates[logoIndex];
 
   return (
     <div className="w-full my-8">
       <div className="w-full max-w-lg mx-auto px-4 sm:px-0">
-        {/* Logo da marca acima dos players */}
-        <div className="w-full flex justify-center my-4">
+        {/* LOGO ON TOP (BASE_URL + fallback webp→png→jpg) */}
+        <div className="w-full flex flex-col items-center my-4 gap-2">
           <img
-            src="/logo.webp"
+            src={logoSrc}
             alt="Logo Amarasté"
-            className="h-20 w-auto object-contain"
+            style={{ height: 80, width: 'auto' }}
+            className="object-contain"
             loading="eager"
             decoding="async"
+            onError={() => {
+              setLogoIndex((i) => (i < candidates.length - 1 ? i + 1 : i));
+            }}
           />
+          {/* Debug link: open current image URL (useful on Vercel) */}
+          <a
+            href={logoSrc}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-xs text-gray-500 underline"
+          >
+            Test logo
+          </a>
         </div>
         <div className="w-full max-w-lg mx-auto my-2 flowing-neon-line animate-flow-rtl"></div>
         
@@ -75,6 +97,7 @@ const SoundCloudPlayer: React.FC<SoundCloudPlayerProps> = ({ onTalkAboutMusic, o
         <ActionGrid 
           onTalkAboutMusic={onTalkAboutMusic} 
           onOpenSignUpModal={onOpenSignUpModal}
+          onNavigate={onNavigate}
         />
         
         <div className="w-full max-w-lg mx-auto my-6 flowing-neon-line animate-flow-rtl"></div>

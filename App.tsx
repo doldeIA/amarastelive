@@ -21,6 +21,7 @@ import RedStarfieldBackground from './components/RedStarfieldBackground';
 import IAmarasteInfoScreen from './components/IAmarasteInfoScreen';
 import ImageUploadModal from './components/ImageUploadModal';
 import RegisterScreen from './components/RegisterScreen';
+import MusicasScreen from './components/MusicasScreen';
 
 import { Screen } from './types';
 import { saveAssetToDb } from './db';
@@ -482,6 +483,8 @@ const App: React.FC = () => {
         />;
       case 'register':
         return <RegisterScreen onBack={() => navigateTo('pdf')} />;
+      case 'musicas':
+        return <MusicasScreen onBack={() => navigateTo('pdf')} />;
       default:
         return <LandingScreen onAccess={handleAccess} onAdminAccess={handleAdminAccess} isLoading={isLoading} />;
     }

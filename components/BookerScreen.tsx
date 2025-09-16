@@ -46,9 +46,15 @@ const BookerScreen: React.FC = () => {
     <div className="w-full min-h-screen bg-deep-brown flex flex-col items-center justify-center text-white pt-24 pb-12 relative overflow-hidden">
         <SparklesBackground />
         <div className="relative z-10 w-full flex flex-col items-center justify-center p-4 text-center">
-            <p className="text-2xl sm:text-3xl font-bold mb-8 text-white animate-white-neon-flicker" style={{ fontFamily: "'Barlow Condensed', sans-serif" }}>
-                @abrakadabragency
-            </p>
+            <a
+                href="https://api.whatsapp.com/send/?phone=5575933002386&text=Ol%C3%A1%2C%20gostaria%20de%20fazer%20um%20agendamento."
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-lg sm:text-xl font-bold mb-8 text-white animate-white-neon-flicker transition-transform duration-200 hover:scale-105"
+                style={{ fontFamily: "'Barlow Condensed', sans-serif" }}
+            >
+                @abrakadabagency
+            </a>
 
             <div className="w-full flex justify-center">
                 <a

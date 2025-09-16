@@ -1,1 +1,1 @@
-export type Screen = 'landing' | 'pdf' | 'downloads' | 'booker' | 'portalMagico' | 'revolucao' | 'produtosLogin' | 'adminHome' | 'welcome' | 'iamarasteInfo' | 'register' | null;
+export type Screen = 'landing' | 'pdf' | 'downloads' | 'booker' | 'portalMagico' | 'revolucao' | 'produtosLogin' | 'adminHome' | 'welcome' | 'iamarasteInfo' | 'register' | 'musicas' | null;

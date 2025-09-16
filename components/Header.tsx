@@ -114,9 +114,9 @@ const Header: React.FC<HeaderProps> = ({ activeScreen, onNavigateDownloads, onNa
     
     const isBookerTheme = activeScreen === 'booker';
     
-    const headerBaseClasses = "fixed top-0 left-0 right-0 z-30 border-b shadow-sm transition-colors duration-300";
-    const bookerHeaderClasses = "bg-black border-gray-800";
-    const defaultHeaderClasses = scrolled ? 'bg-white/50 backdrop-blur-sm border-gray-200/50' : 'bg-white border-gray-200/50';
+    const headerBaseClasses = "fixed top-0 left-0 right-0 z-30 shadow-sm transition-colors duration-300";
+    const bookerHeaderClasses = "booker-header-red-glow";
+    const defaultHeaderClasses = scrolled ? 'bg-white/50 backdrop-blur-sm border-b border-gray-200/50' : 'bg-white border-b border-gray-200/50';
 
     const menuIconColorClass = isBookerTheme ? 'text-white' : 'text-primary';
 
