@@ -155,9 +155,6 @@ const App: React.FC = () => {
   useEffect(() => {
     const initializeChat = async () => {
         try {
-            if (!process.env.API_KEY) {
-              throw new Error("API_KEY environment variable not set.");
-            }
             const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
             const chatSession = ai.chats.create({
               model: 'gemini-2.5-flash',
@@ -168,7 +165,7 @@ const App: React.FC = () => {
             setChat(chatSession);
         } catch (e: any) {
             console.error("Failed to initialize AI Chat:", e);
-            setChatError("Não foi possível iniciar o chat. Verifique a chave da API.");
+            setChatError("Não foi possível iniciar o chat. Tente novamente mais tarde.");
         }
     };
 

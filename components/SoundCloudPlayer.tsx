@@ -42,7 +42,7 @@ const SoundCloudPlayer: React.FC<SoundCloudPlayerProps> = ({ onTalkAboutMusic, o
         {/* LOGO ON TOP — webp → png → jpg with visible diagnostics */}
         <div className="w-full flex flex-col items-center my-4 gap-2">
           <img
-            src="/logo.webp?v=7"
+            src="src/assets/logo.webp?v=7"
             alt="Logo Amarasté"
             className="h-28 md:h-36 lg:h-40 w-auto max-w-full object-contain"
             loading="eager"
@@ -51,16 +51,16 @@ const SoundCloudPlayer: React.FC<SoundCloudPlayerProps> = ({ onTalkAboutMusic, o
               const el = e.currentTarget as HTMLImageElement;
               const src = el.src;
               console.warn('[logo] failed to load:', src);
-              if (src.includes('/logo.webp')) el.src = '/logo.png?v=7';
-              else if (src.includes('/logo.png')) el.src = '/logo.jpg?v=7';
+              if (src.includes('logo.webp')) el.src = 'src/assets/logo.png?v=7';
+              else if (src.includes('logo.png')) el.src = 'src/assets/logo.jpg?v=7';
               else el.src = '/__not_found__.png'; // keep box visible if all fail
             }}
           />
           {/* Visible diagnostics: click to verify files in deploy */}
           <div className="text-xs text-white/50 flex gap-3 underline">
-            <a href="/logo.webp" target="_blank" rel="noopener noreferrer">open /logo.webp</a>
-            <a href="/logo.png" target="_blank" rel="noopener noreferrer">open /logo.png</a>
-            <a href="/logo.jpg" target="_blank" rel="noopener noreferrer">open /logo.jpg</a>
+            <a href="src/assets/logo.webp" target="_blank" rel="noopener noreferrer">open /logo.webp</a>
+            <a href="src/assets/logo.png" target="_blank" rel="noopener noreferrer">open /logo.png</a>
+            <a href="src/assets/logo.jpg" target="_blank" rel="noopener noreferrer">open /logo.jpg</a>
           </div>
         </div>
         <div className="w-full max-w-lg mx-auto my-2 flowing-neon-line animate-flow-rtl"></div>
