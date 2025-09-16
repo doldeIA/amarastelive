@@ -37,33 +37,8 @@ const SoundCloudPlayer: React.FC<SoundCloudPlayerProps> = ({ onTalkAboutMusic, o
   const HOME_URL = (import.meta as any)?.env?.VITE_HOME_URL as string | undefined;
 
   return (
-    <div className="w-full my-3">
+    <div className="w-full">
       <div className="w-full max-w-lg mx-auto px-4 sm:px-0">
-        {/* LOGO ON TOP — webp → png → jpg with visible diagnostics */}
-        <div className="w-full flex flex-col items-center my-4 gap-2">
-          <img
-            src="src/assets/logo.webp?v=7"
-            alt="Logo Amarasté"
-            className="h-28 md:h-36 lg:h-40 w-auto max-w-full object-contain"
-            loading="eager"
-            decoding="async"
-            onError={(e) => {
-              const el = e.currentTarget as HTMLImageElement;
-              const src = el.src;
-              console.warn('[logo] failed to load:', src);
-              if (src.includes('logo.webp')) el.src = 'src/assets/logo.png?v=7';
-              else if (src.includes('logo.png')) el.src = 'src/assets/logo.jpg?v=7';
-              else el.src = '/__not_found__.png'; // keep box visible if all fail
-            }}
-          />
-          {/* Visible diagnostics: click to verify files in deploy */}
-          <div className="text-xs text-white/50 flex gap-3 underline">
-            <a href="src/assets/logo.webp" target="_blank" rel="noopener noreferrer">open /logo.webp</a>
-            <a href="src/assets/logo.png" target="_blank" rel="noopener noreferrer">open /logo.png</a>
-            <a href="src/assets/logo.jpg" target="_blank" rel="noopener noreferrer">open /logo.jpg</a>
-          </div>
-        </div>
-        <div className="w-full max-w-lg mx-auto my-2 flowing-neon-line animate-flow-rtl"></div>
         
         {/* New SoundCloud Scroller */}
         <div className="my-6 w-full mx-auto media-scroller" tabIndex={0} aria-label="SoundCloud tracks">

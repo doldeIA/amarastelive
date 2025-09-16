@@ -42,31 +42,6 @@ const LandingScreen: React.FC<LandingScreenProps> = ({ onAccess, onAdminAccess, 
       {/* Main content container for responsive centering and bottom positioning */}
       <div className="h-[85%] w-full flex flex-col items-center justify-between px-4 pb-4 bg-transparent transition-opacity duration-500 overflow-hidden relative landing-content">
         
-        {/* Top Logo (replaces Triangle Loader) */}
-        <div className="w-full flex justify-center pt-2.5">
-            <button
-                onClick={onAdminAccess}
-                className="w-32 h-32 md:w-36 md:h-36 p-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 rounded-full"
-                aria-label="Acesso de Administrador"
-            >
-                <img
-                  src="src/assets/logo.webp?v=7"
-                  alt="Amarasté Logo"
-                  className="w-full h-full object-contain neon-blink-red"
-                  loading="eager"
-                  decoding="async"
-                  onError={(e) => {
-                    const el = e.currentTarget as HTMLImageElement;
-                    const src = el.src;
-                    console.warn('[logo] failed to load on landing:', src);
-                    if (src.includes('logo.webp')) el.src = 'src/assets/logo.png?v=7';
-                    else if (src.includes('logo.png')) el.src = 'src/assets/logo.jpg?v=7';
-                    else el.src = '/__not_found__.png'; // keep box visible if all fail
-                  }}
-                />
-            </button>
-        </div>
-        
         {/* Spacer to push button down */}
         <div className="flex-grow w-full"></div>
 
