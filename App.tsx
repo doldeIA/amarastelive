@@ -472,7 +472,14 @@ const App: React.FC = () => {
       case 'welcome':
         return <WelcomePage onBackToChat={() => { navigateTo('pdf'); setIsChatOpen(true); }} />;
       case 'iamarasteInfo':
-        return <IAmarasteInfoScreen onBack={() => navigateTo('pdf')} onNavigateToRegister={() => navigateTo('register')} />;
+        return <IAmarasteInfoScreen 
+            onBack={() => navigateTo('pdf')} 
+            onNavigateToRegister={() => navigateTo('register')} 
+            onOpenChat={() => {
+                navigateTo('pdf');
+                setIsChatOpen(true);
+            }}
+        />;
       case 'register':
         return <RegisterScreen onBack={() => navigateTo('pdf')} />;
       default:

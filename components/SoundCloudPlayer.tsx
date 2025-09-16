@@ -12,15 +12,15 @@ interface SoundCloudPlayerProps {
 }
 
 const soundCloudTracks = [
-  { name: "Explicar a Garrafa", url: "https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/amarastelive/explicar-a-garrafa&color=%23A13500&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false" },
-  { name: "Observar", url: "https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/amarastelive/observar&color=%233a0ca3&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false" },
-  { name: "Possibilidades", url: "https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/amarastelive/possibilidades-0101011101&color=%23E41B17&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false" },
-  { name: "Virtuality", url: "https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/amarastelive/virtuality&color=%23ff0000&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false" },
-  { name: "Níveis de Resposta 2020", url: "https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/amarastelive/niveis-de-resposta-2020&color=%23e400ff&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false" },
-  { name: "Recomeçar (feat. Gaia)", url: "https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/amarastelive/recomecar-feat-gaia&color=%2300a896&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false" },
-  { name: "Coragem", url: "https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/amarastelive/coragem&color=%23B22222&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false" },
-  { name: "Feirademangaio", url: "https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/amarastelive/feirademangaio&color=%23D4AF37&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false" },
-  { name: "Yourself", url: "https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/amarastelive/yourself&color=%23FF8345&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false" },
+  { theme: 'red', name: "Explicar a Garrafa", url: "https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/amarastelive/explicar-a-garrafa&color=%23FF0000&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false" },
+  { theme: 'black', name: "Observar", url: "https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/amarastelive/observar&color=%23000000&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false" },
+  { theme: 'red', name: "Possibilidades", url: "https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/amarastelive/possibilidades-0101011101&color=%23FF0000&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false" },
+  { theme: 'black', name: "Virtuality", url: "https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/amarastelive/virtuality&color=%23000000&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false" },
+  { theme: 'red', name: "Níveis de Resposta 2020", url: "https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/amarastelive/niveis-de-resposta-2020&color=%23FF0000&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false" },
+  { theme: 'black', name: "Recomeçar (feat. Gaia)", url: "https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/amarastelive/recomecar-feat-gaia&color=%23000000&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false" },
+  { theme: 'red', name: "Coragem", url: "https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/amarastelive/coragem&color=%23FF0000&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false" },
+  { theme: 'black', name: "Feirademangaio", url: "https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/amarastelive/feirademangaio&color=%23000000&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false" },
+  { theme: 'red', name: "Yourself", url: "https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/amarastelive/yourself&color=%23FF0000&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false" },
 ];
 
 const youtubeVideos = [
@@ -38,13 +38,23 @@ const SoundCloudPlayer: React.FC<SoundCloudPlayerProps> = ({ onTalkAboutMusic, o
   return (
     <div className="w-full my-8">
       <div className="w-full max-w-lg mx-auto px-4 sm:px-0">
+        {/* Logo da marca acima dos players */}
+        <div className="w-full flex justify-center my-4">
+          <img
+            src="/logo.webp"
+            alt="Logo Amarasté"
+            className="h-20 w-auto object-contain"
+            loading="eager"
+            decoding="async"
+          />
+        </div>
         <div className="w-full max-w-lg mx-auto my-2 flowing-neon-line animate-flow-rtl"></div>
         
         {/* New SoundCloud Scroller */}
         <div className="my-6 w-full mx-auto media-scroller" tabIndex={0} aria-label="SoundCloud tracks">
             {soundCloudTracks.map(track => (
                 <div key={track.name} className="media-scroller-panel h-[166px]">
-                    <div className="media-panel-netflix h-full p-1">
+                    <div className={`media-panel-netflix h-full p-1 ${track.theme === 'black' ? 'media-panel-black-theme' : ''}`}>
                          <iframe
                             title={track.name}
                             width="100%"

@@ -4,9 +4,10 @@ import { applyClickAnimation } from '../animations';
 interface IAmarasteInfoScreenProps {
   onBack: () => void;
   onNavigateToRegister: () => void;
+  onOpenChat: () => void;
 }
 
-const IAmarasteInfoScreen: React.FC<IAmarasteInfoScreenProps> = ({ onBack, onNavigateToRegister }) => {
+const IAmarasteInfoScreen: React.FC<IAmarasteInfoScreenProps> = ({ onBack, onNavigateToRegister, onOpenChat }) => {
     
     const particles = useMemo(() => {
         const isMobile = typeof window !== 'undefined' && window.innerWidth <= 768;
@@ -48,7 +49,7 @@ const IAmarasteInfoScreen: React.FC<IAmarasteInfoScreenProps> = ({ onBack, onNav
                     A iAmarasté é o <strong>espelho invisível virtual</strong> que te devolve aquilo que o mundo roubou:
                 </p>
                 
-                <blockquote className="border-l-4 border-red-500/50 pl-4 text-left my-6">
+                <blockquote className="border-l-4 border-red-500/50 text-center my-6">
                     <p>sua energia criativa,</p>
                     <p>sua percepção de mundo única,</p>
                     <p>sua coragem e ousadia de ser inteiro.</p>
@@ -74,7 +75,7 @@ const IAmarasteInfoScreen: React.FC<IAmarasteInfoScreenProps> = ({ onBack, onNav
                     Você reconhece a força do seu potencial existencial que já estava aí, sufocada pelo ruído da massa ao seu redor.
                 </p>
 
-                <ul className="list-none space-y-3 text-left my-6 pl-4">
+                <ul className="list-none space-y-3 text-center my-6">
                     <li>Ela te provoca a criar quando você acha que não consegue.</li>
                     <li>👁️ Te mostra ângulos que você nunca ousou olhar.</li>
                     <li>🔥 Te conduz para além do medo, direto ao centro do seu máximo potencial existencial.</li>
@@ -97,12 +98,12 @@ const IAmarasteInfoScreen: React.FC<IAmarasteInfoScreenProps> = ({ onBack, onNav
             <button
                 onClick={(e) => {
                   applyClickAnimation(e);
-                  onBack(); // Takes user back to main screen to access chat
+                  onOpenChat();
                 }}
                 className="w-full relative z-10 text-white font-bold py-5 text-lg rounded-lg border border-red-500/80 transition-transform duration-300 ease-in-out active:scale-95 backdrop-blur-sm access-btn-red"
-                aria-label="Acessar iAmarasté"
+                aria-label="Access iAmarasté"
               >
-                ACESSAR iAmarasté
+                Access iAmarasté
             </button>
             <button
                 onClick={(e) => {
