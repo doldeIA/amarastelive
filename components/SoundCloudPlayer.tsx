@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { applyClickAnimation } from '../animations';
 import ActionGrid from './home/ActionGrid';
 import SocialMediaScroller from './home/SocialMediaScroller';
@@ -34,41 +34,22 @@ const youtubeVideos = [
 ];
 
 const SoundCloudPlayer: React.FC<SoundCloudPlayerProps> = ({ onTalkAboutMusic, onOpenSignUpModal, onNavigate }) => {
-  // Logo with BASE_URL + fallback
-  const base = (import.meta as any)?.env?.BASE_URL ?? '/';
-  const candidates = [
-    `${base}logo.webp?v=2`,
-    `${base}logo.png?v=2`,
-    `${base}logo.jpg?v=2`,
-  ];
-  const [logoIndex, setLogoIndex] = useState(0);
-  const logoSrc = candidates[logoIndex];
+
+  // External banner URL (must be set in VITE_HOME_URL)
+  const HOME_URL = (import.meta as any)?.env?.VITE_HOME_URL as string | undefined;
 
   return (
-    <div className="w-full my-8">
+    <div className="w-full my-3">
       <div className="w-full max-w-lg mx-auto px-4 sm:px-0">
-        {/* LOGO ON TOP (BASE_URL + fallback webp→png→jpg) */}
-        <div className="w-full flex flex-col items-center my-4 gap-2">
+        {/* LOGO ON TOP — fixed external URL */}
+        <div className="w-full flex justify-center my-4">
           <img
-            src={logoSrc}
+            src="https://raw.githubusercontent.com/doldeIA/amarastelive/main/src/assets/logo.webp"
             alt="Logo Amarasté"
-            style={{ height: 80, width: 'auto' }}
-            className="object-contain"
+            className="h-44 md:h-52 lg:h-60 w-auto max-w-full object-contain"
             loading="eager"
             decoding="async"
-            onError={() => {
-              setLogoIndex((i) => (i < candidates.length - 1 ? i + 1 : i));
-            }}
           />
-          {/* Debug link: open current image URL (useful on Vercel) */}
-          <a
-            href={logoSrc}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-xs text-gray-500 underline"
-          >
-            Test logo
-          </a>
         </div>
         <div className="w-full max-w-lg mx-auto my-2 flowing-neon-line animate-flow-rtl"></div>
         
@@ -104,6 +85,19 @@ const SoundCloudPlayer: React.FC<SoundCloudPlayerProps> = ({ onTalkAboutMusic, o
         
         <SocialMediaScroller />
       </div>
+
+      {/* Home banner from external URL (VITE_HOME_URL) */}
+      {HOME_URL && (
+        <div className="w-full flex justify-center my-6">
+          <img
+            src={HOME_URL}
+            alt="Home banner"
+            className="max-w-full h-auto object-contain"
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
+      )}
       
       <div className="bg-deep-brown py-8 mt-6">
         <div className="media-scroller px-4 sm:px-6 lg:px-8" tabIndex={0} aria-label="YouTube videos">

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import MenuIcon from './icons/MenuIcon';
-import CloseIcon from './icons/CloseIcon';
+import MenuIcon from '../../components/icons/MenuIcon';
+import CloseIcon from '../../components/icons/CloseIcon';
 import InstagramIcon from './icons/InstagramIcon';
 import SoundCloudIcon from './icons/SoundCloudIcon';
 import SpotifyIcon from './icons/SpotifyIcon';
