@@ -137,7 +137,8 @@ const ChatBox: React.FC = () => {
     } catch (e) {
       console.error("Chat send error:", e);
       setError("Falha ao obter resposta. Tente novamente.");
-      setMessages(prev => prev.slice(0, prev.length - 1));
+       // remove the empty model message placeholder on error
+      setMessages(prev => prev.filter((_, i) => i !== prev.length -1 || prev[prev.length - 1].content !== ''));
     } finally {
       setIsLoading(false);
     }
@@ -145,7 +146,7 @@ const ChatBox: React.FC = () => {
 
   return (
     <div className="w-full max-w-xl mx-auto my-4 rounded-2xl p-3 border border-red-300/40 bg-white/50 backdrop-blur">
-      <div className="max-h-64 overflow-y-auto space-y-2 p-2 custom-scrollbar glass-scrollbar">
+      <div ref={messagesEndRef} className="max-h-64 overflow-y-auto space-y-2 p-2 custom-scrollbar glass-scrollbar">
         {messages.map((m, i) => (
           <div key={i} className={`flex ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}>
             <div className={`whitespace-pre-wrap max-w-[85%] px-3 py-2 rounded-2xl ${m.role === 'user' ? 'bg-red-500 text-white' : 'bg-gray-100 text-gray-900'}`}>

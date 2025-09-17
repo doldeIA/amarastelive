@@ -43,6 +43,8 @@ const SoundCloudPlayer: React.FC<SoundCloudPlayerProps> = ({ onTalkAboutMusic, o
         
         <ChatBox />
 
+        <div className="my-4 flowing-neon-line animate-flow-ltr"></div>
+
         {/* New SoundCloud Scroller */}
         <div className="my-6 w-full mx-auto media-scroller" tabIndex={0} aria-label="SoundCloud tracks">
             {soundCloudTracks.map(track => (
