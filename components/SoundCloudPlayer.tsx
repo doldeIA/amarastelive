@@ -3,7 +3,6 @@ import { applyClickAnimation } from '../animations';
 import ActionGrid from './home/ActionGrid';
 import SocialMediaScroller from './home/SocialMediaScroller';
 import { Screen } from '../types';
-import ChatBox from './ChatBox';
 
 interface SoundCloudPlayerProps {
   onTalkAboutMusic: () => void;
@@ -41,10 +40,6 @@ const SoundCloudPlayer: React.FC<SoundCloudPlayerProps> = ({ onTalkAboutMusic, o
     <div className="w-full">
       <div className="w-full max-w-lg mx-auto px-4 sm:px-0">
         
-        <ChatBox />
-
-        <div className="my-4 flowing-neon-line animate-flow-ltr"></div>
-
         {/* New SoundCloud Scroller */}
         <div className="my-6 w-full mx-auto media-scroller" tabIndex={0} aria-label="SoundCloud tracks">
             {soundCloudTracks.map(track => (

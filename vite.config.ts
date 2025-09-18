@@ -7,9 +7,9 @@ export default defineConfig({
   plugins: [react()],
   resolve: {
     alias: {
-      // FIX: __dirname is not available in ES modules.
-      // process.cwd() provides the project root directory where vite is run.
-      '@': path.resolve(process.cwd(), 'src'),
+      // FIX: The explicit call to process.cwd() causes a TypeScript type error.
+      // `path.resolve` uses the current working directory by default, so it can be safely removed.
+      '@': path.resolve('src'),
     },
   },
 });
