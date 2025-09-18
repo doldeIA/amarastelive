@@ -16,10 +16,10 @@ export default async function handler(req: Request): Promise<Response> {
       return new Response('Method Not Allowed', { status: 405 });
     }
 
-    // Pegar chave da env
-    const key = process.env.GEMINI_API_KEY;
+    // Pegar chave da env (suporta ambos os nomes)
+    const key = process.env.GAI_API_KEY || process.env.GEMINI_API_KEY;
     if (!key) {
-      return new Response('Missing GEMINI_API_KEY', { status: 500 });
+      return new Response('Missing API Key', { status: 500 });
     }
 
     // Parse do body
