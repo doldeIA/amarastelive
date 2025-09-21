@@ -5,8 +5,13 @@ interface MusicasScreenProps {
   onBack: () => void;
 }
 
+const identityBackground = (() => {
+  const baseUrl = ((import.meta as any)?.env?.BASE_URL as string | undefined) ?? '/';
+  const normalizedBase = baseUrl.endsWith('/') ? baseUrl : `${baseUrl}/`;
+  return `${normalizedBase}assets/amaraste-identity-background.jpg`;
+})();
+
 const MusicasScreen: React.FC<MusicasScreenProps> = ({ onBack }) => {
-  // Re-using the background effect from landing/info screens
   const particles = React.useMemo(() => {
     const isMobile = typeof window !== 'undefined' && window.innerWidth <= 768;
     const count = isMobile ? 25 : 50;
@@ -32,19 +37,41 @@ const MusicasScreen: React.FC<MusicasScreenProps> = ({ onBack }) => {
         <div className="arcade-corner bottom-right" />
       </div>
       <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden" aria-hidden="true">
-        {particles.map(p => <div key={p.id} className="pixel-particle" style={p as React.CSSProperties} />)}
+        {particles.map((particle) => (
+          <div key={particle.id} className="pixel-particle" style={particle as React.CSSProperties} />
+        ))}
       </div>
-      
-      <div className="h-full w-full flex flex-col items-center justify-end p-4 bg-transparent transition-opacity duration-500 overflow-y-auto relative landing-content">
-        {/* Main content can be empty or have a title if needed, but for now it's just the back button */}
-        
-        <div className="w-full max-w-md z-10 mb-8 flex-shrink-0">
+
+      <div className="h-full w-full flex flex-col items-center justify-center px-4 sm:px-6 py-10 landing-content">
+        <div className="identity-window-wrapper animate-swoop-in">
+          <div
+            className="identity-window"
+            style={{ backgroundImage: `url(${identityBackground})` }}
+          >
+            <div className="identity-window__content">
+              <div className="identity-window__header">
+                <span>DJ / COMPOSITOR / PRODUTOR</span>
+                <span>DESDE 2011</span>
+              </div>
+              <div className="identity-window__divider" aria-hidden="true" />
+              <h2 className="identity-window__title">Amarasté Live</h2>
+              <div className="identity-window__divider" aria-hidden="true" />
+              <p className="identity-window__description">
+                Amarasté Live é um arquétipo vivo da fusão entre a sombra e a luz. O psytrance é o idioma através do qual essa energia se comunica.
+              </p>
+              <p className="identity-window__description">
+                Criado por Manoel Siqueira em Maceió (AL), o projeto provoca o que há de mais vital em nós: a lembrança da nossa natureza livre, indomável e cósmica.
+              </p>
+              <span className="identity-window__signature">🌹 Só tem você</span>
+            </div>
+          </div>
+
           <button
-            onClick={(e) => {
-              applyClickAnimation(e);
+            onClick={(event) => {
+              applyClickAnimation(event);
               onBack();
             }}
-            className="w-full relative z-10 text-white font-semibold py-3 text-base rounded-lg border border-white/50 transition-colors hover:bg-white/10 chat-pulse-glow"
+            className="identity-window__close-btn"
             aria-label="Voltar para a página anterior"
           >
             Voltar
